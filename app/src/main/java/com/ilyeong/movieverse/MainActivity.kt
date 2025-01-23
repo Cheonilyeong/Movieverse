@@ -7,9 +7,9 @@ import androidx.core.view.WindowInsetsControllerCompat
 import androidx.navigation.createGraph
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.fragment
-import com.ilyeong.movieverse.Login.Login
-import com.ilyeong.movieverse.Login.LoginFragment
 import com.ilyeong.movieverse.databinding.ActivityMainBinding
+import com.ilyeong.movieverse.login.Login
+import com.ilyeong.movieverse.login.LoginFragment
 
 class MainActivity : AppCompatActivity() {
 

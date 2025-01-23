@@ -1,15 +1,15 @@
-package com.ilyeong.movieverse.Login
+package com.ilyeong.movieverse.watchlist
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.ilyeong.movieverse.databinding.FragmentLoginBinding
+import com.ilyeong.movieverse.databinding.FragmentWatchlistBinding
 
-class LoginFragment : Fragment() {
+class WatchlistFragment : Fragment() {
 
-    private var _binding: FragmentLoginBinding? = null
+    private var _binding: FragmentWatchlistBinding? = null
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -17,7 +17,7 @@ class LoginFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentLoginBinding.inflate(inflater, container, false)
+        _binding = FragmentWatchlistBinding.inflate(inflater, container, false)
         return binding.root
     }
 
