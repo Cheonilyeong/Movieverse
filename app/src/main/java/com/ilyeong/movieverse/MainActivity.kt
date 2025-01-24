@@ -8,8 +8,14 @@ import androidx.navigation.createGraph
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.fragment
 import com.ilyeong.movieverse.databinding.ActivityMainBinding
+import com.ilyeong.movieverse.home.Home
+import com.ilyeong.movieverse.home.HomeFragment
 import com.ilyeong.movieverse.login.Login
 import com.ilyeong.movieverse.login.LoginFragment
+import com.ilyeong.movieverse.profile.Profile
+import com.ilyeong.movieverse.profile.ProfileFragment
+import com.ilyeong.movieverse.watchlist.Watchlist
+import com.ilyeong.movieverse.watchlist.WatchlistFragment
 
 class MainActivity : AppCompatActivity() {
 
@@ -38,6 +44,10 @@ class MainActivity : AppCompatActivity() {
             fragment<LoginFragment, Login> {
                 label = getString(R.string.label_login_title)
             }
+
+            fragment<HomeFragment, Home> {}
+            fragment<WatchlistFragment, Watchlist> {}
+            fragment<ProfileFragment, Profile> {}
         }
 
         // set system bar text color to white
