@@ -53,7 +53,6 @@ dependencies {
 
     // navigation
     implementation(libs.androidx.navigation.fragment)
-    implementation(libs.androidx.navigation.ui)
 
     // serialization
     implementation(libs.kotlinx.serialization)

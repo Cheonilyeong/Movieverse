@@ -1,9 +1,14 @@
 package com.ilyeong.movieverse
 
+import android.annotation.SuppressLint
 import android.os.Bundle
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowInsetsControllerCompat
+import androidx.core.view.forEach
+import androidx.navigation.NavDestination.Companion.hasRoute
+import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.createGraph
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.fragment
@@ -17,11 +22,14 @@ import com.ilyeong.movieverse.profile.Profile
 import com.ilyeong.movieverse.profile.ProfileFragment
 import com.ilyeong.movieverse.watchlist.Watchlist
 import com.ilyeong.movieverse.watchlist.WatchlistFragment
+import kotlinx.serialization.InternalSerializationApi
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
 
+    @OptIn(InternalSerializationApi::class)
+    @SuppressLint("RestrictedApi", "VisibleForTests")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -80,8 +88,32 @@ class MainActivity : AppCompatActivity() {
             true
         }
 
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            binding.bnv.menu.forEach { item ->
+                val route = when (item.itemId) {
+                    R.id.nav_menu_home -> Home
+                    R.id.nav_menu_watchlist -> Watchlist
+                    R.id.nav_menu_profile -> Profile
+                    else -> return@forEach
+                }
+                if (destination.hierarchy.any { it.hasRoute(route::class) }) {
+                    item.isChecked = true
+                }
+            }
+        }
+
         // set system bar text color to white
         val insetsController = WindowInsetsControllerCompat(window, window.decorView)
         insetsController.isAppearanceLightStatusBars = false
+
+        // set back pressed
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                if (!navController.popBackStack()) {
+                    isEnabled = false
+                    onBackPressedDispatcher.onBackPressed()
+                }
+            }
+        })
     }
 }
