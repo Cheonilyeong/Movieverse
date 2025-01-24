@@ -22,14 +22,12 @@ import com.ilyeong.movieverse.profile.Profile
 import com.ilyeong.movieverse.profile.ProfileFragment
 import com.ilyeong.movieverse.watchlist.Watchlist
 import com.ilyeong.movieverse.watchlist.WatchlistFragment
-import kotlinx.serialization.InternalSerializationApi
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
 
-    @OptIn(InternalSerializationApi::class)
-    @SuppressLint("RestrictedApi", "VisibleForTests")
+    @SuppressLint("RestrictedApi") // because of hasRoute()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()

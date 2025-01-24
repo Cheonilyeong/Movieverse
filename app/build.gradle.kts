@@ -52,7 +52,7 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
 
     // navigation
-    implementation(libs.androidx.navigation.fragment)
+    api(libs.androidx.navigation.fragment)
 
     // serialization
     implementation(libs.kotlinx.serialization)
