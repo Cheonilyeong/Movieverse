@@ -1,4 +1,4 @@
-package com.ilyeong.movieverse.Login
+package com.ilyeong.movieverse.login
 
 import kotlinx.serialization.Serializable
 
