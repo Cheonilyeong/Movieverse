@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">Movieverse</string>
     <string name="btn_login">Log in with TMDB</string>
-    <string name="label_login_title">Login Screen</string>
-    <string name="label_home_title">home</string>
-    <string name="label_watchlist_title">watchlist</string>
-    <string name="label_profile_title">profile</string>
+    <string name="label_login_title">Login</string>
+    <string name="label_home_title">Home</string>
+    <string name="label_watchlist_title">Watchlist</string>
+    <string name="label_profile_title">Profile</string>
 </resources>

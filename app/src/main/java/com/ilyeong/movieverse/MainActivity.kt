@@ -7,6 +7,7 @@ import androidx.core.view.WindowInsetsControllerCompat
 import androidx.navigation.createGraph
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.fragment
+import androidx.navigation.navOptions
 import com.ilyeong.movieverse.databinding.ActivityMainBinding
 import com.ilyeong.movieverse.home.Home
 import com.ilyeong.movieverse.home.HomeFragment
@@ -39,15 +40,44 @@ class MainActivity : AppCompatActivity() {
         val navController = navHostFragment.navController
 
         navController.graph = navController.createGraph(
-            startDestination = Login
+            startDestination = Home
         ) {
             fragment<LoginFragment, Login> {
                 label = getString(R.string.label_login_title)
             }
 
-            fragment<HomeFragment, Home> {}
-            fragment<WatchlistFragment, Watchlist> {}
-            fragment<ProfileFragment, Profile> {}
+            fragment<HomeFragment, Home> {
+                label = getString(R.string.label_home_title)
+            }
+
+            fragment<WatchlistFragment, Watchlist> {
+                label = getString(R.string.label_watchlist_title)
+            }
+
+            fragment<ProfileFragment, Profile> {
+                label = getString(R.string.label_profile_title)
+            }
+        }
+
+        // bottom navigation view setupWithNavController
+        val navOptions = navOptions {
+            popUpTo(navController.graph.startDestinationId) {
+                inclusive = false
+                saveState = true
+            }
+            launchSingleTop = true
+            restoreState = true
+        }
+
+        binding.bnv.setOnItemSelectedListener { item ->
+            val route = when (item.itemId) {
+                R.id.nav_menu_home -> Home
+                R.id.nav_menu_watchlist -> Watchlist
+                R.id.nav_menu_profile -> Profile
+                else -> return@setOnItemSelectedListener false
+            }
+            navController.navigate(route, navOptions)
+            true
         }
 
         // set system bar text color to white
