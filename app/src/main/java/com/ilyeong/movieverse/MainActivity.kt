@@ -96,6 +96,11 @@ class MainActivity : AppCompatActivity() {
                     R.id.nav_menu_profile -> Profile
                     else -> return@forEach
                 }
+                /*
+                WTF ?!
+                item.isChecked = (destination.hierarchy.any { it.hasRoute(route::class) })
+                why (item.isChecked) always become true?
+                */
                 if (destination.hierarchy.any { it.hasRoute(route::class) }) {
                     item.isChecked = true
                 }
