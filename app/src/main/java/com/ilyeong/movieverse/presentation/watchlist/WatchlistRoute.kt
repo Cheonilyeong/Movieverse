@@ -1,4 +1,4 @@
-package com.ilyeong.movieverse.watchlist
+package com.ilyeong.movieverse.presentation.watchlist
 
 import kotlinx.serialization.Serializable
 
