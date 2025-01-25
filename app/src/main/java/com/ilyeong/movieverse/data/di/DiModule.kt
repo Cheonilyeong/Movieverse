@@ -1,6 +1,9 @@
-package com.ilyeong.movieverse.data
+package com.ilyeong.movieverse.data.di
 
 import com.ilyeong.movieverse.BuildConfig
+import com.ilyeong.movieverse.data.network.AuthApiService
+import com.ilyeong.movieverse.data.repository.AuthRepository
+import com.ilyeong.movieverse.data.repository.AuthRepositoryImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
