@@ -22,7 +22,9 @@ import com.ilyeong.movieverse.profile.Profile
 import com.ilyeong.movieverse.profile.ProfileFragment
 import com.ilyeong.movieverse.watchlist.Watchlist
 import com.ilyeong.movieverse.watchlist.WatchlistFragment
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
@@ -46,7 +48,7 @@ class MainActivity : AppCompatActivity() {
         val navController = navHostFragment.navController
 
         navController.graph = navController.createGraph(
-            startDestination = Home
+            startDestination = Login
         ) {
             fragment<LoginFragment, Login> {
                 label = getString(R.string.label_login_title)
