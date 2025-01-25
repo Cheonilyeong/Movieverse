@@ -1,8 +1,9 @@
 package com.ilyeong.movieverse.data
 
-import com.ilyeong.movieverse.RequestToken
+import retrofit2.http.GET
 
 interface AuthApiService {
 
+    @GET
     suspend fun createRequestToken(): RequestToken
 }

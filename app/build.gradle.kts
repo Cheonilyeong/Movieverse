@@ -64,4 +64,11 @@ dependencies {
     // hilt
     implementation(libs.dagger.hilt.android)
     ksp(libs.dagger.hilt.android.compiler)
+
+    // retrofit
+    implementation(libs.retrofit)
+    implementation(libs.retrofit.converter.serialization)
+
+    // okhttp logging interceptor
+    implementation(libs.logging.interceptor)
 }

@@ -1,4 +1,4 @@
-package com.ilyeong.movieverse
+package com.ilyeong.movieverse.data
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

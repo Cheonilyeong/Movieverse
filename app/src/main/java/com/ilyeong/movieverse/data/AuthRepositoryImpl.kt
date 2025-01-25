@@ -1,6 +1,5 @@
 package com.ilyeong.movieverse.data
 
-import com.ilyeong.movieverse.RequestToken
 import javax.inject.Inject
 import javax.inject.Singleton
 
