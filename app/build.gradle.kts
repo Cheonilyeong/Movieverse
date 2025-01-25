@@ -1,3 +1,6 @@
+import java.io.FileInputStream
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -5,6 +8,9 @@ plugins {
     alias(libs.plugins.dagger.hilt.android)
     alias(libs.plugins.devtools.ksp)
 }
+
+val properties = Properties()
+properties.load(FileInputStream("local.properties"))
 
 android {
     namespace = "com.ilyeong.movieverse"
@@ -18,10 +24,13 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        buildConfigField("String", "TMDB_API_KEY", properties.getProperty("TMDB_API_KEY"))
     }
 
     buildFeatures {
         viewBinding = true
+        buildConfig = true
     }
 
     buildTypes {

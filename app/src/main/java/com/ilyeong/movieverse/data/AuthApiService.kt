@@ -4,6 +4,6 @@ import retrofit2.http.GET
 
 interface AuthApiService {
 
-    @GET
+    @GET("authentication/token/new")
     suspend fun createRequestToken(): RequestToken
 }
