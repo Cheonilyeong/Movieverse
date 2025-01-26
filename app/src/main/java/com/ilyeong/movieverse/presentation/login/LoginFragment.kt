@@ -1,13 +1,19 @@
 package com.ilyeong.movieverse.presentation.login
 
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.browser.customtabs.CustomTabsIntent
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.ilyeong.movieverse.databinding.FragmentLoginBinding
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class LoginFragment : Fragment() {
@@ -31,6 +37,20 @@ class LoginFragment : Fragment() {
 
         binding.btnLogin.setOnClickListener {
             viewModel.createRequestToken()
+        }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.events.collect { event ->
+                    when (event) {
+                        is LoginEvent.NavigateToCustomTabs -> {
+                            val uri = Uri.parse(event.url)
+                            CustomTabsIntent.Builder().build()
+                                .launchUrl(this@LoginFragment.requireContext(), uri)
+                        }
+                    }
+                }
+            }
         }
     }
 
