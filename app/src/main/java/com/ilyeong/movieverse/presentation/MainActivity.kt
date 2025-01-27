@@ -1,4 +1,4 @@
-package com.ilyeong.movieverse
+package com.ilyeong.movieverse.presentation
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -13,16 +13,19 @@ import androidx.navigation.createGraph
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.fragment
 import androidx.navigation.navOptions
+import com.ilyeong.movieverse.R
 import com.ilyeong.movieverse.databinding.ActivityMainBinding
-import com.ilyeong.movieverse.home.Home
-import com.ilyeong.movieverse.home.HomeFragment
-import com.ilyeong.movieverse.login.Login
-import com.ilyeong.movieverse.login.LoginFragment
-import com.ilyeong.movieverse.profile.Profile
-import com.ilyeong.movieverse.profile.ProfileFragment
-import com.ilyeong.movieverse.watchlist.Watchlist
-import com.ilyeong.movieverse.watchlist.WatchlistFragment
+import com.ilyeong.movieverse.presentation.home.Home
+import com.ilyeong.movieverse.presentation.home.HomeFragment
+import com.ilyeong.movieverse.presentation.login.Login
+import com.ilyeong.movieverse.presentation.login.LoginFragment
+import com.ilyeong.movieverse.presentation.profile.Profile
+import com.ilyeong.movieverse.presentation.profile.ProfileFragment
+import com.ilyeong.movieverse.presentation.watchlist.Watchlist
+import com.ilyeong.movieverse.presentation.watchlist.WatchlistFragment
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
@@ -46,10 +49,14 @@ class MainActivity : AppCompatActivity() {
         val navController = navHostFragment.navController
 
         navController.graph = navController.createGraph(
-            startDestination = Home
+            startDestination = Login()
         ) {
             fragment<LoginFragment, Login> {
                 label = getString(R.string.label_login_title)
+                deepLink {
+                    uriPattern =
+                        "ilyeong://movieverse?request_token={requestToken}&approved={approved}"
+                }
             }
 
             fragment<HomeFragment, Home> {

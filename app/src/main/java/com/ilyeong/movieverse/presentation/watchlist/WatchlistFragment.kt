@@ -1,4 +1,4 @@
-package com.ilyeong.movieverse.watchlist
+package com.ilyeong.movieverse.presentation.watchlist
 
 import android.os.Bundle
 import android.view.LayoutInflater

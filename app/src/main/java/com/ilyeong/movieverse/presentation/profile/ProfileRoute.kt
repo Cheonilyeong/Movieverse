@@ -1,4 +1,4 @@
-package com.ilyeong.movieverse.profile
+package com.ilyeong.movieverse.presentation.profile
 
 import kotlinx.serialization.Serializable
 
