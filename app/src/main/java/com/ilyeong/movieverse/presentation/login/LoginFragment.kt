@@ -11,7 +11,10 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
+import com.google.android.material.snackbar.Snackbar
 import com.ilyeong.movieverse.databinding.FragmentLoginBinding
+import com.ilyeong.movieverse.presentation.home.Home
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -47,6 +50,21 @@ class LoginFragment : Fragment() {
                             val uri = Uri.parse(event.url)
                             CustomTabsIntent.Builder().build()
                                 .launchUrl(this@LoginFragment.requireContext(), uri)
+                        }
+
+                        is LoginEvent.NavigateToMain -> {
+                            val navController = findNavController()
+                            navController.popBackStack()
+                            navController.navigate(Home)
+                            navController.graph.setStartDestination<Home>()
+                        }
+
+                        is LoginEvent.ShowMessage -> {
+                            Snackbar.make(
+                                this@LoginFragment.requireView(),
+                                event.error.message.toString(),
+                                Snackbar.LENGTH_SHORT
+                            ).show()
                         }
                     }
                 }
