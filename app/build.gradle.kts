@@ -83,4 +83,7 @@ dependencies {
 
     // customtabs
     implementation(libs.androidx.browser)
+
+    // datastore
+    implementation(libs.androidx.datastore)
 }

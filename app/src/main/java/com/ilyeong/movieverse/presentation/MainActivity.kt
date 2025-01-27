@@ -49,10 +49,14 @@ class MainActivity : AppCompatActivity() {
         val navController = navHostFragment.navController
 
         navController.graph = navController.createGraph(
-            startDestination = Login
+            startDestination = Login()
         ) {
             fragment<LoginFragment, Login> {
                 label = getString(R.string.label_login_title)
+                deepLink {
+                    uriPattern =
+                        "ilyeong://movieverse?request_token={requestToken}&approved={approved}"
+                }
             }
 
             fragment<HomeFragment, Home> {
