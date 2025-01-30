@@ -1,9 +1,7 @@
 package com.ilyeong.movieverse.presentation.login
 
-import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.navigation.toRoute
 import com.ilyeong.movieverse.data.repository.AuthRepository
 import com.ilyeong.movieverse.presentation.login.LoginEvent.NavigateToCustomTabs
 import com.ilyeong.movieverse.presentation.login.LoginEvent.NavigateToMain
@@ -17,16 +15,7 @@ import javax.inject.Inject
 @HiltViewModel
 class LoginViewModel @Inject constructor(
     private val authRepository: AuthRepository,
-    savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
-
-    private val login: Login = savedStateHandle.toRoute<Login>()
-
-    init {
-        if (login.requestToken != null && login.approved == true) {
-            createSessionId(login.requestToken)
-        }
-    }
 
     private val _events = MutableSharedFlow<LoginEvent>()
     val events = _events.asSharedFlow()

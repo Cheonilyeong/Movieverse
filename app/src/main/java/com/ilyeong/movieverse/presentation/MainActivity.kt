@@ -17,8 +17,6 @@ import com.ilyeong.movieverse.R
 import com.ilyeong.movieverse.databinding.ActivityMainBinding
 import com.ilyeong.movieverse.presentation.home.Home
 import com.ilyeong.movieverse.presentation.home.HomeFragment
-import com.ilyeong.movieverse.presentation.login.Login
-import com.ilyeong.movieverse.presentation.login.LoginFragment
 import com.ilyeong.movieverse.presentation.profile.Profile
 import com.ilyeong.movieverse.presentation.profile.ProfileFragment
 import com.ilyeong.movieverse.presentation.watchlist.Watchlist
@@ -49,16 +47,8 @@ class MainActivity : AppCompatActivity() {
         val navController = navHostFragment.navController
 
         navController.graph = navController.createGraph(
-            startDestination = Login()
+            startDestination = Home
         ) {
-            fragment<LoginFragment, Login> {
-                label = getString(R.string.label_login_title)
-                deepLink {
-                    uriPattern =
-                        "ilyeong://movieverse?request_token={requestToken}&approved={approved}"
-                }
-            }
-
             fragment<HomeFragment, Home> {
                 label = getString(R.string.label_home_title)
             }
