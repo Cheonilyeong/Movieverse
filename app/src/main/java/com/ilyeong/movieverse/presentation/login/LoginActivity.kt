@@ -25,6 +25,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>() {
         handleDeepLink(intent)
         setUpBtnLogin()
         observeEvents()
+        observeUiState()
     }
 
     private fun handleDeepLink(intent: Intent?) {
@@ -67,6 +68,14 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>() {
                         showMessage(event.error.message.toString())
                     }
                 }
+            }
+        }
+    }
+
+    private fun observeUiState() {
+        repeatOnStarted {
+            viewModel.uiState.collect { uiState ->
+                binding.pbLoading.isLoading = uiState.isLoading
             }
         }
     }

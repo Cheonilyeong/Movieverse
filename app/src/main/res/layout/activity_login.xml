@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:custom="http://schemas.android.com/tools"
     android:background="@color/black"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
@@ -26,5 +27,12 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
+
+    <com.ilyeong.movieverse.presentation.common.CustomProgressBar
+        android:id="@+id/pb_loading"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        custom:isLoading="false" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

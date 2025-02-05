@@ -8,7 +8,10 @@ import com.ilyeong.movieverse.presentation.login.LoginEvent.NavigateToMain
 import com.ilyeong.movieverse.presentation.login.LoginEvent.ShowMessage
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -17,20 +20,24 @@ class LoginViewModel @Inject constructor(
     private val authRepository: AuthRepository,
 ) : ViewModel() {
 
+    private val _uiState = MutableStateFlow(LoginUiState())
+    val uiState = _uiState.asStateFlow()
+
     private val _events = MutableSharedFlow<LoginEvent>()
     val events = _events.asSharedFlow()
 
     fun createRequestToken() {
         viewModelScope.launch {
             try {
+                _uiState.update { it.copy(isLoading = true) }
+
                 val requestToken = authRepository.createRequestToken()
-                _events.emit(
-                    NavigateToCustomTabs(
-                        "https://www.themoviedb.org/authenticate/${requestToken.requestToken}?redirect_to=ilyeong://movieverse"
-                    )
-                )
+                _events.emit(NavigateToCustomTabs("https://www.themoviedb.org/authenticate/${requestToken.requestToken}?redirect_to=ilyeong://movieverse"))
+
+                _uiState.update { it.copy(isLoading = false) }
             } catch (e: Exception) {
                 _events.emit(ShowMessage(e))
+                _uiState.update { it.copy(isLoading = false) }
             }
         }
     }
@@ -38,14 +45,24 @@ class LoginViewModel @Inject constructor(
     fun createSessionId(requestToken: String) {
         viewModelScope.launch {
             try {
+                _uiState.update { it.copy(isLoading = true) }
+
                 authRepository.createSessionId(requestToken)
                 _events.emit(NavigateToMain)
+
+                _uiState.update { it.copy(isLoading = false) }
             } catch (e: Exception) {
                 _events.emit(ShowMessage(e))
+                _uiState.update { it.copy(isLoading = false) }
             }
         }
     }
 }
+
+data class LoginUiState(
+    val isLoading: Boolean = false,
+    val errorMessage: String? = null,
+)
 
 sealed interface LoginEvent {
     data class NavigateToCustomTabs(val url: String) : LoginEvent
