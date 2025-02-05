@@ -1,41 +1,23 @@
 package com.ilyeong.movieverse.presentation
 
 import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.WindowInsetsControllerCompat
+import android.view.LayoutInflater
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.ilyeong.movieverse.databinding.ActivityMainBinding
+import com.ilyeong.movieverse.presentation.common.BaseActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity() {
+class MainActivity : BaseActivity<ActivityMainBinding>() {
 
-    private lateinit var binding: ActivityMainBinding
+    override val viewBindingInflater: (inflater: LayoutInflater) -> ActivityMainBinding
+        get() = ActivityMainBinding::inflate
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
 
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-
-        /*
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
-        }
-        */
-
-        setDarkStatusBarTheme()
         setUpBottomNavigationView()
-    }
-
-    private fun setDarkStatusBarTheme() {
-        val insetsController = WindowInsetsControllerCompat(window, window.decorView)
-        insetsController.isAppearanceLightStatusBars = false
     }
 
     private fun setUpBottomNavigationView() {
