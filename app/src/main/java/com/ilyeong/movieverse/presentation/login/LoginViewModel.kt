@@ -3,9 +3,11 @@ package com.ilyeong.movieverse.presentation.login
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ilyeong.movieverse.data.repository.AuthRepository
-import com.ilyeong.movieverse.presentation.login.LoginEvent.NavigateToCustomTabs
-import com.ilyeong.movieverse.presentation.login.LoginEvent.NavigateToMain
-import com.ilyeong.movieverse.presentation.login.LoginEvent.ShowMessage
+import com.ilyeong.movieverse.presentation.login.model.LoginEvent
+import com.ilyeong.movieverse.presentation.login.model.LoginEvent.NavigateToCustomTabs
+import com.ilyeong.movieverse.presentation.login.model.LoginEvent.NavigateToMain
+import com.ilyeong.movieverse.presentation.login.model.LoginEvent.ShowMessage
+import com.ilyeong.movieverse.presentation.login.model.LoginUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -57,15 +59,4 @@ class LoginViewModel @Inject constructor(
             }
         }
     }
-}
-
-data class LoginUiState(
-    val isLoading: Boolean = false,
-    val errorMessage: String? = null,
-)
-
-sealed interface LoginEvent {
-    data class NavigateToCustomTabs(val url: String) : LoginEvent
-    data object NavigateToMain : LoginEvent
-    data class ShowMessage(val error: Throwable) : LoginEvent
 }
