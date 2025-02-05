@@ -1,28 +1,12 @@
 package com.ilyeong.movieverse.presentation.watchlist
 
-import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import com.ilyeong.movieverse.databinding.FragmentWatchlistBinding
+import com.ilyeong.movieverse.presentation.common.BaseFragment
 
-class WatchlistFragment : Fragment() {
+class WatchlistFragment : BaseFragment<FragmentWatchlistBinding>() {
 
-    private var _binding: FragmentWatchlistBinding? = null
-    private val binding get() = _binding!!
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        _binding = FragmentWatchlistBinding.inflate(inflater, container, false)
-        return binding.root
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
+    override val viewBindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentWatchlistBinding
+        get() = FragmentWatchlistBinding::inflate
 }
