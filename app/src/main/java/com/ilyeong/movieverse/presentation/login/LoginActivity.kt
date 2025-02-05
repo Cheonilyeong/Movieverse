@@ -76,6 +76,7 @@ class LoginActivity : AppCompatActivity() {
                         is LoginEvent.NavigateToMain -> {
                             val intent = Intent(this@LoginActivity, MainActivity::class.java)
                             startActivity(intent)
+                            finish()
                         }
 
                         is LoginEvent.ShowMessage -> {
