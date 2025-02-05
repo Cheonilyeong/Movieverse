@@ -3,43 +3,28 @@ package com.ilyeong.movieverse.presentation.login
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
+import android.view.LayoutInflater
 import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
 import androidx.browser.customtabs.CustomTabsIntent
-import androidx.core.view.WindowInsetsControllerCompat
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
-import com.google.android.material.snackbar.Snackbar
 import com.ilyeong.movieverse.databinding.ActivityLoginBinding
 import com.ilyeong.movieverse.presentation.MainActivity
+import com.ilyeong.movieverse.presentation.common.BaseActivity
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class LoginActivity : AppCompatActivity() {
+class LoginActivity : BaseActivity<ActivityLoginBinding>() {
 
-    private lateinit var binding: ActivityLoginBinding
+    override val viewBindingInflater: (inflater: LayoutInflater) -> ActivityLoginBinding
+        get() = ActivityLoginBinding::inflate
 
     private val viewModel: LoginViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
 
-        binding = ActivityLoginBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-
-        setDarkStatusBarTheme()
         handleDeepLink(intent)
         setUpBtnLogin()
         observeEvents()
-    }
-
-    private fun setDarkStatusBarTheme() {
-        val insetsController = WindowInsetsControllerCompat(window, window.decorView)
-        insetsController.isAppearanceLightStatusBars = false
     }
 
     private fun handleDeepLink(intent: Intent?) {
@@ -63,29 +48,23 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun observeEvents() {
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.events.collect { event ->
-                    when (event) {
-                        is LoginEvent.NavigateToCustomTabs -> {
-                            val uri = Uri.parse(event.url)
-                            CustomTabsIntent.Builder().build()
-                                .launchUrl(this@LoginActivity, uri)
-                        }
+        repeatOnStarted {
+            viewModel.events.collect { event ->
+                when (event) {
+                    is LoginEvent.NavigateToCustomTabs -> {
+                        val uri = Uri.parse(event.url)
+                        CustomTabsIntent.Builder().build()
+                            .launchUrl(this@LoginActivity, uri)
+                    }
 
-                        is LoginEvent.NavigateToMain -> {
-                            val intent = Intent(this@LoginActivity, MainActivity::class.java)
-                            startActivity(intent)
-                            finish()
-                        }
+                    is LoginEvent.NavigateToMain -> {
+                        val intent = Intent(this@LoginActivity, MainActivity::class.java)
+                        startActivity(intent)
+                        finish()
+                    }
 
-                        is LoginEvent.ShowMessage -> {
-                            Snackbar.make(
-                                binding.root,
-                                event.error.message.toString(),
-                                Snackbar.LENGTH_SHORT
-                            ).show()
-                        }
+                    is LoginEvent.ShowMessage -> {
+                        showMessage(event.error.message.toString())
                     }
                 }
             }
