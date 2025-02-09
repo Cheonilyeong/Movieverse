@@ -47,7 +47,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fitsSystemWindows="true"
-        android:background="@color/transparent">
+        android:background="@color/black_alpha60">
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/tb"
