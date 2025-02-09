@@ -1,9 +1,11 @@
 package com.ilyeong.movieverse.presentation.home
 
+import android.graphics.Rect
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.MarginPageTransformer
 import com.ilyeong.movieverse.R
 import com.ilyeong.movieverse.databinding.FragmentHomeBinding
@@ -32,6 +34,42 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         binding.vpBanner.setPageTransformer(
             MarginPageTransformer(resources.getDimensionPixelSize(R.dimen.movieverse_padding_small))
         )
+
+        binding.rvMovieGenre.adapter = MovieGenreAdapter(
+            listOf(
+                "공포",
+                "코미디",
+                "애니메이션",
+                "액션",
+                "판타지",
+                "가족",
+                "SF",
+                "다큐멘터리"
+            )
+        )
+
+        binding.rvMovieGenre.addItemDecoration(object : RecyclerView.ItemDecoration() {
+            override fun getItemOffsets(
+                outRect: Rect,
+                view: View,
+                parent: RecyclerView,
+                state: RecyclerView.State
+            ) {
+                val position = parent.getChildAdapterPosition(view)
+                val itemCount = state.itemCount
+                val context = parent.context
+
+                if (position == 0) {
+                    // 첫 번째 아이템
+                    outRect.left =
+                        context.resources.getDimensionPixelOffset(R.dimen.movieverse_padding_medium)
+                } else if (position == itemCount - 1) {
+                    // 마지막 아이템
+                    outRect.right =
+                        context.resources.getDimensionPixelOffset(R.dimen.movieverse_padding_medium)
+                }
+            }
+        })
 
         binding.rvMovieSectionList.adapter = MovieSectionListAdapter(
             listOf(

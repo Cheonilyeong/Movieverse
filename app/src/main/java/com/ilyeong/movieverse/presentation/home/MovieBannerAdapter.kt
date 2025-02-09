@@ -4,19 +4,19 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView.Adapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
-import com.ilyeong.movieverse.databinding.ItemMovieFullBinding
+import com.ilyeong.movieverse.databinding.ItemMoviePosterFullBinding
 import com.ilyeong.movieverse.domain.model.Movie
 import com.ilyeong.movieverse.presentation.home.MovieBannerAdapter.MovieBannerViewHolder
 
 class MovieBannerAdapter(private val posterList: List<Movie>) : Adapter<MovieBannerViewHolder>() {
 
-    class MovieBannerViewHolder private constructor(binding: ItemMovieFullBinding) :
+    class MovieBannerViewHolder private constructor(binding: ItemMoviePosterFullBinding) :
         ViewHolder(binding.root) {
 
         companion object {
             fun create(parent: ViewGroup): MovieBannerViewHolder {
                 val binding =
-                    ItemMovieFullBinding.inflate(
+                    ItemMoviePosterFullBinding.inflate(
                         LayoutInflater.from(parent.context),
                         parent,
                         false

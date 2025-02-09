@@ -20,6 +20,6 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        tools:listitem="@layout/item_movie_default" />
+        tools:listitem="@layout/item_movie_poster_default" />
 
 </LinearLayout>

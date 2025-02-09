@@ -4,27 +4,25 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.Adapter
-import com.ilyeong.movieverse.databinding.ItemMoviePosterDefaultBinding
-import com.ilyeong.movieverse.domain.model.Movie
+import com.ilyeong.movieverse.databinding.ItemMovieGenreBinding
 
-class MovieListAdapter(private val movieList: List<Movie>) :
-    Adapter<MovieListAdapter.ViewHolder>() {
+class MovieGenreAdapter(private val movieGenreList: List<String>) :
+    Adapter<MovieGenreAdapter.ViewHolder>() {
 
-    class ViewHolder private constructor(private val binding: ItemMoviePosterDefaultBinding) :
+    class ViewHolder private constructor(private val binding: ItemMovieGenreBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(movie: Movie) {
-            // todo
+        fun bind(movieGenre: String) {
+            binding.chipGenre.text = movieGenre
         }
 
         companion object {
             fun create(parent: ViewGroup): ViewHolder {
-                val binding =
-                    ItemMoviePosterDefaultBinding.inflate(
-                        LayoutInflater.from(parent.context),
-                        parent,
-                        false
-                    )
+                val binding = ItemMovieGenreBinding.inflate(
+                    LayoutInflater.from(parent.context),
+                    parent,
+                    false
+                )
                 return ViewHolder(binding)
             }
         }
@@ -41,10 +39,10 @@ class MovieListAdapter(private val movieList: List<Movie>) :
         holder: ViewHolder,
         position: Int
     ) {
-        holder.itemView.tag = position
+        holder.bind(movieGenreList[position])
     }
 
     override fun getItemCount(): Int {
-        return movieList.size
+        return movieGenreList.size
     }
 }
