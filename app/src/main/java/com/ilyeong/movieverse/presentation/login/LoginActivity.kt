@@ -9,6 +9,7 @@ import androidx.browser.customtabs.CustomTabsIntent
 import com.ilyeong.movieverse.databinding.ActivityLoginBinding
 import com.ilyeong.movieverse.presentation.MainActivity
 import com.ilyeong.movieverse.presentation.common.BaseActivity
+import com.ilyeong.movieverse.presentation.login.model.LoginEvent
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
