@@ -1,9 +1,10 @@
 package com.ilyeong.movieverse.data.repository
 
 import com.ilyeong.movieverse.domain.model.RequestToken
+import kotlinx.coroutines.flow.Flow
 
 interface AuthRepository {
 
-    suspend fun createRequestToken(): RequestToken
-    suspend fun createSessionId(requestToken: String)
+    fun createRequestToken(): Flow<RequestToken>
+    fun createSessionId(requestToken: String): Flow<Unit>
 }

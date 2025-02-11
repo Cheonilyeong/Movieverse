@@ -4,29 +4,36 @@ import com.ilyeong.movieverse.data.model.toDomain
 import com.ilyeong.movieverse.data.network.MovieApiService
 import com.ilyeong.movieverse.domain.model.Movie
 import com.ilyeong.movieverse.domain.model.TimeWindow
+import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 class MovieRepositoryImpl @Inject constructor(
     private val apiService: MovieApiService
 ) : MovieRepository {
 
-    override suspend fun getTopRatedMovieList(): List<Movie> {
-        return apiService.getTopRatedMovieList().results.map { it.toDomain() }
+    override fun getTopRatedMovieList() = flow<List<Movie>> {
+        val topRatedMovieList = apiService.getTopRatedMovieList().results.map { it.toDomain() }
+        emit(topRatedMovieList)
     }
 
-    override suspend fun getUpcomingMovieList(): List<Movie> {
-        return apiService.getUpcomingMovieList().results.map { it.toDomain() }
+    override fun getUpcomingMovieList() = flow<List<Movie>> {
+        val upComingMovieList = apiService.getUpcomingMovieList().results.map { it.toDomain() }
+        emit(upComingMovieList)
     }
 
-    override suspend fun getPopularMovieList(): List<Movie> {
-        return apiService.getPopularMovieList().results.map { it.toDomain() }
+    override fun getPopularMovieList() = flow<List<Movie>> {
+        val popularMovieList = apiService.getPopularMovieList().results.map { it.toDomain() }
+        emit(popularMovieList)
     }
 
-    override suspend fun getNowPlayingMovieList(): List<Movie> {
-        return apiService.getNowPlayingMovieList().results.map { it.toDomain() }
+    override fun getNowPlayingMovieList() = flow<List<Movie>> {
+        val nowPlayingMovieList = apiService.getNowPlayingMovieList().results.map { it.toDomain() }
+        emit(nowPlayingMovieList)
     }
 
-    override suspend fun getTrendingMovieList(timeWindow: TimeWindow): List<Movie> {
-        return apiService.getTrendingMovieList(timeWindow = timeWindow.name.lowercase()).results.map { it.toDomain() }
+    override fun getTrendingMovieList(timeWindow: TimeWindow) = flow<List<Movie>> {
+        val trendingMovieList =
+            apiService.getTrendingMovieList(timeWindow = timeWindow.name.lowercase()).results.map { it.toDomain() }
+        emit(trendingMovieList)
     }
 }
