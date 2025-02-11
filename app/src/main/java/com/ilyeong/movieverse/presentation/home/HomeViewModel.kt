@@ -20,15 +20,18 @@ class HomeViewModel @Inject constructor(
             val upcomingMovieList = movieRepository.getUpcomingMovieList()
             val popularMovieList = movieRepository.getPopularMovieList()
             val nowPlayingMovieList = movieRepository.getNowPlayingMovieList()
-            val trendingMovieList =
+            val trendingDayMovieList =
                 movieRepository.getTrendingMovieList(timeWindow = TimeWindow.DAY)
+            val trendingWeekMovieList =
+                movieRepository.getTrendingMovieList(timeWindow = TimeWindow.WEEK)
 
 
             Log.d("HomeViewModel", "TopRated: $topRatedMovieList")
             Log.d("HomeViewModel", "Upcoming: $upcomingMovieList")
             Log.d("HomeViewModel", "Popular: $popularMovieList")
             Log.d("HomeViewModel", "NowPlaying: $nowPlayingMovieList")
-            Log.d("HomeViewModel", "Trending: $trendingMovieList")
+            Log.d("HomeViewModel", "Trending: $trendingDayMovieList")
+            Log.d("HomeViewModel", "Trending: $trendingWeekMovieList")
         }
     }
 }
