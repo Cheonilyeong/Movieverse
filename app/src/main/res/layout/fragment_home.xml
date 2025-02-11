@@ -1,58 +1,65 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/black">
 
-    <ScrollView
-        android:id="@+id/sv"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_home_content"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true"
+        android:orientation="vertical"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fitsSystemWindows="true">
+    <!--    <ScrollView-->
+    <!--        android:id="@+id/sv"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="match_parent">-->
 
-            <androidx.viewpager2.widget.ViewPager2
-                android:id="@+id/vp_banner"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:clipChildren="false"
-                android:clipToPadding="false"
-                android:paddingTop="?attr/actionBarSize"
-                android:paddingHorizontal="@dimen/movieverse_padding_large"
-                app:layout_constraintDimensionRatio="1:1.2"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+    <!--        <androidx.constraintlayout.widget.ConstraintLayout-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:fitsSystemWindows="true">-->
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_movie_genre"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/vp_banner"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                tools:listitem="@layout/item_movie_genre" />
+    <!--            <androidx.viewpager2.widget.ViewPager2-->
+    <!--                android:id="@+id/vp_banner"-->
+    <!--                android:layout_width="match_parent"-->
+    <!--                android:layout_height="0dp"-->
+    <!--                android:clipChildren="false"-->
+    <!--                android:clipToPadding="false"-->
+    <!--                android:paddingTop="?attr/actionBarSize"-->
+    <!--                android:paddingHorizontal="@dimen/movieverse_padding_large"-->
+    <!--                app:layout_constraintDimensionRatio="1:1.2"-->
+    <!--                app:layout_constraintEnd_toEndOf="parent"-->
+    <!--                app:layout_constraintStart_toStartOf="parent"-->
+    <!--                app:layout_constraintTop_toTopOf="parent" />-->
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_movie_section_list"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/rv_movie_genre"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                tools:listitem="@layout/item_movie_section" />
+    <!--            <androidx.recyclerview.widget.RecyclerView-->
+    <!--                android:id="@+id/rv_movie_genre"-->
+    <!--                android:layout_width="match_parent"-->
+    <!--                android:layout_height="wrap_content"-->
+    <!--                android:orientation="horizontal"-->
+    <!--                app:layout_constraintEnd_toEndOf="parent"-->
+    <!--                app:layout_constraintStart_toStartOf="parent"-->
+    <!--                app:layout_constraintTop_toBottomOf="@id/vp_banner"-->
+    <!--                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"-->
+    <!--                tools:listitem="@layout/item_movie_genre" />-->
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+    <!--            <androidx.recyclerview.widget.RecyclerView-->
+    <!--                android:id="@+id/rv_movie_section_list"-->
+    <!--                android:layout_width="match_parent"-->
+    <!--                android:layout_height="wrap_content"-->
+    <!--                android:orientation="vertical"-->
+    <!--                app:layout_constraintEnd_toEndOf="parent"-->
+    <!--                app:layout_constraintStart_toStartOf="parent"-->
+    <!--                app:layout_constraintTop_toBottomOf="@id/rv_movie_genre"-->
+    <!--                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"-->
+    <!--                tools:listitem="@layout/item_movie_section" />-->
 
-    </ScrollView>
+    <!--        </androidx.constraintlayout.widget.ConstraintLayout>-->
+
+    <!--    </ScrollView>-->
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
