@@ -8,6 +8,7 @@ import com.ilyeong.movieverse.data.di.qualifier.SessionOkHttpClient
 import com.ilyeong.movieverse.data.local.SessionIdLocalDataSource
 import com.ilyeong.movieverse.data.network.AuthApiService
 import com.ilyeong.movieverse.data.network.MovieApiService
+import com.ilyeong.movieverse.data.network.UserApiService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -115,7 +116,7 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideUserApiService(
+    fun provideMovieApiService(
         json: Json,
         @BaseOkHttpClient okHttpClient: OkHttpClient
     ): MovieApiService =
@@ -127,4 +128,19 @@ object NetworkModule {
             .client(okHttpClient)
             .build()
             .create(MovieApiService::class.java)
+
+    @Provides
+    @Singleton
+    fun provideUserApiService(
+        json: Json,
+        @SessionOkHttpClient okHttpClient: OkHttpClient
+    ): UserApiService =
+        Retrofit.Builder()
+            .baseUrl("https://api.themoviedb.org/3/account/${BuildConfig.ACCOUNT_ID}/")
+            .addConverterFactory(
+                json.asConverterFactory("application/json".toMediaType())
+            )
+            .client(okHttpClient)
+            .build()
+            .create(UserApiService::class.java)
 }
