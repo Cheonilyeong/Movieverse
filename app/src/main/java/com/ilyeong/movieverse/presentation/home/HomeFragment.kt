@@ -2,9 +2,11 @@ package com.ilyeong.movieverse.presentation.home
 
 import android.graphics.Rect
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.MarginPageTransformer
 import com.ilyeong.movieverse.R
@@ -12,14 +14,20 @@ import com.ilyeong.movieverse.databinding.FragmentHomeBinding
 import com.ilyeong.movieverse.domain.model.Movie
 import com.ilyeong.movieverse.presentation.common.BaseFragment
 import com.ilyeong.movieverse.presentation.home.model.MovieSection
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
     override val viewBindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentHomeBinding
         get() = FragmentHomeBinding::inflate
 
+    private val viewModel: HomeViewModel by viewModels()
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        Log.d("HomeFragment", "$viewModel")
 
         binding.vpBanner.offscreenPageLimit = 1
         binding.vpBanner.adapter = MovieBannerAdapter(

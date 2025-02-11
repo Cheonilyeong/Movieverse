@@ -2,6 +2,8 @@ package com.ilyeong.movieverse.data.di
 
 import com.ilyeong.movieverse.data.repository.AuthRepository
 import com.ilyeong.movieverse.data.repository.AuthRepositoryImpl
+import com.ilyeong.movieverse.data.repository.MovieRepository
+import com.ilyeong.movieverse.data.repository.MovieRepositoryImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -17,4 +19,10 @@ abstract class RepositoryModule {
     abstract fun bindAuthRepository(
         authRepositoryImpl: AuthRepositoryImpl
     ): AuthRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindMovieRepository(
+        movieRepositoryImpl: MovieRepositoryImpl
+    ): MovieRepository
 }
