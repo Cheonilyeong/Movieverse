@@ -12,4 +12,8 @@ interface MovieApiService {
     @GET("movie/upcoming")
     suspend fun getUpcomingMovieList(): UpComingResponse
 
+    @GET("movie/popular")
+    suspend fun getPopularMovieList(): WatchlistResponse
+
+
 }
