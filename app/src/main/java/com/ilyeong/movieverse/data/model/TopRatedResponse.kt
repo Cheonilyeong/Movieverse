@@ -6,7 +6,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class TopRatedResponse(
     @SerialName("page") val page: Int,
-    @SerialName("results") val results: List<MovieResponse>,
+    @SerialName("results") val resultList: List<MovieResponse>,
     @SerialName("total_pages") val totalPages: Int,
     @SerialName("total_results") val totalResults: Int
 )

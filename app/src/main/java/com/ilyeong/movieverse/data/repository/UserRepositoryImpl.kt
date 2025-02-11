@@ -11,7 +11,7 @@ class UserRepositoryImpl @Inject constructor(
 ) : UserRepository {
 
     override fun getWatchlistMovieList() = flow<List<Movie>> {
-        val watchlistMovieList = apiService.getWatchlistMovieList().results.map { it.toDomain() }
+        val watchlistMovieList = apiService.getWatchlistMovieList().resultList.map { it.toDomain() }
         emit(watchlistMovieList)
     }
 }
