@@ -15,8 +15,12 @@ class HomeViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            val movieList = movieRepository.getTopRatedMovieList()
-            Log.d("HomeViewModel", "Movie List: $movieList")
+            val topRatedMovieList = movieRepository.getTopRatedMovieList()
+            val upcomingMovieList = movieRepository.getUpcomingMovieList()
+
+
+            Log.d("HomeViewModel", "TopRated: $topRatedMovieList")
+            Log.d("HomeViewModel", "Upcoming: $upcomingMovieList")
         }
     }
 }
