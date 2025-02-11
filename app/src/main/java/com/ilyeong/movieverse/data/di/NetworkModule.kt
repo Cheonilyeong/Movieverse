@@ -41,7 +41,7 @@ object NetworkModule {
     @BaseInterceptor
     @Provides
     @Singleton
-    fun provideAuthInterceptor(): Interceptor =
+    fun provideBaseInterceptor(): Interceptor =
         Interceptor { chain ->
             val originalRequest = chain.request()
             val newRequest = originalRequest.newBuilder()
@@ -56,11 +56,11 @@ object NetworkModule {
     @Singleton
     fun provideBaseOkHttpClient(
         loggingInterceptor: HttpLoggingInterceptor,
-        @BaseInterceptor authInterceptor: Interceptor
+        @BaseInterceptor baseInterceptor: Interceptor
     ): OkHttpClient =
         OkHttpClient.Builder()
             .addInterceptor(loggingInterceptor)
-            .addInterceptor(authInterceptor)
+            .addInterceptor(baseInterceptor)
             .build()
 
     @SessionInterceptor
@@ -92,11 +92,11 @@ object NetworkModule {
     @Singleton
     fun provideSessionOkHttpClient(
         loggingInterceptor: HttpLoggingInterceptor,
-        @SessionInterceptor movieInterceptor: Interceptor
+        @SessionInterceptor sessionInterceptor: Interceptor
     ): OkHttpClient =
         OkHttpClient.Builder()
             .addInterceptor(loggingInterceptor)
-            .addInterceptor(movieInterceptor)
+            .addInterceptor(sessionInterceptor)
             .build()
 
     @Provides
