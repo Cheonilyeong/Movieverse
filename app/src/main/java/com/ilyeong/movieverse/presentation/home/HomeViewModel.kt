@@ -18,11 +18,13 @@ class HomeViewModel @Inject constructor(
             val topRatedMovieList = movieRepository.getTopRatedMovieList()
             val upcomingMovieList = movieRepository.getUpcomingMovieList()
             val popularMovieList = movieRepository.getPopularMovieList()
+            val nowPlayingMovieList = movieRepository.getNowPlayingMovieList()
 
 
             Log.d("HomeViewModel", "TopRated: $topRatedMovieList")
             Log.d("HomeViewModel", "Upcoming: $upcomingMovieList")
             Log.d("HomeViewModel", "Popular: $popularMovieList")
+            Log.d("HomeViewModel", "NowPlaying: $nowPlayingMovieList")
         }
     }
 }
