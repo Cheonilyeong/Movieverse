@@ -28,6 +28,10 @@ object NetworkModule {
 
     @Provides
     @Singleton
+    fun provideJson(): Json = Json { ignoreUnknownKeys = true }
+
+    @Provides
+    @Singleton
     fun provideLoggingInterceptor(): HttpLoggingInterceptor =
         HttpLoggingInterceptor().apply {
             level = HttpLoggingInterceptor.Level.BASIC
@@ -97,12 +101,13 @@ object NetworkModule {
     @Provides
     @Singleton
     fun provideBaseApiService(
+        json: Json,
         @BaseOkHttpClient okHttpClient: OkHttpClient
     ): AuthApiService =
         Retrofit.Builder()
             .baseUrl("https://api.themoviedb.org/3/")
             .addConverterFactory(
-                Json.asConverterFactory("application/json".toMediaType())
+                json.asConverterFactory("application/json".toMediaType())
             )
             .client(okHttpClient)
             .build()
@@ -111,12 +116,13 @@ object NetworkModule {
     @Provides
     @Singleton
     fun provideUserApiService(
+        json: Json,
         @BaseOkHttpClient okHttpClient: OkHttpClient
     ): MovieApiService =
         Retrofit.Builder()
             .baseUrl("https://api.themoviedb.org/3/")
             .addConverterFactory(
-                Json.asConverterFactory("application/json".toMediaType())
+                json.asConverterFactory("application/json".toMediaType())
             )
             .client(okHttpClient)
             .build()

@@ -3,6 +3,7 @@ package com.ilyeong.movieverse.data.repository
 import com.ilyeong.movieverse.data.model.toDomain
 import com.ilyeong.movieverse.data.network.MovieApiService
 import com.ilyeong.movieverse.domain.model.Movie
+import com.ilyeong.movieverse.domain.model.TimeWindow
 import javax.inject.Inject
 
 class MovieRepositoryImpl @Inject constructor(
@@ -23,5 +24,9 @@ class MovieRepositoryImpl @Inject constructor(
 
     override suspend fun getNowPlayingMovieList(): List<Movie> {
         return apiService.getNowPlayingMovieList().results.map { it.toDomain() }
+    }
+
+    override suspend fun getTrendingMovieList(timeWindow: TimeWindow): List<Movie> {
+        return apiService.getTrendingMovieList(timeWindow = timeWindow.name.lowercase()).results.map { it.toDomain() }
     }
 }

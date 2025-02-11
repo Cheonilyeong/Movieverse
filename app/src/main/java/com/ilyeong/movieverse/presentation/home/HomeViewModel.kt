@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ilyeong.movieverse.data.repository.MovieRepository
+import com.ilyeong.movieverse.domain.model.TimeWindow
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -19,12 +20,15 @@ class HomeViewModel @Inject constructor(
             val upcomingMovieList = movieRepository.getUpcomingMovieList()
             val popularMovieList = movieRepository.getPopularMovieList()
             val nowPlayingMovieList = movieRepository.getNowPlayingMovieList()
+            val trendingMovieList =
+                movieRepository.getTrendingMovieList(timeWindow = TimeWindow.DAY)
 
 
             Log.d("HomeViewModel", "TopRated: $topRatedMovieList")
             Log.d("HomeViewModel", "Upcoming: $upcomingMovieList")
             Log.d("HomeViewModel", "Popular: $popularMovieList")
             Log.d("HomeViewModel", "NowPlaying: $nowPlayingMovieList")
+            Log.d("HomeViewModel", "Trending: $trendingMovieList")
         }
     }
 }
