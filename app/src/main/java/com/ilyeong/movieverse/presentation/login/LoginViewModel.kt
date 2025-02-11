@@ -13,8 +13,12 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onCompletion
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -29,34 +33,20 @@ class LoginViewModel @Inject constructor(
     val events = _events.asSharedFlow()
 
     fun createRequestToken() {
-        viewModelScope.launch {
-            try {
-                _uiState.update { it.copy(isLoading = true) }
-
-                val requestToken = authRepository.createRequestToken()
-                _events.emit(NavigateToCustomTabs("https://www.themoviedb.org/authenticate/${requestToken.requestToken}?redirect_to=ilyeong://movieverse"))
-
-                _uiState.update { it.copy(isLoading = false) }
-            } catch (e: Exception) {
-                _events.emit(ShowMessage(e))
-                _uiState.update { it.copy(isLoading = false) }
-            }
-        }
+        authRepository.createRequestToken()
+            .onStart { _uiState.update { it.copy(isLoading = true) } }
+            .onEach { _events.emit(NavigateToCustomTabs("https://www.themoviedb.org/authenticate/${it.requestToken}?redirect_to=ilyeong://movieverse")) }
+            .onCompletion { _uiState.update { it.copy(isLoading = false) } }
+            .catch { _events.emit(ShowMessage(it)) }
+            .launchIn(viewModelScope)
     }
 
     fun createSessionId(requestToken: String) {
-        viewModelScope.launch {
-            try {
-                _uiState.update { it.copy(isLoading = true) }
-
-                authRepository.createSessionId(requestToken)
-                _events.emit(NavigateToMain)
-
-                _uiState.update { it.copy(isLoading = false) }
-            } catch (e: Exception) {
-                _events.emit(ShowMessage(e))
-                _uiState.update { it.copy(isLoading = false) }
-            }
-        }
+        authRepository.createSessionId(requestToken)
+            .onStart { _uiState.update { it.copy(isLoading = true) } }
+            .onEach { _events.emit(NavigateToMain) }
+            .onCompletion { _uiState.update { it.copy(isLoading = false) } }
+            .catch { _events.emit(ShowMessage(it)) }
+            .launchIn(viewModelScope)
     }
 }

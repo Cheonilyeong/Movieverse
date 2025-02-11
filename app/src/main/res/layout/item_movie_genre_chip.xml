@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.chip.Chip xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/chip_genre"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="@dimen/movieverse_padding_small"
+    android:layout_marginTop="@dimen/movieverse_padding_large"
+    android:textColor="@color/white"
+    app:chipBackgroundColor="@color/dark_gray"
+    style="@style/Widget.Material3.Chip.Suggestion.Elevated"
+    tools:text="공포">
+
+</com.google.android.material.chip.Chip>
