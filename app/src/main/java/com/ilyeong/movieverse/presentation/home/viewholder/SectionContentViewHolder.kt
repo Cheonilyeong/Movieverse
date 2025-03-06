@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.ilyeong.movieverse.R
 import com.ilyeong.movieverse.databinding.ItemMovieSectionBinding
-import com.ilyeong.movieverse.presentation.home.adapter.MovieListAdapter
+import com.ilyeong.movieverse.presentation.home.adapter.SectionContentAdapter
 import com.ilyeong.movieverse.presentation.home.model.HomeContent.SectionContent
 
 class SectionContentViewHolder private constructor(
@@ -17,7 +17,7 @@ class SectionContentViewHolder private constructor(
 
     fun bind(sectionContent: SectionContent) {
         binding.tvTitle.text = sectionContent.title
-        binding.rvMovieList.adapter = MovieListAdapter(sectionContent.movieList)
+        binding.rvMovieList.adapter = SectionContentAdapter(sectionContent.movieList)
 
         binding.rvMovieList.addItemDecoration(object : RecyclerView.ItemDecoration() {
             override fun getItemOffsets(

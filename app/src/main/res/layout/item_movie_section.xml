@@ -12,6 +12,7 @@
         android:layout_height="wrap_content"
         android:paddingTop="@dimen/movieverse_padding_large"
         android:layout_marginHorizontal="@dimen/movieverse_padding_large"
+        android:textColor="@color/white"
         tools:text="인기영화 Top 10" />
 
     <androidx.recyclerview.widget.RecyclerView

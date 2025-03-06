@@ -15,7 +15,7 @@ class PosterFullViewHolder private constructor(private val binding: ItemMoviePos
         binding.ivPoster.load(movie.posterPath) {
             crossfade(true)
             listener(
-                onSuccess = { _, _ -> binding.tvTitle.text = null },
+                onStart = { _ -> binding.tvTitle.text = null },
                 onError = { _, _ -> binding.tvTitle.text = movie.title }
             )
         }

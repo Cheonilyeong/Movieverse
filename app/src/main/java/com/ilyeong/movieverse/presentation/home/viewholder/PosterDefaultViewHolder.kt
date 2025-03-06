@@ -3,6 +3,8 @@ package com.ilyeong.movieverse.presentation.home.viewholder
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
+import coil3.load
+import coil3.request.crossfade
 import com.ilyeong.movieverse.databinding.ItemMoviePosterDefaultBinding
 import com.ilyeong.movieverse.domain.model.Movie
 
@@ -11,7 +13,13 @@ class PosterDefaultViewHolder private constructor(
 ) : ViewHolder(binding.root) {
 
     fun bind(movie: Movie) {
-        // todo
+        binding.ivPoster.load(movie.posterPath) {
+            crossfade(true)
+            listener(
+                onStart = { _ -> binding.tvTitle.text = null },
+                onError = { _, _ -> binding.tvTitle.text = movie.title }
+            )
+        }
     }
 
     companion object {
