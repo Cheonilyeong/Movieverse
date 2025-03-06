@@ -23,5 +23,20 @@ data class MovieResponse(
 )
 
 fun MovieResponse.toDomain(): Movie {
-    return Movie(title = title)
+    return Movie(
+        adult = adult,
+        backdropPath = "https://image.tmdb.org/t/p/original/$backdropPath",
+        genreIdList = genreIdList,
+        id = id,
+        originalLanguage = originalLanguage,
+        originalTitle = originalTitle,
+        overview = overview,
+        popularity = popularity,
+        posterPath = "https://image.tmdb.org/t/p/original/$posterPath",
+        releaseDate = releaseDate,
+        title = title,
+        video = video,
+        voteAverage = voteAverage,
+        voteCount = voteCount,
+    )
 }

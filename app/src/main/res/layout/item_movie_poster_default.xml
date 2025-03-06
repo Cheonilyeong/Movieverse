@@ -1,9 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ImageView xmlns:android="http://schemas.android.com/apk/res/android"
+
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/cv_movie"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="100dp"
     android:layout_height="140dp"
-    android:layout_margin="@dimen/movieverse_padding_small"
-    android:background="@color/gray"
-    app:strokeColor="@color/transparent" />
+    android:layout_margin="4dp"
+    app:strokeColor="@color/transparent"
+    app:cardCornerRadius="@dimen/movieverse_padding_medium">
+
+    <ImageView
+        android:id="@+id/iv_poster"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/dark_gray"
+        android:contentDescription="@string/des_movie_poster"
+        android:scaleType="centerCrop" />
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:textColor="@color/white"
+        style="@style/Widget.Material3.Chip.Suggestion.Elevated"
+        tools:text="영화 제목" />
+
+</com.google.android.material.card.MaterialCardView>
