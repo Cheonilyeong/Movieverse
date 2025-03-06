@@ -91,4 +91,5 @@ dependencies {
 
     // coil
     implementation(libs.coil)
+    implementation(libs.coil.okhttp)
 }
