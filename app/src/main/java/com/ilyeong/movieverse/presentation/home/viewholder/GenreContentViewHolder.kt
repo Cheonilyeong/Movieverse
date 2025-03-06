@@ -17,6 +17,10 @@ class GenreContentViewHolder private constructor(
 
     fun bind(genreContent: GenreContent) {
         binding.rvMovieGenre.adapter = GenreContentAdapter(genreContent)
+
+        while (binding.rvMovieGenre.itemDecorationCount > 0) {
+            binding.rvMovieGenre.removeItemDecorationAt(0)
+        }
         binding.rvMovieGenre.addItemDecoration(object : RecyclerView.ItemDecoration() {
             override fun getItemOffsets(
                 outRect: Rect,

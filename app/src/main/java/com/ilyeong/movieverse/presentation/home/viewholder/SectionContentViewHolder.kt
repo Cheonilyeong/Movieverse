@@ -19,6 +19,9 @@ class SectionContentViewHolder private constructor(
         binding.tvTitle.text = sectionContent.title
         binding.rvMovieList.adapter = SectionContentAdapter(sectionContent.movieList)
 
+        while (binding.rvMovieList.itemDecorationCount > 0) {
+            binding.rvMovieList.removeItemDecorationAt(0)
+        }
         binding.rvMovieList.addItemDecoration(object : RecyclerView.ItemDecoration() {
             override fun getItemOffsets(
                 outRect: Rect,
