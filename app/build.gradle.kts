@@ -88,4 +88,7 @@ dependencies {
 
     // datastore
     implementation(libs.androidx.datastore)
+
+    // coil
+    implementation(libs.coil)
 }

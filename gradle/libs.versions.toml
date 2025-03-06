@@ -18,6 +18,7 @@ devtoolsKsp = "2.0.21-1.0.27"
 retrofit = "2.11.0"
 okhttp = "4.12.0"
 browser = "1.8.0"
+coil = "3.1.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -38,6 +39,7 @@ dagger-hilt-android-compiler = { group = "com.google.dagger", name = "hilt-andro
 retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
 retrofit-converter-serialization = { group = "com.squareup.retrofit2", name = "converter-kotlinx-serialization", version.ref = "retrofit" }
 androidx-browser = { group = "androidx.browser", name = "browser", version.ref = "browser" }
+coil = { group = "io.coil-kt.coil3", name = "coil", version.ref = "coil" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
