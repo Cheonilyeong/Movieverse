@@ -5,6 +5,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updatePadding
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ItemDecoration
@@ -38,6 +41,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setSystemInset()
         setMovieBanner()
         setMovieGenre()
         setMovieSection()
@@ -61,6 +65,20 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                     HomeUiState.Failure -> {}
                 }
             }
+        }
+    }
+
+    private fun setSystemInset() {
+        ViewCompat.setOnApplyWindowInsetsListener(binding.root) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+
+            val layoutParams = binding.tb.layoutParams as ViewGroup.MarginLayoutParams
+            layoutParams.topMargin = systemBars.top
+            binding.tb.layoutParams = layoutParams
+
+            val currentPaddingTop = binding.vpBanner.paddingTop
+            binding.vpBanner.updatePadding(top = currentPaddingTop + systemBars.top)
+            insets
         }
     }
 

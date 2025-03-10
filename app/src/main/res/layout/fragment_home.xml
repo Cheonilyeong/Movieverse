@@ -3,27 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    
-    <com.google.android.material.appbar.AppBarLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fitsSystemWindows="true"
-        android:backgroundTint="@color/black_alpha60"
-        app:layout_scrollFlags="scroll|enterAlways"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
-
-        <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/tb"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:paddingStart="@dimen/movieverse_padding_large"
-            android:paddingEnd="@dimen/movieverse_padding_large"
-            app:navigationIcon="@drawable/ic_logo"
-            app:menu="@menu/home_app_bar_menu"
-            app:layout_scrollFlags="noScroll" />
-    </com.google.android.material.appbar.AppBarLayout>
 
     <ScrollView
         android:layout_width="match_parent"
@@ -114,4 +93,24 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </ScrollView>
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/black_alpha60"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/tb"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:paddingStart="@dimen/movieverse_padding_large"
+            android:paddingEnd="@dimen/movieverse_padding_large"
+            app:navigationIcon="@drawable/ic_logo"
+            app:menu="@menu/home_app_bar_menu"
+            app:layout_scrollFlags="noScroll" />
+    </com.google.android.material.appbar.AppBarLayout>
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
