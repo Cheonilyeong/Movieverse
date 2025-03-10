@@ -16,8 +16,8 @@ class PosterDefaultViewHolder private constructor(
         binding.ivPoster.load(movie.posterPath) {
             crossfade(true)
             listener(
-                onStart = { _ -> binding.tvTitle.text = null },
-                onError = { _, _ -> binding.tvTitle.text = movie.title }
+                onStart = { _ -> binding.tvPosterTitle.text = null },
+                onError = { _, _ -> binding.tvPosterTitle.text = movie.title }
             )
         }
     }

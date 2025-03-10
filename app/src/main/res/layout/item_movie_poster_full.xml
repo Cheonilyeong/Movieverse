@@ -16,7 +16,7 @@
         android:scaleType="centerCrop" />
 
     <TextView
-        android:id="@+id/tv_title"
+        android:id="@+id/tv_poster_title"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"

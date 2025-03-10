@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.ItemDecoration
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.ilyeong.movieverse.R
 import com.ilyeong.movieverse.databinding.ItemMovieSectionBinding
@@ -22,23 +23,38 @@ class SectionContentViewHolder private constructor(
         while (binding.rvMovieList.itemDecorationCount > 0) {
             binding.rvMovieList.removeItemDecorationAt(0)
         }
-        binding.rvMovieList.addItemDecoration(object : RecyclerView.ItemDecoration() {
+        binding.rvMovieList.addItemDecoration(object : ItemDecoration() {
             override fun getItemOffsets(
                 outRect: Rect,
                 view: View,
                 parent: RecyclerView,
                 state: RecyclerView.State
             ) {
+                super.getItemOffsets(outRect, view, parent, state)
                 val position = parent.getChildAdapterPosition(view)
                 val itemCount = state.itemCount
                 val context = parent.context
 
-                if (position == 0) {
-                    outRect.left =
-                        context.resources.getDimensionPixelOffset(R.dimen.movieverse_padding_medium)
-                } else if (position == itemCount - 1) {
-                    outRect.right =
-                        context.resources.getDimensionPixelOffset(R.dimen.movieverse_padding_medium)
+                val smallPadding =
+                    context.resources.getDimensionPixelOffset(R.dimen.movieverse_padding_small)
+                val largePadding =
+                    context.resources.getDimensionPixelOffset(R.dimen.movieverse_padding_large)
+
+                outRect.top = smallPadding
+                outRect.bottom = smallPadding
+                outRect.left = smallPadding
+                outRect.right = smallPadding
+
+                when (position) {
+                    0 -> {
+                        outRect.left = largePadding
+                        outRect.right = smallPadding
+                    }
+
+                    itemCount - 1 -> {
+                        outRect.left = smallPadding
+                        outRect.right = largePadding
+                    }
                 }
             }
         })
