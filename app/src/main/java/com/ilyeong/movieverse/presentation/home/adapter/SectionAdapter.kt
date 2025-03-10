@@ -1,27 +1,21 @@
 package com.ilyeong.movieverse.presentation.home.adapter
 
 import android.view.ViewGroup
-import androidx.recyclerview.widget.RecyclerView.Adapter
+import androidx.recyclerview.widget.ListAdapter
 import com.ilyeong.movieverse.domain.model.Movie
 import com.ilyeong.movieverse.presentation.home.viewholder.PosterDefaultViewHolder
+import com.ilyeong.movieverse.presentation.util.MovieDiffUtil
 
-class SectionContentAdapter(
-    private val movieList: List<Movie>
-) : Adapter<PosterDefaultViewHolder>() {
-
+class SectionAdapter : ListAdapter<Movie, PosterDefaultViewHolder>(MovieDiffUtil) {
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): PosterDefaultViewHolder {
-        return PosterDefaultViewHolder.create(parent)
-    }
+    ) = PosterDefaultViewHolder.create(parent)
 
     override fun onBindViewHolder(
         holder: PosterDefaultViewHolder,
         position: Int
     ) {
-        holder.bind(movieList[position])
+        holder.bind(getItem(position))
     }
-
-    override fun getItemCount() = movieList.size
 }
