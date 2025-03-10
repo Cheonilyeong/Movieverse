@@ -7,7 +7,6 @@ import android.view.Gravity
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.core.content.ContextCompat
 import com.ilyeong.movieverse.R
 
 class ReviewRatingView @JvmOverloads constructor(
@@ -50,8 +49,8 @@ class ReviewRatingView @JvmOverloads constructor(
         }
 
         ratingTextView = TextView(context).apply {
-            setTextColor(ContextCompat.getColor(context, R.color.gray))
-            setTextSize(TypedValue.COMPLEX_UNIT_SP, 14f)
+            setTextColor(resources.getColor(R.color.gray, context.theme))
+            setTextSize(TypedValue.COMPLEX_UNIT_SP, 11f)
             layoutParams = LayoutParams(
                 LayoutParams.WRAP_CONTENT,
                 LayoutParams.WRAP_CONTENT
