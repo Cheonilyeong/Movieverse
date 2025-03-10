@@ -26,14 +26,14 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
     private val viewModel: HomeViewModel by viewModels()
 
-    val bannerAdapter = BannerAdapter()
-    val genreAdapter = GenreAdapter()
-    val topRatedAdapter = SectionAdapter()
-    val upcomingAdapter = SectionAdapter()
-    val popularAdapter = SectionAdapter()
-    val nowPlayingAdapter = SectionAdapter()
-    val trendingAdapter = SectionAdapter()
-    val watchlistAdapter = SectionAdapter()
+    private val bannerAdapter = BannerAdapter()
+    private val genreAdapter = GenreAdapter()
+    private val topRatedAdapter = SectionAdapter()
+    private val upcomingAdapter = SectionAdapter()
+    private val popularAdapter = SectionAdapter()
+    private val nowPlayingAdapter = SectionAdapter()
+    private val trendingAdapter = SectionAdapter()
+    private val watchlistAdapter = SectionAdapter()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -103,12 +103,12 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     }
 
     private fun setMovieSection() {
-        binding.movieSection1.tvTitle.text = "Top Rated"
-        binding.movieSection2.tvTitle.text = "UpComing"
-        binding.movieSection3.tvTitle.text = "Popular"
-        binding.movieSection4.tvTitle.text = "Now Playing"
-        binding.movieSection5.tvTitle.text = "Trending Week"
-        binding.movieSection6.tvTitle.text = "Watchlist"
+        binding.movieSection1.tvTitle.text = getString(R.string.movie_section_top_rated)
+        binding.movieSection2.tvTitle.text = getString(R.string.movie_section_upcoming)
+        binding.movieSection3.tvTitle.text = getString(R.string.movie_section_popular)
+        binding.movieSection4.tvTitle.text = getString(R.string.movie_section_now_playing)
+        binding.movieSection5.tvTitle.text = getString(R.string.movie_section_trending_week)
+        binding.movieSection6.tvTitle.text = getString(R.string.movie_section_watchlist)
 
         val itemDecoration = object : ItemDecoration() {
             override fun getItemOffsets(
