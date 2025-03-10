@@ -36,10 +36,18 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     private fun setSystemInsetPadding() {
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
-                R.id.home_fragment, R.id.watchlist_fragment, R.id.profile_fragment -> {
+                R.id.home_fragment -> {
                     ViewCompat.setOnApplyWindowInsetsListener(binding.root) { v, insets ->
                         val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
                         v.setPadding(systemBars.left, 0, systemBars.right, 0)
+                        insets
+                    }
+                }
+
+                R.id.watchlist_fragment, R.id.profile_fragment -> {
+                    ViewCompat.setOnApplyWindowInsetsListener(binding.root) { v, insets ->
+                        val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+                        v.setPadding(systemBars.left, systemBars.top, systemBars.right, 0)
                         insets
                     }
                 }
