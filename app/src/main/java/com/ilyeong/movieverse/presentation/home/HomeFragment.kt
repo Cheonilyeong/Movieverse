@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView.ItemDecoration
 import com.ilyeong.movieverse.R
 import com.ilyeong.movieverse.databinding.FragmentHomeBinding
 import com.ilyeong.movieverse.presentation.common.BaseFragment
+import com.ilyeong.movieverse.presentation.home.adapter.GenreAdapter
 import com.ilyeong.movieverse.presentation.home.adapter.SectionAdapter
 import com.ilyeong.movieverse.presentation.home.model.HomeUiState
 import dagger.hilt.android.AndroidEntryPoint
@@ -23,6 +24,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
     private val viewModel: HomeViewModel by viewModels()
 
+    val genreAdapter = GenreAdapter()
     val topRatedAdapter = SectionAdapter()
     val upcomingAdapter = SectionAdapter()
     val popularAdapter = SectionAdapter()
@@ -33,6 +35,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setMovieGenre()
         setMovieSection()
 
         repeatOnViewStarted {
@@ -41,6 +44,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                     HomeUiState.Loading -> {}
 
                     is HomeUiState.Success -> {
+                        genreAdapter.submitList(it.genreList)
                         topRatedAdapter.submitList(it.topRatedMovieList)
                         upcomingAdapter.submitList(it.upcomingMovieList)
                         popularAdapter.submitList(it.popularMovieList)
@@ -53,6 +57,32 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                 }
             }
         }
+    }
+
+    private fun setMovieGenre() {
+        binding.rvMovieGenre.adapter = genreAdapter
+        binding.rvMovieGenre.addItemDecoration(object : ItemDecoration() {
+            override fun getItemOffsets(
+                outRect: Rect,
+                view: View,
+                parent: RecyclerView,
+                state: RecyclerView.State
+            ) {
+                super.getItemOffsets(outRect, view, parent, state)
+
+                val position = parent.getChildAdapterPosition(view)
+                val itemCount = state.itemCount
+                val context = parent.context
+
+                if (position == 0) {
+                    outRect.left =
+                        context.resources.getDimensionPixelOffset(R.dimen.movieverse_padding_medium)
+                } else if (position == itemCount - 1) {
+                    outRect.right =
+                        context.resources.getDimensionPixelOffset(R.dimen.movieverse_padding_medium)
+                }
+            }
+        })
     }
 
     private fun setMovieSection() {
@@ -71,6 +101,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                 state: RecyclerView.State
             ) {
                 super.getItemOffsets(outRect, view, parent, state)
+
                 val position = parent.getChildAdapterPosition(view)
                 val itemCount = state.itemCount
                 val context = parent.context
