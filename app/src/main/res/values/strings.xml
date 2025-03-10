@@ -7,4 +7,5 @@
     <string name="profile">Profile</string>
     <string name="search">Search</string>
     <string name="des_movie_poster">Movie Poster</string>
+    <string name="des_movie_bookmark">Movie Bookmark</string>
 </resources>

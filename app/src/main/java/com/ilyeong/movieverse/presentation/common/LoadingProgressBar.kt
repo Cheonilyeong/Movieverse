@@ -6,7 +6,11 @@ import android.widget.LinearLayout
 import android.widget.ProgressBar
 import androidx.core.view.isVisible
 
-class CustomProgressBar(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
+class LoadingProgressBar @JvmOverloads constructor(
+    context: Context,
+    attrs: AttributeSet? = null,
+    defStyleAttr: Int = 0
+) : LinearLayout(context, attrs, defStyleAttr) {
 
     private val progressBar: ProgressBar = ProgressBar(context).apply {
         layoutParams = LayoutParams(
