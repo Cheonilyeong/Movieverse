@@ -60,7 +60,7 @@ class HomeViewModel @Inject constructor(
 
             _uiState.update {
                 HomeUiState.Success(
-                    bannerMovieList = bannerMovieList,
+                    bannerMovieList = bannerMovieList.take(5),
                     genreList = genreList,
                     topRatedMovieList = topRatedMovieList,
                     upcomingMovieList = upcomingMovieList,

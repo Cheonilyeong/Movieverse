@@ -8,9 +8,11 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ItemDecoration
+import androidx.viewpager2.widget.MarginPageTransformer
 import com.ilyeong.movieverse.R
 import com.ilyeong.movieverse.databinding.FragmentHomeBinding
 import com.ilyeong.movieverse.presentation.common.BaseFragment
+import com.ilyeong.movieverse.presentation.home.adapter.BannerAdapter
 import com.ilyeong.movieverse.presentation.home.adapter.GenreAdapter
 import com.ilyeong.movieverse.presentation.home.adapter.SectionAdapter
 import com.ilyeong.movieverse.presentation.home.model.HomeUiState
@@ -24,6 +26,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
     private val viewModel: HomeViewModel by viewModels()
 
+    val bannerAdapter = BannerAdapter()
     val genreAdapter = GenreAdapter()
     val topRatedAdapter = SectionAdapter()
     val upcomingAdapter = SectionAdapter()
@@ -35,6 +38,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setMovieBanner()
         setMovieGenre()
         setMovieSection()
 
@@ -44,6 +48,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                     HomeUiState.Loading -> {}
 
                     is HomeUiState.Success -> {
+                        bannerAdapter.submitList(it.bannerMovieList)
                         genreAdapter.submitList(it.genreList)
                         topRatedAdapter.submitList(it.topRatedMovieList)
                         upcomingAdapter.submitList(it.upcomingMovieList)
@@ -57,6 +62,18 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                 }
             }
         }
+    }
+
+    private fun setMovieBanner() {
+        binding.vpBanner.adapter = bannerAdapter
+        binding.vpBanner.offscreenPageLimit = 1
+        binding.vpBanner.setPageTransformer(
+            MarginPageTransformer(
+                binding.root.context.resources.getDimensionPixelSize(
+                    R.dimen.movieverse_padding_small
+                )
+            )
+        )
     }
 
     private fun setMovieGenre() {
