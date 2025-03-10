@@ -55,21 +55,21 @@ class ReviewRatingView @JvmOverloads constructor(
                 LayoutParams.WRAP_CONTENT,
                 LayoutParams.WRAP_CONTENT
             ).apply {
-                marginStart = dpToPx(4)
+                marginStart = resources.getDimensionPixelSize(R.dimen.movieverse_padding_small)
             }
         }
         addView(ratingTextView)
     }
 
     private fun updateStars(fullStars: Int, halfStar: Int) {
-        for (i in 0 until 5) {
-            val starImageView = starImageViews[i]
+        repeat(5) {
+            val starImageView = starImageViews[it]
             when {
-                i < fullStars -> {
+                it < fullStars -> {
                     starImageView.setImageResource(R.drawable.ic_star_filled_12)
                 }
 
-                i == fullStars && halfStar == 1 -> {
+                it == fullStars && halfStar == 1 -> {
                     starImageView.setImageResource(R.drawable.ic_star_half_12)
                 }
 
@@ -78,9 +78,5 @@ class ReviewRatingView @JvmOverloads constructor(
                 }
             }
         }
-    }
-
-    private fun dpToPx(dp: Int): Int {
-        return (dp * resources.displayMetrics.density).toInt()
     }
 }
