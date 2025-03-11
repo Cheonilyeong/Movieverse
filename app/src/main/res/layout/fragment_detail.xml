@@ -3,21 +3,64 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/black">
+
+    <ImageView
+        android:id="@+id/iv_backdrop"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:contentDescription="@string/des_movie_backdrop"
+        app:layout_constraintDimensionRatio="1:0.5"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:scaleType="centerCrop"
+        tools:src="@drawable/test_backdrop" />
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/iv_poster"
+        android:layout_width="100dp"
+        android:layout_height="140dp"
+        android:layout_marginStart="20dp"
+        android:contentDescription="@string/des_movie_backdrop"
+        app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Small"
+        android:scaleType="centerCrop"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/rrv"
+        tools:src="@drawable/test_poster" />
+
+    <TextView
+        android:id="@+id/tv_movie_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:textSize="20sp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        app:drawableEndCompat="@drawable/ic_bookmark_selector"
+        app:layout_constraintTop_toBottomOf="@id/iv_backdrop"
+        app:layout_constraintStart_toEndOf="@id/iv_poster"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:text="베놈 : 라스트 댄스" />
+
+    <com.ilyeong.movieverse.presentation.common.ReviewRatingView
+        android:id="@+id/rrv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        app:layout_constraintTop_toBottomOf="@id/tv_movie_title"
+        app:layout_constraintStart_toStartOf="@id/tv_movie_title" />
+
 
     <com.google.android.material.appbar.MaterialToolbar
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:navigationIcon="@drawable/ic_arrow_back_24"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:contentDescription="@string/des_movie_backdrop"
-        app:layout_constraintDimensionRatio="1:0.5"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
