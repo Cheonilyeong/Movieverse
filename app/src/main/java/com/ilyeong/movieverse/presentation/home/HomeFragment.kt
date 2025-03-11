@@ -76,8 +76,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
             layoutParams.topMargin = systemBars.top
             binding.tb.layoutParams = layoutParams
 
-            val currentPaddingTop = binding.vpBanner.paddingTop
-            binding.vpBanner.updatePadding(top = currentPaddingTop + systemBars.top)
+            val paddingTop = binding.vpBanner.paddingTop
+            binding.vpBanner.updatePadding(top = paddingTop + systemBars.top)
             insets
         }
     }
@@ -103,18 +103,20 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                 parent: RecyclerView,
                 state: RecyclerView.State
             ) {
-                super.getItemOffsets(outRect, view, parent, state)
-
                 val position = parent.getChildAdapterPosition(view)
                 val itemCount = state.itemCount
                 val context = parent.context
 
-                if (position == 0) {
-                    outRect.left =
-                        context.resources.getDimensionPixelOffset(R.dimen.movieverse_padding_medium)
-                } else if (position == itemCount - 1) {
-                    outRect.right =
-                        context.resources.getDimensionPixelOffset(R.dimen.movieverse_padding_medium)
+                when (position) {
+                    0 -> {
+                        outRect.left =
+                            context.resources.getDimensionPixelOffset(R.dimen.movieverse_padding_medium)
+                    }
+
+                    (itemCount - 1) -> {
+                        outRect.right =
+                            context.resources.getDimensionPixelOffset(R.dimen.movieverse_padding_medium)
+                    }
                 }
             }
         })
@@ -135,16 +137,14 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                 parent: RecyclerView,
                 state: RecyclerView.State
             ) {
-                super.getItemOffsets(outRect, view, parent, state)
-
                 val position = parent.getChildAdapterPosition(view)
                 val itemCount = state.itemCount
-                val context = parent.context
+                val resources = parent.context.resources
 
                 val smallPadding =
-                    context.resources.getDimensionPixelOffset(R.dimen.movieverse_padding_small)
+                    resources.getDimensionPixelOffset(R.dimen.movieverse_padding_small)
                 val largePadding =
-                    context.resources.getDimensionPixelOffset(R.dimen.movieverse_padding_large)
+                    resources.getDimensionPixelOffset(R.dimen.movieverse_padding_large)
 
                 outRect.top = smallPadding
                 outRect.bottom = smallPadding
