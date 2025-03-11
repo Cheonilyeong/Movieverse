@@ -72,10 +72,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         ViewCompat.setOnApplyWindowInsetsListener(binding.root) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
 
-            val layoutParams = binding.tb.layoutParams as ViewGroup.MarginLayoutParams
-            layoutParams.topMargin = systemBars.top
-            binding.tb.layoutParams = layoutParams
-
             val paddingTop = binding.vpBanner.paddingTop
             binding.vpBanner.updatePadding(top = paddingTop + systemBars.top)
             insets
