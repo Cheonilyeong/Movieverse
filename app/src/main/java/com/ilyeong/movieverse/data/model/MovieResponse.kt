@@ -8,7 +8,7 @@ import kotlinx.serialization.Serializable
 data class MovieResponse(
     @SerialName("adult") val adult: Boolean,
     @SerialName("backdrop_path") val backdropPath: String,
-    @SerialName("genre_ids") val genreIdList: List<Int>,
+    @SerialName("genre_ids") val genreIdList: List<Int> = emptyList(),
     @SerialName("id") val id: Int,
     @SerialName("original_language") val originalLanguage: String,
     @SerialName("original_title") val originalTitle: String,

@@ -1,6 +1,7 @@
 package com.ilyeong.movieverse.data.network
 
 import com.ilyeong.movieverse.data.model.GenreListResponse
+import com.ilyeong.movieverse.data.model.MovieResponse
 import com.ilyeong.movieverse.data.model.NowPlayingResponse
 import com.ilyeong.movieverse.data.model.PopularResponse
 import com.ilyeong.movieverse.data.model.TopRatedResponse
@@ -10,6 +11,9 @@ import retrofit2.http.GET
 import retrofit2.http.Path
 
 interface MovieApiService {
+
+    @GET("movie/{movie_id}")
+    suspend fun getMovieDetail(@Path("movie_id") movieId: Int): MovieResponse
 
     @GET("movie/top_rated")
     suspend fun getTopRatedMovieList(): TopRatedResponse

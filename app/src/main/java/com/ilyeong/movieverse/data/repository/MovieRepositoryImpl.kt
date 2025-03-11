@@ -1,5 +1,6 @@
 package com.ilyeong.movieverse.data.repository
 
+import android.util.Log
 import com.ilyeong.movieverse.data.model.toDomain
 import com.ilyeong.movieverse.data.network.MovieApiService
 import com.ilyeong.movieverse.domain.model.Genre
@@ -11,6 +12,11 @@ import javax.inject.Inject
 class MovieRepositoryImpl @Inject constructor(
     private val apiService: MovieApiService
 ) : MovieRepository {
+    override fun getMovieDetail(movieId: Int) = flow<Movie> {
+        val movieDetail = apiService.getMovieDetail(movieId).toDomain()
+        Log.d("MovieRepositoryImpl", "movieDetail: $movieDetail")
+        emit(movieDetail)
+    }
 
     override fun getTopRatedMovieList() = flow<List<Movie>> {
         val topRatedMovieList = apiService.getTopRatedMovieList().resultList.map { it.toDomain() }
