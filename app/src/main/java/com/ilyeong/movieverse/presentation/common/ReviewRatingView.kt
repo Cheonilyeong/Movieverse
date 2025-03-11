@@ -30,7 +30,7 @@ class ReviewRatingView @JvmOverloads constructor(
     var ratingCount: Int = 0
         set(value) {
             field = value
-            ratingTextView.text = "($ratingCount)"
+            ratingTextView.text = context.getString(R.string.rating_count, ratingCount)
         }
 
     init {
@@ -65,11 +65,11 @@ class ReviewRatingView @JvmOverloads constructor(
         repeat(5) {
             val starImageView = starImageViews[it]
             when {
-                it < fullStars -> {
+                (it < fullStars) -> {
                     starImageView.setImageResource(R.drawable.ic_star_filled_12)
                 }
 
-                it == fullStars && halfStar == 1 -> {
+                (it == fullStars && halfStar == 1) -> {
                     starImageView.setImageResource(R.drawable.ic_star_half_12)
                 }
 

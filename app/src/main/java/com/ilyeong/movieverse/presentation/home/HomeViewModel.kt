@@ -5,10 +5,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ilyeong.movieverse.data.repository.MovieRepository
 import com.ilyeong.movieverse.data.repository.UserRepository
+import com.ilyeong.movieverse.domain.model.Genre
+import com.ilyeong.movieverse.domain.model.Movie
 import com.ilyeong.movieverse.domain.model.TimeWindow
-import com.ilyeong.movieverse.presentation.home.model.HomeContent.BannerContent
-import com.ilyeong.movieverse.presentation.home.model.HomeContent.GenreContent
-import com.ilyeong.movieverse.presentation.home.model.HomeContent.SectionContent
 import com.ilyeong.movieverse.presentation.home.model.HomeUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -17,7 +16,6 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.update
 import javax.inject.Inject
@@ -32,22 +30,14 @@ class HomeViewModel @Inject constructor(
     val uiState: StateFlow<HomeUiState> = _uiState.asStateFlow()
 
     init {
-        val trendingDayFlow =
-            movieRepository.getTrendingMovieList(TimeWindow.DAY).map { BannerContent(it.take(5)) }
-        val genreFlow =
-            movieRepository.getMovieGenreList().map { GenreContent(it) }
-        val topRatedFlow =
-            movieRepository.getTopRatedMovieList().map { SectionContent("Top Rated", it) }
-        val upcomingFlow =
-            movieRepository.getUpcomingMovieList().map { SectionContent("Upcoming", it) }
-        val popularFlow =
-            movieRepository.getPopularMovieList().map { SectionContent("Popular", it) }
-        val nowPlayingFlow =
-            movieRepository.getNowPlayingMovieList().map { SectionContent("Now Playing", it) }
+        val trendingDayFlow = movieRepository.getTrendingMovieList(TimeWindow.DAY)
+        val genreFlow = movieRepository.getMovieGenreList()
+        val topRatedFlow = movieRepository.getTopRatedMovieList()
+        val upcomingFlow = movieRepository.getUpcomingMovieList()
+        val popularFlow = movieRepository.getPopularMovieList()
+        val nowPlayingFlow = movieRepository.getNowPlayingMovieList()
         val trendingWeekFlow = movieRepository.getTrendingMovieList(TimeWindow.WEEK)
-            .map { SectionContent("Trending Week", it) }
-        val watchlistFlow =
-            userRepository.getWatchlistMovieList().map { SectionContent("Watchlist", it) }
+        val watchlistFlow = userRepository.getWatchlistMovieList()
 
         combine(
             trendingDayFlow,
@@ -59,8 +49,26 @@ class HomeViewModel @Inject constructor(
             trendingWeekFlow,
             watchlistFlow
         ) { dataList ->
+            val bannerMovieList = dataList[0] as List<Movie>
+            val genreList = dataList[1] as List<Genre>
+            val topRatedMovieList = dataList[2] as List<Movie>
+            val upcomingMovieList = dataList[3] as List<Movie>
+            val popularMovieList = dataList[4] as List<Movie>
+            val nowPlayingMovieList = dataList[5] as List<Movie>
+            val trendingWeekMovieList = dataList[6] as List<Movie>
+            val watchlistMovieList = dataList[7] as List<Movie>
+
             _uiState.update {
-                HomeUiState.Success(dataList.toList())
+                HomeUiState.Success(
+                    bannerMovieList = bannerMovieList.take(5),
+                    genreList = genreList,
+                    topRatedMovieList = topRatedMovieList,
+                    upcomingMovieList = upcomingMovieList,
+                    popularMovieList = popularMovieList,
+                    nowPlayingMovieList = nowPlayingMovieList,
+                    trendingWeekMovieList = trendingWeekMovieList,
+                    watchlistMovieList = watchlistMovieList,
+                )
             }
         }.onStart {
             // todo

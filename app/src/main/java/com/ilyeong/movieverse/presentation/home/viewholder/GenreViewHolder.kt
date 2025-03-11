@@ -6,8 +6,9 @@ import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.ilyeong.movieverse.databinding.ItemMovieGenreChipBinding
 import com.ilyeong.movieverse.domain.model.Genre
 
-class GenreViewHolder private constructor(private val binding: ItemMovieGenreChipBinding) :
-    ViewHolder(binding.root) {
+class GenreViewHolder private constructor(
+    private val binding: ItemMovieGenreChipBinding
+) : ViewHolder(binding.root) {
 
     fun bind(genre: Genre) {
         binding.chipGenre.text = genre.name
