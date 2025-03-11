@@ -10,6 +10,10 @@
     <string name="search">Search</string>
     <string name="detail">Detail</string>
 
+    <string name="information">상세정보</string>
+    <string name="recommended">추천 콘텐츠</string>
+    <string name="review">리뷰</string>
+
     <string name="des_movie_poster">Movie Poster</string>
     <string name="des_movie_backdrop">Movie BackDrop</string>
     <string name="des_movie_bookmark">Movie Bookmark</string>
