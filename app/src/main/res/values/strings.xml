@@ -14,4 +14,5 @@
     <string name="movie_section_now_playing">Now Playing</string>
     <string name="movie_section_trending_week">Trending Week</string>
     <string name="movie_section_watchlist">Watchlist</string>
+    <string name="rating_count">(%1$d)</string>
 </resources>
