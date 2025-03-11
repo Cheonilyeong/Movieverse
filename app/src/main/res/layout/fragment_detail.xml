@@ -13,4 +13,13 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:contentDescription="@string/des_movie_backdrop"
+        app:layout_constraintDimensionRatio="1:0.5"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
