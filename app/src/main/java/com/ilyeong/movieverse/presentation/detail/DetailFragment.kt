@@ -5,6 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import coil3.load
 import coil3.request.crossfade
 import com.ilyeong.movieverse.databinding.FragmentDetailBinding
@@ -20,9 +22,18 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>() {
 
     private val viewModel: DetailViewModel by viewModels()
 
+    private val movieId: DetailFragmentArgs by navArgs()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        viewModel.loadData(movieId.movieId)
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setToolBarNavigationIcon()
+        
         repeatOnViewStarted {
             viewModel.uiState.collect {
                 when (it) {
@@ -57,6 +68,12 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>() {
                     }
                 }
             }
+        }
+    }
+
+    private fun setToolBarNavigationIcon() {
+        binding.tb.setNavigationOnClickListener {
+            findNavController().navigateUp()
         }
     }
 }

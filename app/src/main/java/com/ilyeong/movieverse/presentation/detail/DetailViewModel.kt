@@ -18,15 +18,15 @@ import javax.inject.Inject
 
 @HiltViewModel
 class DetailViewModel @Inject constructor(
-    movieRepository: MovieRepository,
+    private val movieRepository: MovieRepository,
 //    savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow<DetailUiState>(DetailUiState.Loading)
     val uiState: StateFlow<DetailUiState> = _uiState.asStateFlow()
 
-    init {
-        movieRepository.getMovieDetail(movieId = 912649)
+    fun loadData(movieId: Int) {
+        movieRepository.getMovieDetail(movieId = movieId)
             .onStart {
                 // todo
             }
