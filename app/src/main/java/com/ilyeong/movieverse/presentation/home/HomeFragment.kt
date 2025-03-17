@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ItemDecoration
 import androidx.viewpager2.widget.MarginPageTransformer
@@ -16,6 +17,7 @@ import com.ilyeong.movieverse.presentation.home.adapter.BannerAdapter
 import com.ilyeong.movieverse.presentation.home.adapter.GenreAdapter
 import com.ilyeong.movieverse.presentation.home.adapter.SectionAdapter
 import com.ilyeong.movieverse.presentation.home.model.HomeUiState
+import com.ilyeong.movieverse.presentation.util.MovieClickListener
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -26,14 +28,19 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
     private val viewModel: HomeViewModel by viewModels()
 
-    private val bannerAdapter = BannerAdapter()
+    private val movieClickListener = MovieClickListener { movieId ->
+        val action = HomeFragmentDirections.actionHomeFragmentToDetailFragment(movieId)
+        findNavController().navigate(action)
+    }
+
+    private val bannerAdapter = BannerAdapter(movieClickListener)
     private val genreAdapter = GenreAdapter()
-    private val topRatedAdapter = SectionAdapter()
-    private val upcomingAdapter = SectionAdapter()
-    private val popularAdapter = SectionAdapter()
-    private val nowPlayingAdapter = SectionAdapter()
-    private val trendingAdapter = SectionAdapter()
-    private val watchlistAdapter = SectionAdapter()
+    private val topRatedAdapter = SectionAdapter(movieClickListener)
+    private val upcomingAdapter = SectionAdapter(movieClickListener)
+    private val popularAdapter = SectionAdapter(movieClickListener)
+    private val nowPlayingAdapter = SectionAdapter(movieClickListener)
+    private val trendingAdapter = SectionAdapter(movieClickListener)
+    private val watchlistAdapter = SectionAdapter(movieClickListener)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

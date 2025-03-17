@@ -6,11 +6,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ItemDecoration
 import com.ilyeong.movieverse.R
 import com.ilyeong.movieverse.databinding.FragmentWatchlistBinding
 import com.ilyeong.movieverse.presentation.common.BaseFragment
+import com.ilyeong.movieverse.presentation.util.MovieClickListener
 import com.ilyeong.movieverse.presentation.watchlist.adapter.WatchlistAdapter
 import com.ilyeong.movieverse.presentation.watchlist.model.WatchlistUiState.Failure
 import com.ilyeong.movieverse.presentation.watchlist.model.WatchlistUiState.Loading
@@ -24,6 +26,11 @@ class WatchlistFragment : BaseFragment<FragmentWatchlistBinding>() {
         get() = FragmentWatchlistBinding::inflate
 
     private val viewModel: WatchlistViewModel by viewModels()
+
+    private val movieClickListener = MovieClickListener { movieId ->
+        val action = WatchlistFragmentDirections.actionHomeFragmentToDetailFragment(movieId)
+        findNavController().navigate(action)
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -47,7 +54,8 @@ class WatchlistFragment : BaseFragment<FragmentWatchlistBinding>() {
                     Loading -> {}
 
                     is Success -> {
-                        binding.rvWatchlist.adapter = WatchlistAdapter(it.watchlist)
+                        binding.rvWatchlist.adapter =
+                            WatchlistAdapter(it.watchlist, movieClickListener)
                     }
 
                     Failure -> {}
