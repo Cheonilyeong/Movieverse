@@ -28,12 +28,18 @@ class DetailViewModel @Inject constructor(
     fun loadData(movieId: Int) {
         val movieDetail = movieRepository.getMovieDetail(movieId = movieId)
         val movieCredit = movieRepository.getMovieCredit(movieId = movieId)
+        val movieRecommendationList = movieRepository.getMovieRecommendationList(movieId = movieId)
 
-        combine(movieDetail, movieCredit) { movie, credit ->
+        combine(
+            movieDetail,
+            movieCredit,
+            movieRecommendationList
+        ) { movie, credit, movieRecommendationList ->
             _uiState.update {
                 DetailUiState.Success(
                     movie = movie,
-                    cast = credit.cast
+                    cast = credit.cast,
+                    movieRecommendationList = movieRecommendationList
                 )
             }
         }.onStart {

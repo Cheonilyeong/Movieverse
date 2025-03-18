@@ -5,6 +5,7 @@ import com.ilyeong.movieverse.data.model.GenreListResponse
 import com.ilyeong.movieverse.data.model.MovieDetailResponse
 import com.ilyeong.movieverse.data.model.NowPlayingResponse
 import com.ilyeong.movieverse.data.model.PopularResponse
+import com.ilyeong.movieverse.data.model.RecommendationListResponse
 import com.ilyeong.movieverse.data.model.TopRatedResponse
 import com.ilyeong.movieverse.data.model.TrendingResponse
 import com.ilyeong.movieverse.data.model.UpComingResponse
@@ -18,6 +19,9 @@ interface MovieApiService {
 
     @GET("movie/{movie_id}/credits")
     suspend fun getMovieCredit(@Path("movie_id") movieId: Int): CreditResponse
+
+    @GET("movie/{movie_id}/recommendations")
+    suspend fun getMovieRecommendationList(@Path("movie_id") movieId: Int): RecommendationListResponse
 
     @GET("movie/top_rated")
     suspend fun getTopRatedMovieList(): TopRatedResponse

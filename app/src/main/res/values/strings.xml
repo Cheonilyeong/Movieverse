@@ -36,5 +36,9 @@
     <string name="movie_section_trending_week">Trending Week</string>
     <string name="movie_section_watchlist">Watchlist</string>
 
+    <string name="movie_section_collection">Collection</string>
+    <string name="movie_section_recommendation">Recommendation</string>
+    <string name="movie_section_similar">Similar</string>
+
     <string name="rating_count">(%1$d)</string>
 </resources>

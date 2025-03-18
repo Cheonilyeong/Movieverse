@@ -84,6 +84,7 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>() {
 
     private fun setMovieTab() {
         binding.vpTab.adapter = DetailTabAdapter(this)
+        binding.vpTab.setUserInputEnabled(false)
 
         TabLayoutMediator(binding.tl, binding.vpTab) { tab, position ->
             when (position) {
