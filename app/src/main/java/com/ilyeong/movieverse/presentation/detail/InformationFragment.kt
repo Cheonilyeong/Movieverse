@@ -34,9 +34,46 @@ class InformationFragment : BaseFragment<FragmentInformationBinding>() {
                 parent: RecyclerView,
                 state: RecyclerView.State
             ) {
+                val position = parent.getChildAdapterPosition(view)
+                val itemCount = state.itemCount
                 val context = parent.context
-                outRect.right =
-                    context.resources.getDimensionPixelOffset(R.dimen.movieverse_padding_xlarge)
+
+                when (position) {
+                    0 -> {
+                        outRect.left =
+                            context.resources.getDimensionPixelOffset(R.dimen.movieverse_padding_medium)
+                    }
+
+                    (itemCount - 1) -> {
+                        outRect.right =
+                            context.resources.getDimensionPixelOffset(R.dimen.movieverse_padding_medium)
+                    }
+                }
+            }
+        })
+
+        binding.rvMovieGenre.addItemDecoration(object : ItemDecoration() {
+            override fun getItemOffsets(
+                outRect: Rect,
+                view: View,
+                parent: RecyclerView,
+                state: RecyclerView.State
+            ) {
+                val position = parent.getChildAdapterPosition(view)
+                val itemCount = state.itemCount
+                val context = parent.context
+
+                when (position) {
+                    0 -> {
+                        outRect.left =
+                            context.resources.getDimensionPixelOffset(R.dimen.movieverse_padding_medium)
+                    }
+
+                    (itemCount - 1) -> {
+                        outRect.right =
+                            context.resources.getDimensionPixelOffset(R.dimen.movieverse_padding_medium)
+                    }
+                }
             }
         })
 

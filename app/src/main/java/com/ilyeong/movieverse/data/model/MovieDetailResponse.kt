@@ -8,7 +8,7 @@ import kotlinx.serialization.Serializable
 data class MovieDetailResponse(
     @SerialName("adult") val adult: Boolean,
     @SerialName("backdrop_path") val backdropPath: String,
-    @SerialName("belongs_to_collection") val belongsToCollectionList: List<BelongsToCollectionResponse> = emptyList(),
+    @SerialName("belongs_to_collection") val belongsToCollection: BelongsToCollectionResponse? = null,
     @SerialName("budget") val budget: Int,
     @SerialName("genres") val genreList: List<GenreResponse>,
     @SerialName("homepage") val homepage: String,
