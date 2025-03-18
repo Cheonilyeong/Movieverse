@@ -11,6 +11,7 @@ data class Movie(
     val popularity: Double,
     val posterPath: String,
     val releaseDate: String,
+    val runtime: Int,
     val title: String,
     val video: Boolean,
     val voteAverage: Double,

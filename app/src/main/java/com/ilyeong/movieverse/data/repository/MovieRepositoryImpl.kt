@@ -3,6 +3,7 @@ package com.ilyeong.movieverse.data.repository
 import android.util.Log
 import com.ilyeong.movieverse.data.model.toDomain
 import com.ilyeong.movieverse.data.network.MovieApiService
+import com.ilyeong.movieverse.domain.model.Credit
 import com.ilyeong.movieverse.domain.model.Genre
 import com.ilyeong.movieverse.domain.model.Movie
 import com.ilyeong.movieverse.domain.model.TimeWindow
@@ -16,6 +17,11 @@ class MovieRepositoryImpl @Inject constructor(
         val movieDetail = apiService.getMovieDetail(movieId).toDomain()
         Log.d("MovieRepositoryImpl", "movieDetail: $movieDetail")
         emit(movieDetail)
+    }
+
+    override fun getMovieCredit(movieId: Int) = flow<Credit> {
+        val movieCredit = apiService.getMovieCredit(movieId).toDomain()
+        emit(movieCredit)
     }
 
     override fun getTopRatedMovieList() = flow<List<Movie>> {

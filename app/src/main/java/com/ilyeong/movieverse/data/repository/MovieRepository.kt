@@ -1,5 +1,6 @@
 package com.ilyeong.movieverse.data.repository
 
+import com.ilyeong.movieverse.domain.model.Credit
 import com.ilyeong.movieverse.domain.model.Genre
 import com.ilyeong.movieverse.domain.model.Movie
 import com.ilyeong.movieverse.domain.model.TimeWindow
@@ -8,6 +9,7 @@ import kotlinx.coroutines.flow.Flow
 interface MovieRepository {
 
     fun getMovieDetail(movieId: Int): Flow<Movie>
+    fun getMovieCredit(movieId: Int): Flow<Credit>
 
     fun getTopRatedMovieList(): Flow<List<Movie>>
     fun getUpcomingMovieList(): Flow<List<Movie>>

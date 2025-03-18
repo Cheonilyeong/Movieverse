@@ -16,27 +16,27 @@ data class MovieResponse(
     @SerialName("popularity") val popularity: Double,
     @SerialName("poster_path") val posterPath: String = "",
     @SerialName("release_date") val releaseDate: String,
+    @SerialName("runtime") val runtime: Int = 0,
     @SerialName("title") val title: String,
     @SerialName("video") val video: Boolean,
     @SerialName("vote_average") val voteAverage: Double,
     @SerialName("vote_count") val voteCount: Int
 )
 
-fun MovieResponse.toDomain(): Movie {
-    return Movie(
-        adult = adult,
-        backdropPath = "https://image.tmdb.org/t/p/original/$backdropPath",
-        genreIdList = genreIdList,
-        id = id,
-        originalLanguage = originalLanguage,
-        originalTitle = originalTitle,
-        overview = overview,
-        popularity = popularity,
-        posterPath = "https://image.tmdb.org/t/p/original/$posterPath",
-        releaseDate = releaseDate,
-        title = title,
-        video = video,
-        voteAverage = voteAverage,
-        voteCount = voteCount,
-    )
-}
+fun MovieResponse.toDomain() = Movie(
+    adult = adult,
+    backdropPath = "https://image.tmdb.org/t/p/original/$backdropPath",
+    genreIdList = genreIdList,
+    id = id,
+    originalLanguage = originalLanguage,
+    originalTitle = originalTitle,
+    overview = overview,
+    popularity = popularity,
+    posterPath = "https://image.tmdb.org/t/p/original/$posterPath",
+    releaseDate = releaseDate,
+    runtime = runtime,
+    title = title,
+    video = video,
+    voteAverage = voteAverage,
+    voteCount = voteCount,
+)
