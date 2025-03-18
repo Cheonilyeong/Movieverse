@@ -6,7 +6,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class RecommendationResponse(
+data class PartResponse(
     @SerialName("adult") val adult: Boolean,
     @SerialName("backdrop_path") val backdropPath: String = "",
     @SerialName("genre_ids") val genreIdList: List<Int>,
@@ -24,7 +24,7 @@ data class RecommendationResponse(
     @SerialName("vote_count") val voteCount: Int
 )
 
-fun RecommendationResponse.toDomain() = Movie(
+fun PartResponse.toDomain() = Movie(
     adult = adult,
     backdropPath = "https://image.tmdb.org/t/p/original/$backdropPath",
     collection = null,

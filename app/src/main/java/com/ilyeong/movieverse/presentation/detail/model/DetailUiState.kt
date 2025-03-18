@@ -10,6 +10,7 @@ sealed interface DetailUiState {
     data class Success(
         val movie: Movie,
         val cast: List<Cast>,
+        val collectionMovieList: List<Movie>,
         val movieRecommendationList: List<Movie>,
         val movieSimilarList: List<Movie>,
     ) : DetailUiState

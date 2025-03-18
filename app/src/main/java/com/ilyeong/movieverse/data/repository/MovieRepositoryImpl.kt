@@ -2,6 +2,7 @@ package com.ilyeong.movieverse.data.repository
 
 import com.ilyeong.movieverse.data.model.toDomain
 import com.ilyeong.movieverse.data.network.MovieApiService
+import com.ilyeong.movieverse.domain.model.Collection
 import com.ilyeong.movieverse.domain.model.Credit
 import com.ilyeong.movieverse.domain.model.Genre
 import com.ilyeong.movieverse.domain.model.Movie
@@ -20,6 +21,11 @@ class MovieRepositoryImpl @Inject constructor(
     override fun getMovieCredit(movieId: Int) = flow<Credit> {
         val movieCredit = apiService.getMovieCredit(movieId).toDomain()
         emit(movieCredit)
+    }
+
+    override fun getMovieCollection(collectionId: Int) = flow<Collection> {
+        val movieCollection = apiService.getMovieCollection(collectionId).toDomain()
+        emit(movieCollection)
     }
 
     override fun getMovieRecommendationList(movieId: Int) = flow<List<Movie>> {

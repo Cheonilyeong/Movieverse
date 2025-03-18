@@ -4,13 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.ilyeong.movieverse.R
 import com.ilyeong.movieverse.databinding.FragmentRecommendedBinding
 import com.ilyeong.movieverse.presentation.common.BaseFragment
 import com.ilyeong.movieverse.presentation.detail.model.DetailUiState
-import com.ilyeong.movieverse.presentation.home.HomeFragmentDirections
 import com.ilyeong.movieverse.presentation.home.adapter.SectionAdapter
 import com.ilyeong.movieverse.presentation.util.MovieClickListener
 import com.ilyeong.movieverse.presentation.util.MovieverseItemDecoration
@@ -23,7 +23,7 @@ class RecommendedFragment : BaseFragment<FragmentRecommendedBinding>() {
     private val viewModel: DetailViewModel by viewModels({ requireParentFragment() })
 
     private val movieClickListener = MovieClickListener { movieId ->
-        val action = HomeFragmentDirections.actionHomeFragmentToDetailFragment(movieId)
+        val action = DetailFragmentDirections.actionDetailFragmentToDetailFragment(movieId)
         findNavController().navigate(action)
     }
 
@@ -44,6 +44,12 @@ class RecommendedFragment : BaseFragment<FragmentRecommendedBinding>() {
                     }
 
                     is DetailUiState.Success -> {
+                        binding.movieSection1.tvTitle.isVisible =
+                            it.collectionMovieList.isEmpty().not()
+                        binding.movieSection1.rvMovieList.isVisible =
+                            it.collectionMovieList.isEmpty().not()
+
+                        collectionAdapter.submitList(it.collectionMovieList)
                         recommendationAdapter.submitList(it.movieRecommendationList)
                         similarAdapter.submitList(it.movieSimilarList)
                     }

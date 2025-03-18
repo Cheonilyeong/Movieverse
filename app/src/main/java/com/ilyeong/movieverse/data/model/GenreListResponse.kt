@@ -6,7 +6,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class GenreListResponse(
-    @SerialName("genres") val genreList: List<GenreResponse>
+    @SerialName("genres") val genreList: List<GenreResponse> = emptyList()
 )
 
 @Serializable

@@ -10,7 +10,7 @@ data class MovieDetailResponse(
     @SerialName("backdrop_path") val backdropPath: String,
     @SerialName("belongs_to_collection") val belongsToCollection: BelongsToCollectionResponse? = null,
     @SerialName("budget") val budget: Int,
-    @SerialName("genres") val genreList: List<GenreResponse>,
+    @SerialName("genres") val genreList: List<GenreResponse> = emptyList(),
     @SerialName("homepage") val homepage: String,
     @SerialName("id") val id: Int,
     @SerialName("imdb_id") val imdbId: String,
@@ -37,6 +37,7 @@ data class MovieDetailResponse(
 fun MovieDetailResponse.toDomain() = Movie(
     adult = adult,
     backdropPath = "https://image.tmdb.org/t/p/original/$backdropPath",
+    collection = belongsToCollection?.toDomain(),
     genreList = genreList.map { it.toDomain() },
     id = id,
     originalLanguage = originalLanguage,

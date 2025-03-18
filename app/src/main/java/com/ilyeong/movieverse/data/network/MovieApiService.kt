@@ -1,5 +1,6 @@
 package com.ilyeong.movieverse.data.network
 
+import com.ilyeong.movieverse.data.model.CollectionResponse
 import com.ilyeong.movieverse.data.model.CreditResponse
 import com.ilyeong.movieverse.data.model.GenreListResponse
 import com.ilyeong.movieverse.data.model.MovieDetailResponse
@@ -20,6 +21,9 @@ interface MovieApiService {
 
     @GET("movie/{movie_id}/credits")
     suspend fun getMovieCredit(@Path("movie_id") movieId: Int): CreditResponse
+
+    @GET("collection/{collection_id}")
+    suspend fun getMovieCollection(@Path("collection_id") collectionId: Int): CollectionResponse
 
     @GET("movie/{movie_id}/recommendations")
     suspend fun getMovieRecommendationList(@Path("movie_id") movieId: Int): RecommendationListResponse

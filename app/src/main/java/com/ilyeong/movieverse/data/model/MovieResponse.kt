@@ -26,6 +26,7 @@ data class MovieResponse(
 fun MovieResponse.toDomain() = Movie(
     adult = adult,
     backdropPath = "https://image.tmdb.org/t/p/original/$backdropPath",
+    collection = null,
     genreList = genreIdList.map { Genre(it, "") },
     id = id,
     originalLanguage = originalLanguage,

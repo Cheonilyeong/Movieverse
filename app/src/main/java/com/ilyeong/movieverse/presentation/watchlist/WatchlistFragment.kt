@@ -28,7 +28,7 @@ class WatchlistFragment : BaseFragment<FragmentWatchlistBinding>() {
     private val viewModel: WatchlistViewModel by viewModels()
 
     private val movieClickListener = MovieClickListener { movieId ->
-        val action = WatchlistFragmentDirections.actionHomeFragmentToDetailFragment(movieId)
+        val action = WatchlistFragmentDirections.actionWatchlistFragmentToDetailFragment(movieId)
         findNavController().navigate(action)
     }
 

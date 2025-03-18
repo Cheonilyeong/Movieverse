@@ -2,6 +2,7 @@ package com.ilyeong.movieverse.domain.model
 
 data class Movie(
     val adult: Boolean,
+    val collection: Collection?,
     val backdropPath: String,
     val genreList: List<Genre>,
     val id: Int,

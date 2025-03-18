@@ -18,7 +18,7 @@
         android:name="com.ilyeong.movieverse.presentation.watchlist.WatchlistFragment"
         android:label="@string/watchlist">
         <action
-            android:id="@+id/action_home_fragment_to_detail_fragment"
+            android:id="@+id/action_watchlist_fragment_to_detail_fragment"
             app:destination="@id/detail_fragment" />
     </fragment>
 
@@ -34,6 +34,9 @@
         <argument
             android:name="movieId"
             app:argType="integer" />
+        <action
+            android:id="@+id/action_detail_fragment_to_detail_fragment"
+            app:destination="@id/detail_fragment" />
     </fragment>
 
 </navigation>

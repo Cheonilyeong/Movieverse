@@ -8,14 +8,14 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class SimilarResponse(
     @SerialName("adult") val adult: Boolean,
-    @SerialName("backdrop_path") val backdropPath: String,
-    @SerialName("genre_ids") val genreIdList: List<Int>,
+    @SerialName("backdrop_path") val backdropPath: String = "",
+    @SerialName("genre_ids") val genreIdList: List<Int> = emptyList(),
     @SerialName("id") val id: Int,
     @SerialName("original_language") val originalLanguage: String,
     @SerialName("original_title") val originalTitle: String,
     @SerialName("overview") val overview: String,
     @SerialName("popularity") val popularity: Double,
-    @SerialName("poster_path") val posterPath: String,
+    @SerialName("poster_path") val posterPath: String = "",
     @SerialName("release_date") val releaseDate: String,
     @SerialName("title") val title: String,
     @SerialName("video") val video: Boolean,
@@ -26,6 +26,7 @@ data class SimilarResponse(
 fun SimilarResponse.toDomain() = Movie(
     adult = adult,
     backdropPath = "https://image.tmdb.org/t/p/original/$backdropPath",
+    collection = null,
     genreList = genreIdList.map { Genre(it, "") },
     id = id,
     originalLanguage = originalLanguage,
