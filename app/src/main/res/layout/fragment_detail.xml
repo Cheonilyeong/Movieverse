@@ -72,6 +72,7 @@
         android:background="@color/black"
         app:tabTextColor="@color/tab_menu_selector"
         app:tabIndicatorColor="@color/white"
+        app:tabGravity="center"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/poster_default">
 

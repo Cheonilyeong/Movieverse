@@ -88,6 +88,7 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>() {
         TabLayoutMediator(binding.tl, binding.vpTab) { tab, position ->
             when (position) {
                 0 -> tab.text = getString(R.string.information)
+                1 -> tab.text = getString(R.string.recommended)
             }
         }.attach()
     }
