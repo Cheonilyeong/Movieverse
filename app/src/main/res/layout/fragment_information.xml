@@ -23,6 +23,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColor="@color/gray"
+        android:lineSpacingExtra="@dimen/movieverse_padding_small"
         android:maxLines="5"
         android:ellipsize="end"
         android:layout_marginHorizontal="20dp"
