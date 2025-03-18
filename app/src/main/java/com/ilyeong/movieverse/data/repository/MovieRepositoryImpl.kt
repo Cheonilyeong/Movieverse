@@ -29,6 +29,12 @@ class MovieRepositoryImpl @Inject constructor(
         emit(recommendationList)
     }
 
+    override fun getMovieSimilarList(movieId: Int) = flow<List<Movie>> {
+        val similarList =
+            apiService.getMovieSimilarList(movieId).similarList.map { it.toDomain() }
+        emit(similarList)
+    }
+
     override fun getTopRatedMovieList() = flow<List<Movie>> {
         val topRatedMovieList = apiService.getTopRatedMovieList().resultList.map { it.toDomain() }
         emit(topRatedMovieList)

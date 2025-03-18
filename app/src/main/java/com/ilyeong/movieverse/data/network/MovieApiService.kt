@@ -6,6 +6,7 @@ import com.ilyeong.movieverse.data.model.MovieDetailResponse
 import com.ilyeong.movieverse.data.model.NowPlayingResponse
 import com.ilyeong.movieverse.data.model.PopularResponse
 import com.ilyeong.movieverse.data.model.RecommendationListResponse
+import com.ilyeong.movieverse.data.model.SimilarListResponse
 import com.ilyeong.movieverse.data.model.TopRatedResponse
 import com.ilyeong.movieverse.data.model.TrendingResponse
 import com.ilyeong.movieverse.data.model.UpComingResponse
@@ -22,6 +23,9 @@ interface MovieApiService {
 
     @GET("movie/{movie_id}/recommendations")
     suspend fun getMovieRecommendationList(@Path("movie_id") movieId: Int): RecommendationListResponse
+
+    @GET("movie/{movie_id}/similar")
+    suspend fun getMovieSimilarList(@Path("movie_id") movieId: Int): SimilarListResponse
 
     @GET("movie/top_rated")
     suspend fun getTopRatedMovieList(): TopRatedResponse

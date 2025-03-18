@@ -45,6 +45,7 @@ class RecommendedFragment : BaseFragment<FragmentRecommendedBinding>() {
 
                     is DetailUiState.Success -> {
                         recommendationAdapter.submitList(it.movieRecommendationList)
+                        similarAdapter.submitList(it.movieSimilarList)
                     }
 
                     is DetailUiState.Failure -> {
