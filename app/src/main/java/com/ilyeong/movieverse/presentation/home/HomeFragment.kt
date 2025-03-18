@@ -21,8 +21,8 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
-    override val viewBindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentHomeBinding
-        get() = FragmentHomeBinding::inflate
+    override val viewBindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentHomeBinding =
+        FragmentHomeBinding::inflate
 
     private val viewModel: HomeViewModel by viewModels()
 

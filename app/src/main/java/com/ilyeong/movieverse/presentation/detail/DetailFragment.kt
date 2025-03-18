@@ -20,8 +20,8 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class DetailFragment : BaseFragment<FragmentDetailBinding>() {
 
-    override val viewBindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentDetailBinding
-        get() = FragmentDetailBinding::inflate
+    override val viewBindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentDetailBinding =
+        FragmentDetailBinding::inflate
 
     private val viewModel: DetailViewModel by viewModels()
 

@@ -17,8 +17,8 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class MainActivity : BaseActivity<ActivityMainBinding>() {
 
-    override val viewBindingInflater: (inflater: LayoutInflater) -> ActivityMainBinding
-        get() = ActivityMainBinding::inflate
+    override val viewBindingInflater: (inflater: LayoutInflater) -> ActivityMainBinding =
+        ActivityMainBinding::inflate
 
     private lateinit var navController: NavController
 
