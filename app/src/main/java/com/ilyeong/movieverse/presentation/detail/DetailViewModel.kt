@@ -10,8 +10,8 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.update
 import javax.inject.Inject
@@ -26,20 +26,21 @@ class DetailViewModel @Inject constructor(
     val uiState: StateFlow<DetailUiState> = _uiState.asStateFlow()
 
     fun loadData(movieId: Int) {
-        movieRepository.getMovieDetail(movieId = movieId)
-            .onStart {
-                // todo
+        val movieDetail = movieRepository.getMovieDetail(movieId = movieId)
+        val movieCredit = movieRepository.getMovieCredit(movieId = movieId)
+
+        combine(movieDetail, movieCredit) { movie, credit ->
+            _uiState.update {
+                DetailUiState.Success(
+                    movie = movie,
+                    cast = credit.cast
+                )
             }
-            .catch {
-                Log.d("DetailViewModel", "error: $it")
-                // todo
-            }
-            .onEach { movie ->
-                Log.d("DetailViewModel", "movie: $movie")
-                _uiState.update {
-                    DetailUiState.Success(movie = movie)
-                }
-            }
-            .launchIn(viewModelScope)
+        }.onStart {
+            // todo
+        }.catch {
+            Log.d("DetailViewModel", "error: $it")
+            // todo
+        }.launchIn(viewModelScope)
     }
 }

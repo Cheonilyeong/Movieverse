@@ -9,8 +9,11 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import coil3.load
 import coil3.request.crossfade
+import com.google.android.material.tabs.TabLayoutMediator
+import com.ilyeong.movieverse.R
 import com.ilyeong.movieverse.databinding.FragmentDetailBinding
 import com.ilyeong.movieverse.presentation.common.BaseFragment
+import com.ilyeong.movieverse.presentation.detail.adapter.DetailTabAdapter
 import com.ilyeong.movieverse.presentation.detail.model.DetailUiState
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -33,7 +36,8 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>() {
         super.onViewCreated(view, savedInstanceState)
 
         setToolBarNavigationIcon()
-        
+        setMovieTab()
+
         repeatOnViewStarted {
             viewModel.uiState.collect {
                 when (it) {
@@ -43,6 +47,7 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>() {
 
                     is DetailUiState.Success -> {
                         val movie = it.movie
+
                         binding.ivBackdrop.load(movie.backdropPath) {
                             crossfade(true)
                         }
@@ -75,5 +80,15 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>() {
         binding.tb.setNavigationOnClickListener {
             findNavController().navigateUp()
         }
+    }
+
+    private fun setMovieTab() {
+        binding.vpTab.adapter = DetailTabAdapter(this)
+
+        TabLayoutMediator(binding.tl, binding.vpTab) { tab, position ->
+            when (position) {
+                0 -> tab.text = getString(R.string.information)
+            }
+        }.attach()
     }
 }
