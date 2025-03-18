@@ -18,6 +18,7 @@ import com.ilyeong.movieverse.presentation.home.adapter.GenreAdapter
 import com.ilyeong.movieverse.presentation.home.adapter.SectionAdapter
 import com.ilyeong.movieverse.presentation.home.model.HomeUiState
 import com.ilyeong.movieverse.presentation.util.MovieClickListener
+import com.ilyeong.movieverse.presentation.util.MovieverseItemDecoration
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -85,30 +86,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
     private fun setMovieGenre() {
         binding.rvMovieGenre.adapter = genreAdapter
-        binding.rvMovieGenre.addItemDecoration(object : ItemDecoration() {
-            override fun getItemOffsets(
-                outRect: Rect,
-                view: View,
-                parent: RecyclerView,
-                state: RecyclerView.State
-            ) {
-                val position = parent.getChildAdapterPosition(view)
-                val itemCount = state.itemCount
-                val context = parent.context
-
-                when (position) {
-                    0 -> {
-                        outRect.left =
-                            context.resources.getDimensionPixelOffset(R.dimen.movieverse_padding_medium)
-                    }
-
-                    (itemCount - 1) -> {
-                        outRect.right =
-                            context.resources.getDimensionPixelOffset(R.dimen.movieverse_padding_medium)
-                    }
-                }
-            }
-        })
+        binding.rvMovieGenre.addItemDecoration(MovieverseItemDecoration())
     }
 
     private fun setMovieSection() {
