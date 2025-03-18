@@ -23,7 +23,7 @@ class CastViewHolder private constructor(
     }
 
     companion object {
-        fun from(parent: ViewGroup): CastViewHolder {
+        fun create(parent: ViewGroup): CastViewHolder {
             val layoutInflater = LayoutInflater.from(parent.context)
             val binding = ItemMovieCastBinding.inflate(layoutInflater, parent, false)
             return CastViewHolder(binding)

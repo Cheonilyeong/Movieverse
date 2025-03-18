@@ -38,7 +38,6 @@
         android:textStyle="bold"
         android:textSize="20sp"
         android:layout_marginHorizontal="@dimen/movieverse_padding_large"
-        android:layout_marginBottom="@dimen/movieverse_padding_small"
         tools:text="주요 등장인물" />
 
     <androidx.recyclerview.widget.RecyclerView

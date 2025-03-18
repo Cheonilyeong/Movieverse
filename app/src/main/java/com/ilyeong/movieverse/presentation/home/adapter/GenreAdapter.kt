@@ -20,7 +20,7 @@ class GenreAdapter : ListAdapter<Genre, GenreViewHolder>(genreDiffUtil) {
     }
 }
 
-val genreDiffUtil = object : DiffUtil.ItemCallback<Genre>() {
+private val genreDiffUtil = object : DiffUtil.ItemCallback<Genre>() {
     override fun areItemsTheSame(
         oldItem: Genre,
         newItem: Genre

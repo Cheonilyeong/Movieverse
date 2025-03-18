@@ -5,7 +5,6 @@
     android:id="@+id/chip_genre"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_marginHorizontal="@dimen/movieverse_padding_small"
     android:textColor="@color/white"
     app:chipBackgroundColor="@color/dark_gray"
     style="@style/Widget.Material3.Chip.Suggestion.Elevated"

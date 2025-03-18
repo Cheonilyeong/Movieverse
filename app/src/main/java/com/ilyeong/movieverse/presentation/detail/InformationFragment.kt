@@ -22,11 +22,17 @@ class InformationFragment : BaseFragment<FragmentInformationBinding>() {
 
     private val viewModel: DetailViewModel by viewModels({ requireParentFragment() })
 
+    private val castAdapter = CastAdapter()
+    private val genreAdapter = GenreAdapter()
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.rvMovieCast.addItemDecoration(MovieverseItemDecoration())
-        binding.rvMovieGenre.addItemDecoration(MovieverseItemDecoration())
+        binding.rvMovieCast.adapter = castAdapter
+        binding.rvMovieGenre.adapter = genreAdapter
+
+        binding.rvMovieCast.addItemDecoration(MovieverseItemDecoration)
+        binding.rvMovieGenre.addItemDecoration(MovieverseItemDecoration)
 
         repeatOnViewStarted {
             viewModel.uiState.collect {
@@ -40,10 +46,7 @@ class InformationFragment : BaseFragment<FragmentInformationBinding>() {
 
                         binding.tvOverview.text = movie.overview
 
-                        binding.rvMovieCast.adapter = CastAdapter(it.cast)
-
-                        val genreAdapter = GenreAdapter()
-                        binding.rvMovieGenre.adapter = genreAdapter
+                        castAdapter.submitList(it.cast)
                         genreAdapter.submitList(movie.genreList)
 
                         binding.tvRelease.text = getString(R.string.release, movie.releaseDate)

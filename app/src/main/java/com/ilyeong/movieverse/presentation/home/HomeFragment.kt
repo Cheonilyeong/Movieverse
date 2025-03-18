@@ -1,14 +1,11 @@
 package com.ilyeong.movieverse.presentation.home
 
-import android.graphics.Rect
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.RecyclerView.ItemDecoration
 import androidx.viewpager2.widget.MarginPageTransformer
 import com.ilyeong.movieverse.R
 import com.ilyeong.movieverse.databinding.FragmentHomeBinding
@@ -86,7 +83,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
     private fun setMovieGenre() {
         binding.rvMovieGenre.adapter = genreAdapter
-        binding.rvMovieGenre.addItemDecoration(MovieverseItemDecoration())
+        binding.rvMovieGenre.addItemDecoration(MovieverseItemDecoration)
     }
 
     private fun setMovieSection() {
@@ -97,41 +94,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         binding.movieSection5.tvTitle.text = getString(R.string.movie_section_trending_week)
         binding.movieSection6.tvTitle.text = getString(R.string.movie_section_watchlist)
 
-        val itemDecoration = object : ItemDecoration() {
-            override fun getItemOffsets(
-                outRect: Rect,
-                view: View,
-                parent: RecyclerView,
-                state: RecyclerView.State
-            ) {
-                val position = parent.getChildAdapterPosition(view)
-                val itemCount = state.itemCount
-                val resources = parent.context.resources
-
-                val smallPadding =
-                    resources.getDimensionPixelOffset(R.dimen.movieverse_padding_small)
-                val largePadding =
-                    resources.getDimensionPixelOffset(R.dimen.movieverse_padding_large)
-
-                outRect.top = smallPadding
-                outRect.bottom = smallPadding
-                outRect.left = smallPadding
-                outRect.right = smallPadding
-
-                when (position) {
-                    0 -> {
-                        outRect.left = largePadding
-                        outRect.right = smallPadding
-                    }
-
-                    itemCount - 1 -> {
-                        outRect.left = smallPadding
-                        outRect.right = largePadding
-                    }
-                }
-            }
-        }
-
         binding.movieSection1.rvMovieList.adapter = topRatedAdapter
         binding.movieSection2.rvMovieList.adapter = upcomingAdapter
         binding.movieSection3.rvMovieList.adapter = popularAdapter
@@ -139,11 +101,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         binding.movieSection5.rvMovieList.adapter = trendingAdapter
         binding.movieSection6.rvMovieList.adapter = watchlistAdapter
 
-        binding.movieSection1.rvMovieList.addItemDecoration(itemDecoration)
-        binding.movieSection2.rvMovieList.addItemDecoration(itemDecoration)
-        binding.movieSection3.rvMovieList.addItemDecoration(itemDecoration)
-        binding.movieSection4.rvMovieList.addItemDecoration(itemDecoration)
-        binding.movieSection5.rvMovieList.addItemDecoration(itemDecoration)
-        binding.movieSection6.rvMovieList.addItemDecoration(itemDecoration)
+        binding.movieSection1.rvMovieList.addItemDecoration(MovieverseItemDecoration)
+        binding.movieSection2.rvMovieList.addItemDecoration(MovieverseItemDecoration)
+        binding.movieSection3.rvMovieList.addItemDecoration(MovieverseItemDecoration)
+        binding.movieSection4.rvMovieList.addItemDecoration(MovieverseItemDecoration)
+        binding.movieSection5.rvMovieList.addItemDecoration(MovieverseItemDecoration)
+        binding.movieSection6.rvMovieList.addItemDecoration(MovieverseItemDecoration)
     }
 }

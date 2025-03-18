@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ItemDecoration
 import com.ilyeong.movieverse.R
 
-class MovieverseItemDecoration : ItemDecoration() {
+object MovieverseItemDecoration : ItemDecoration() {
     override fun getItemOffsets(
         outRect: Rect,
         view: View,
@@ -15,17 +15,27 @@ class MovieverseItemDecoration : ItemDecoration() {
     ) {
         val position = parent.getChildAdapterPosition(view)
         val itemCount = state.itemCount
-        val context = parent.context
+        val resources = parent.context.resources
+
+        val smallPadding =
+            resources.getDimensionPixelOffset(R.dimen.movieverse_padding_small)
+        val largePadding =
+            resources.getDimensionPixelOffset(R.dimen.movieverse_padding_large)
+
+        outRect.top = smallPadding
+        outRect.bottom = smallPadding
+        outRect.left = smallPadding
+        outRect.right = smallPadding
 
         when (position) {
             0 -> {
-                outRect.left =
-                    context.resources.getDimensionPixelOffset(R.dimen.movieverse_padding_medium)
+                outRect.left = largePadding
+                outRect.right = smallPadding
             }
 
-            (itemCount - 1) -> {
-                outRect.right =
-                    context.resources.getDimensionPixelOffset(R.dimen.movieverse_padding_medium)
+            itemCount - 1 -> {
+                outRect.left = smallPadding
+                outRect.right = largePadding
             }
         }
     }
