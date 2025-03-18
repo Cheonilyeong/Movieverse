@@ -13,6 +13,7 @@ import com.ilyeong.movieverse.databinding.FragmentInformationBinding
 import com.ilyeong.movieverse.presentation.common.BaseFragment
 import com.ilyeong.movieverse.presentation.detail.adapter.CastAdapter
 import com.ilyeong.movieverse.presentation.detail.model.DetailUiState
+import com.ilyeong.movieverse.presentation.home.adapter.GenreAdapter
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -52,6 +53,10 @@ class InformationFragment : BaseFragment<FragmentInformationBinding>() {
                         binding.tvOverview.text = movie.overview
 
                         binding.rvMovieCast.adapter = CastAdapter(it.cast)
+
+                        val genreAdapter = GenreAdapter()
+                        binding.rvMovieGenre.adapter = genreAdapter
+                        genreAdapter.submitList(movie.genreList)
 
                         binding.tvRelease.text = getString(R.string.release, movie.releaseDate)
                         when (movie.runtime) {

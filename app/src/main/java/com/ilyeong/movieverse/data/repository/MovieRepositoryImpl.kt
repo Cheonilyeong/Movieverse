@@ -1,6 +1,5 @@
 package com.ilyeong.movieverse.data.repository
 
-import android.util.Log
 import com.ilyeong.movieverse.data.model.toDomain
 import com.ilyeong.movieverse.data.network.MovieApiService
 import com.ilyeong.movieverse.domain.model.Credit
@@ -15,7 +14,6 @@ class MovieRepositoryImpl @Inject constructor(
 ) : MovieRepository {
     override fun getMovieDetail(movieId: Int) = flow<Movie> {
         val movieDetail = apiService.getMovieDetail(movieId).toDomain()
-        Log.d("MovieRepositoryImpl", "movieDetail: $movieDetail")
         emit(movieDetail)
     }
 

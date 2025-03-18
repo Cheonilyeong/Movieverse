@@ -1,5 +1,6 @@
 package com.ilyeong.movieverse.data.model
 
+import com.ilyeong.movieverse.domain.model.Genre
 import com.ilyeong.movieverse.domain.model.Movie
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -16,7 +17,6 @@ data class MovieResponse(
     @SerialName("popularity") val popularity: Double,
     @SerialName("poster_path") val posterPath: String = "",
     @SerialName("release_date") val releaseDate: String,
-    @SerialName("runtime") val runtime: Int = 0,
     @SerialName("title") val title: String,
     @SerialName("video") val video: Boolean,
     @SerialName("vote_average") val voteAverage: Double,
@@ -26,7 +26,7 @@ data class MovieResponse(
 fun MovieResponse.toDomain() = Movie(
     adult = adult,
     backdropPath = "https://image.tmdb.org/t/p/original/$backdropPath",
-    genreIdList = genreIdList,
+    genreList = genreIdList.map { Genre(it, "") },
     id = id,
     originalLanguage = originalLanguage,
     originalTitle = originalTitle,
@@ -34,7 +34,7 @@ fun MovieResponse.toDomain() = Movie(
     popularity = popularity,
     posterPath = "https://image.tmdb.org/t/p/original/$posterPath",
     releaseDate = releaseDate,
-    runtime = runtime,
+    runtime = 0,
     title = title,
     video = video,
     voteAverage = voteAverage,
