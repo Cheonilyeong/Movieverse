@@ -90,6 +90,7 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>() {
             when (position) {
                 0 -> tab.text = getString(R.string.information)
                 1 -> tab.text = getString(R.string.recommended)
+                2 -> tab.text = getString(R.string.review)
             }
         }.attach()
     }
