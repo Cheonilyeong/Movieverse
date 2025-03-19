@@ -13,9 +13,7 @@ import com.ilyeong.movieverse.presentation.detail.adapter.CastAdapter
 import com.ilyeong.movieverse.presentation.detail.model.DetailUiState
 import com.ilyeong.movieverse.presentation.home.adapter.GenreAdapter
 import com.ilyeong.movieverse.presentation.util.MovieverseItemDecoration
-import dagger.hilt.android.AndroidEntryPoint
 
-@AndroidEntryPoint
 class InformationFragment : BaseFragment<FragmentInformationBinding>() {
 
     override val viewBindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentInformationBinding =
