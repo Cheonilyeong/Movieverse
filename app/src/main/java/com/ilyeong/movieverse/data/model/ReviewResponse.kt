@@ -3,6 +3,9 @@ package com.ilyeong.movieverse.data.model
 import com.ilyeong.movieverse.domain.model.Review
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import java.text.SimpleDateFormat
+import java.util.Locale
+import java.util.TimeZone
 
 @Serializable
 data class ReviewResponse(
@@ -19,8 +22,22 @@ fun ReviewResponse.toDomain() = Review(
     author = author,
     authorDetails = authorDetailsResponse.toDomain(),
     content = content,
-    createdAt = createdAt,
+    createdAt = parseUtcToLocal(createdAt),
     id = id,
-    updatedAt = updatedAt,
+    updatedAt = parseUtcToLocal(updatedAt),
     url = url
 )
+
+fun parseUtcToLocal(dateString: String): String {
+    val utcFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault()).apply {
+        timeZone = TimeZone.getTimeZone("UTC") // UTC 기준으로 해석
+    }
+
+    val date = utcFormat.parse(dateString) ?: return "????-??-??"
+
+    val localFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).apply {
+        timeZone = TimeZone.getDefault() // 로컬 시간대로 변환
+    }
+
+    return localFormat.format(date)
+}

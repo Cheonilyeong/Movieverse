@@ -38,6 +38,29 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>() {
         setToolBarNavigationIcon()
         setMovieTab()
 
+        observeUiState()
+    }
+
+    private fun setToolBarNavigationIcon() {
+        binding.tb.setNavigationOnClickListener {
+            findNavController().navigateUp()
+        }
+    }
+
+    private fun setMovieTab() {
+        binding.vpTab.adapter = DetailTabAdapter(this)
+        binding.vpTab.setUserInputEnabled(false)
+
+        TabLayoutMediator(binding.tl, binding.vpTab) { tab, position ->
+            when (position) {
+                0 -> tab.text = getString(R.string.information)
+                1 -> tab.text = getString(R.string.recommended)
+                2 -> tab.text = getString(R.string.review)
+            }
+        }.attach()
+    }
+
+    private fun observeUiState() {
         repeatOnViewStarted {
             viewModel.uiState.collect {
                 when (it) {
@@ -74,24 +97,5 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>() {
                 }
             }
         }
-    }
-
-    private fun setToolBarNavigationIcon() {
-        binding.tb.setNavigationOnClickListener {
-            findNavController().navigateUp()
-        }
-    }
-
-    private fun setMovieTab() {
-        binding.vpTab.adapter = DetailTabAdapter(this)
-        binding.vpTab.setUserInputEnabled(false)
-
-        TabLayoutMediator(binding.tl, binding.vpTab) { tab, position ->
-            when (position) {
-                0 -> tab.text = getString(R.string.information)
-                1 -> tab.text = getString(R.string.recommended)
-                2 -> tab.text = getString(R.string.review)
-            }
-        }.attach()
     }
 }

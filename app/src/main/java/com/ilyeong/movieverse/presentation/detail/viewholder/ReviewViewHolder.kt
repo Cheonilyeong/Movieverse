@@ -21,11 +21,13 @@ class ReviewViewHolder private constructor(
         }
 
         binding.tvUserName.text = review.authorDetails.username
+        binding.tvDay.text = review.updatedAt
 
         binding.rrv.rating = review.authorDetails.rating.toDouble()
         binding.rrv.ratingCountIsVisible = false
 
         binding.tvContent.text = review.content
+        binding.tvContent.maxLines = 3
         binding.tvContent.setOnClickListener {
             when (binding.tvContent.maxLines) {
                 3 -> binding.tvContent.maxLines = Int.MAX_VALUE

@@ -53,6 +53,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:textColor="@color/gray"
+        android:textSize="11sp"
         app:layout_constraintTop_toBottomOf="@id/tv_user_name"
         app:layout_constraintStart_toStartOf="@id/tv_user_name"
         tools:text="2021-10-24" />

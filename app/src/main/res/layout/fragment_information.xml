@@ -50,6 +50,16 @@
         tools:listitem="@layout/item_movie_cast" />
 
     <TextView
+        android:id="@+id/tv_movie_cast_empty"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/gray"
+        android:text="@string/info_empty"
+        android:layout_marginTop="@dimen/movieverse_padding_small"
+        android:layout_marginHorizontal="@dimen/movieverse_padding_large"
+        android:layout_marginBottom="@dimen/movieverse_padding_large" />
+
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/genre"
@@ -66,6 +76,15 @@
         android:layout_marginBottom="@dimen/movieverse_padding_large"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         tools:listitem="@layout/item_movie_genre_chip" />
+
+    <TextView
+        android:id="@+id/tv_movie_genre_empty"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/gray"
+        android:text="@string/info_empty"
+        android:layout_marginHorizontal="@dimen/movieverse_padding_large"
+        android:layout_marginBottom="@dimen/movieverse_padding_large" />
 
     <TextView
         android:layout_width="match_parent"

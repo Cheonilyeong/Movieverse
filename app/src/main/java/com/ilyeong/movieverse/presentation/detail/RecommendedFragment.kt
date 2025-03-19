@@ -34,45 +34,73 @@ class RecommendedFragment : BaseFragment<FragmentRecommendedBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setAdapter()
+        setCollection()
+        setRecommendation()
+        setSimilar()
 
+        observeUiState()
+    }
+
+    private fun setCollection() {
+        binding.movieSection1.tvTitle.text = getString(R.string.movie_section_collection)
+        binding.movieSection1.rvMovieList.adapter = collectionAdapter
+        binding.movieSection1.rvMovieList.addItemDecoration(MovieverseItemDecoration)
+    }
+
+    private fun setRecommendation() {
+        binding.movieSection2.tvTitle.text = getString(R.string.movie_section_recommendation)
+        binding.movieSection2.rvMovieList.adapter = recommendationAdapter
+        binding.movieSection2.rvMovieList.addItemDecoration(MovieverseItemDecoration)
+    }
+
+    private fun setSimilar() {
+        binding.movieSection3.tvTitle.text = getString(R.string.movie_section_similar)
+        binding.movieSection3.rvMovieList.adapter = similarAdapter
+        binding.movieSection3.rvMovieList.addItemDecoration(MovieverseItemDecoration)
+    }
+
+    private fun observeUiState() {
         repeatOnViewStarted {
             viewModel.uiState.collect {
                 when (it) {
                     is DetailUiState.Loading -> {
-                        // todo
+                        /* no-op */
                     }
 
                     is DetailUiState.Success -> {
+                        // 시리즈 영화
+                        collectionAdapter.submitList(it.collectionMovieList)
                         binding.movieSection1.tvTitle.isVisible =
                             it.collectionMovieList.isEmpty().not()
                         binding.movieSection1.rvMovieList.isVisible =
                             it.collectionMovieList.isEmpty().not()
 
-                        collectionAdapter.submitList(it.collectionMovieList)
+                        // 추천 영화
                         recommendationAdapter.submitList(it.movieRecommendationList)
+                        binding.movieSection2.tvTitle.isVisible =
+                            it.movieRecommendationList.isEmpty().not()
+                        binding.movieSection2.rvMovieList.isVisible =
+                            it.movieRecommendationList.isEmpty().not()
+
+                        // 관련 영화
                         similarAdapter.submitList(it.movieSimilarList)
+                        binding.movieSection3.tvTitle.isVisible =
+                            it.movieSimilarList.isEmpty().not()
+                        binding.movieSection3.rvMovieList.isVisible =
+                            it.movieSimilarList.isEmpty().not()
+
+                        // 빈 화면
+                        binding.tvReviewEmpty.isVisible =
+                            it.collectionMovieList.isEmpty()
+                                    && it.movieRecommendationList.isEmpty()
+                                    && it.movieSimilarList.isEmpty()
                     }
 
                     is DetailUiState.Failure -> {
-                        // todo
+                        /* no-op */
                     }
                 }
             }
         }
-    }
-
-    private fun setAdapter() {
-        binding.movieSection1.tvTitle.text = getString(R.string.movie_section_collection)
-        binding.movieSection2.tvTitle.text = getString(R.string.movie_section_recommendation)
-        binding.movieSection3.tvTitle.text = getString(R.string.movie_section_similar)
-
-        binding.movieSection1.rvMovieList.adapter = collectionAdapter
-        binding.movieSection2.rvMovieList.adapter = recommendationAdapter
-        binding.movieSection3.rvMovieList.adapter = similarAdapter
-
-        binding.movieSection1.rvMovieList.addItemDecoration(MovieverseItemDecoration)
-        binding.movieSection2.rvMovieList.addItemDecoration(MovieverseItemDecoration)
-        binding.movieSection3.rvMovieList.addItemDecoration(MovieverseItemDecoration)
     }
 }

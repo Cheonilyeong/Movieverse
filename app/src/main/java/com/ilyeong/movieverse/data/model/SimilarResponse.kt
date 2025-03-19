@@ -36,6 +36,7 @@ fun SimilarResponse.toDomain() = Movie(
     posterPath = "https://image.tmdb.org/t/p/original/$posterPath",
     releaseDate = releaseDate,
     runtime = 0,
+    spokenLanguageList = emptyList(),
     title = title,
     video = video,
     voteAverage = voteAverage,

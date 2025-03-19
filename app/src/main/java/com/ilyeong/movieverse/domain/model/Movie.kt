@@ -13,6 +13,7 @@ data class Movie(
     val posterPath: String,
     val releaseDate: String,
     val runtime: Int,
+    val spokenLanguageList: List<SpokenLanguage>,
     val title: String,
     val video: Boolean,
     val voteAverage: Double,

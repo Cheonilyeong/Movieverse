@@ -20,9 +20,14 @@
     <string name="genre">장르</string>
     <string name="more_info">추가 정보</string>
     <string name="release">개봉일 &#160;&#160;&#160; %s</string>
-    <string name="runtime_long">재생시간 &#160;&#160;&#160; %d시 %d분</string>
+    <string name="runtime_long">재생시간 &#160;&#160;&#160; %d시간 %d분</string>
     <string name="runtime_short">재생시간 &#160;&#160;&#160; %d분</string>
     <string name="language">오디오 &#160;&#160;&#160; %s</string>
+
+    <string name="info_empty">정보가 없습니다.</string>
+    <string name="release_empty">개봉일 &#160;&#160;&#160; 정보가 없습니다.</string>
+    <string name="runtime_empty">재생시간 &#160;&#160;&#160; 정보가 없습니다.</string>
+    <string name="language_empty">오디오 &#160;&#160;&#160; 정보가 없습니다.</string>
 
     <string name="des_movie_poster">Movie Poster</string>
     <string name="des_movie_backdrop">Movie BackDrop</string>

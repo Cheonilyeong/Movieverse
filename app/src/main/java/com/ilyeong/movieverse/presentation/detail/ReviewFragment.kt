@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import com.ilyeong.movieverse.databinding.FragmentReviewBinding
 import com.ilyeong.movieverse.presentation.common.BaseFragment
@@ -28,15 +29,16 @@ class ReviewFragment : BaseFragment<FragmentReviewBinding>() {
             viewModel.uiState.collect {
                 when (it) {
                     is DetailUiState.Loading -> {
-                        //todo
+                        /* no-op */
                     }
 
                     is DetailUiState.Success -> {
                         reviewAdapter.submitList(it.movieReviewList)
+                        binding.tvReviewEmpty.isVisible = it.movieReviewList.isEmpty()
                     }
 
                     is DetailUiState.Failure -> {
-                        //todo
+                        /* no-op */
                     }
                 }
             }

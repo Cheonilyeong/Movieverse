@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import com.ilyeong.movieverse.R
 import com.ilyeong.movieverse.databinding.FragmentInformationBinding
@@ -28,48 +29,86 @@ class InformationFragment : BaseFragment<FragmentInformationBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setOverview()
+        setCast()
+        setGenre()
+
+        observeUiState()
+    }
+
+    private fun setOverview() {
+        binding.tvOverview.setOnClickListener {
+            when (binding.tvOverview.maxLines) {
+                5 -> binding.tvOverview.maxLines = Int.MAX_VALUE
+                else -> binding.tvOverview.maxLines = 5
+            }
+        }
+    }
+
+    private fun setCast() {
         binding.rvMovieCast.adapter = castAdapter
-        binding.rvMovieGenre.adapter = genreAdapter
-
         binding.rvMovieCast.addItemDecoration(MovieverseItemDecoration)
-        binding.rvMovieGenre.addItemDecoration(MovieverseItemDecoration)
+    }
 
+    private fun setGenre() {
+        binding.rvMovieGenre.adapter = genreAdapter
+        binding.rvMovieGenre.addItemDecoration(MovieverseItemDecoration)
+    }
+
+    private fun observeUiState() {
         repeatOnViewStarted {
             viewModel.uiState.collect {
                 when (it) {
                     DetailUiState.Loading -> {
-                        // todo
+                        /* no-op */
                     }
 
                     is DetailUiState.Success -> {
                         val movie = it.movie
 
-                        binding.tvOverview.text = movie.overview
-
-                        castAdapter.submitList(it.cast)
-                        genreAdapter.submitList(movie.genreList)
-
-                        binding.tvRelease.text = getString(R.string.release, movie.releaseDate)
-                        binding.tvRuntime.text = when (movie.runtime) {
-                            in (0..59) -> {
-                                getString(R.string.runtime_short, movie.runtime)
-                            }
-
-                            else -> {
-                                getString(
-                                    R.string.runtime_long,
-                                    movie.runtime / 60,
-                                    movie.runtime % 60
-                                )
-                            }
+                        // 줄거리
+                        binding.tvOverview.text = when (movie.overview.isBlank()) {
+                            true -> getString(R.string.info_empty)
+                            false -> movie.overview
                         }
 
-                        binding.tvLanguage.text =
-                            getString(R.string.language, movie.originalLanguage)
+                        // 주요 등장인물
+                        castAdapter.submitList(it.cast)
+                        binding.rvMovieCast.isVisible = it.cast.isEmpty().not()
+                        binding.tvMovieCastEmpty.isVisible = it.cast.isEmpty()
+
+                        // 장르
+                        genreAdapter.submitList(movie.genreList)
+                        binding.rvMovieGenre.isVisible = movie.genreList.isEmpty().not()
+                        binding.tvMovieGenreEmpty.isVisible = movie.genreList.isEmpty()
+
+                        // 추가 정보
+                        binding.tvRelease.text = when (movie.releaseDate.isBlank()) {
+                            true -> getString(R.string.release_empty)
+                            false -> getString(R.string.release, movie.releaseDate)
+                        }
+
+                        binding.tvRuntime.text = when {
+                            movie.runtime == 0 -> getString(R.string.runtime_empty)
+                            movie.runtime < 60 -> getString(R.string.runtime_short, movie.runtime)
+                            else -> getString(
+                                R.string.runtime_long,
+                                movie.runtime / 60,
+                                movie.runtime % 60
+                            )
+                        }
+
+                        binding.tvLanguage.text = when (movie.spokenLanguageList.isEmpty()) {
+                            true -> getString(R.string.language_empty)
+                            false -> getString(
+                                R.string.language,
+                                movie.spokenLanguageList.joinToString { it.englishName }
+                            )
+                        }
                     }
 
                     DetailUiState.Failure -> {
-                        // todo
+                        /* no-op */
                     }
                 }
             }

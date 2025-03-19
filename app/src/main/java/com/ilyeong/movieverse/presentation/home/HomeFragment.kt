@@ -47,26 +47,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         setMovieGenre()
         setMovieSection()
 
-        repeatOnViewStarted {
-            viewModel.uiState.collect {
-                when (it) {
-                    HomeUiState.Loading -> {}
-
-                    is HomeUiState.Success -> {
-                        bannerAdapter.submitList(it.bannerMovieList)
-                        genreAdapter.submitList(it.genreList)
-                        topRatedAdapter.submitList(it.topRatedMovieList)
-                        upcomingAdapter.submitList(it.upcomingMovieList)
-                        popularAdapter.submitList(it.popularMovieList)
-                        nowPlayingAdapter.submitList(it.nowPlayingMovieList)
-                        trendingAdapter.submitList(it.trendingWeekMovieList)
-                        watchlistAdapter.submitList(it.watchlistMovieList)
-                    }
-
-                    HomeUiState.Failure -> {}
-                }
-            }
-        }
+        observeUiState()
     }
 
     private fun setMovieBanner() {
@@ -107,5 +88,28 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         binding.movieSection4.rvMovieList.addItemDecoration(MovieverseItemDecoration)
         binding.movieSection5.rvMovieList.addItemDecoration(MovieverseItemDecoration)
         binding.movieSection6.rvMovieList.addItemDecoration(MovieverseItemDecoration)
+    }
+
+    private fun observeUiState() {
+        repeatOnViewStarted {
+            viewModel.uiState.collect {
+                when (it) {
+                    HomeUiState.Loading -> {}
+
+                    is HomeUiState.Success -> {
+                        bannerAdapter.submitList(it.bannerMovieList)
+                        genreAdapter.submitList(it.genreList)
+                        topRatedAdapter.submitList(it.topRatedMovieList)
+                        upcomingAdapter.submitList(it.upcomingMovieList)
+                        popularAdapter.submitList(it.popularMovieList)
+                        nowPlayingAdapter.submitList(it.nowPlayingMovieList)
+                        trendingAdapter.submitList(it.trendingWeekMovieList)
+                        watchlistAdapter.submitList(it.watchlistMovieList)
+                    }
+
+                    HomeUiState.Failure -> {}
+                }
+            }
+        }
     }
 }

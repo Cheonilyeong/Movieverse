@@ -20,8 +20,10 @@ class CastViewHolder private constructor(
             error(R.drawable.ic_profile_filled_gray_24)
         }
         binding.tvName.text = cast.name
-        binding.tvCharacter.text =
-            binding.root.context.getString(R.string.character, cast.character)
+        binding.tvCharacter.text = when (cast.character.isBlank()) {
+            true -> binding.root.context.getString(R.string.character, "??")
+            false -> binding.root.context.getString(R.string.character, cast.character)
+        }
     }
 
     companion object {

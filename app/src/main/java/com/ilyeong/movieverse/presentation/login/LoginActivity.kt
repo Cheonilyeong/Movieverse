@@ -25,6 +25,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>() {
 
         handleDeepLink(intent)
         setUpBtnLogin()
+
         observeEvents()
         observeUiState()
     }
