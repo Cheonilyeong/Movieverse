@@ -21,7 +21,7 @@
         android:layout_height="match_parent"
         android:gravity="center"
         android:textColor="@color/white"
-        style="@style/Widget.Material3.Chip.Suggestion.Elevated"
+        style="@style/TextAppearance.Material3.BodyMedium"
         tools:text="영화 제목" />
 
 </com.google.android.material.card.MaterialCardView>
