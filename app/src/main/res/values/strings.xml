@@ -28,6 +28,7 @@
     <string name="des_movie_backdrop">Movie BackDrop</string>
     <string name="des_movie_bookmark">Movie Bookmark</string>
     <string name="des_movie_cast">Movie Cast</string>
+    <string name="des_user_avatar">User Avatar</string>
 
     <string name="movie_section_top_rated">Top Rated</string>
     <string name="movie_section_upcoming">UpComing</string>
