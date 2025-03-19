@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import coil3.load
 import coil3.request.crossfade
+import coil3.request.error
 import com.ilyeong.movieverse.R
 import com.ilyeong.movieverse.databinding.ItemMovieCastBinding
 import com.ilyeong.movieverse.domain.model.Cast
@@ -16,6 +17,7 @@ class CastViewHolder private constructor(
     fun bind(cast: Cast) {
         binding.ivCast.load(cast.profilePath) {
             crossfade(true)
+            error(R.drawable.ic_profile_filled_gray_24)
         }
         binding.tvName.text = cast.name
         binding.tvCharacter.text =
