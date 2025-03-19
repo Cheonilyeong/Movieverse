@@ -74,12 +74,12 @@ class InformationFragment : BaseFragment<FragmentInformationBinding>() {
 
                         // 주요 등장인물
                         castAdapter.submitList(it.cast)
-                        binding.rvMovieCast.isVisible = it.cast.isEmpty().not()
+                        binding.rvMovieCast.isVisible = it.cast.isNotEmpty()
                         binding.tvMovieCastEmpty.isVisible = it.cast.isEmpty()
 
                         // 장르
                         genreAdapter.submitList(movie.genreList)
-                        binding.rvMovieGenre.isVisible = movie.genreList.isEmpty().not()
+                        binding.rvMovieGenre.isVisible = movie.genreList.isNotEmpty()
                         binding.tvMovieGenreEmpty.isVisible = movie.genreList.isEmpty()
 
                         // 추가 정보

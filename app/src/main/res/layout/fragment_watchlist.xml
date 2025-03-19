@@ -27,4 +27,15 @@
         app:layout_constraintStart_toStartOf="parent"
         tools:listitem="@layout/item_movie_poster_description" />
 
+    <TextView
+        android:id="@+id/tv_watchlist_empty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/gray"
+        android:text="@string/watchlist_empty"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

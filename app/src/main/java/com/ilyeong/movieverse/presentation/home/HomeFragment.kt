@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.MarginPageTransformer
@@ -33,12 +34,12 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
     private val bannerAdapter = BannerAdapter(movieClickListener)
     private val genreAdapter = GenreAdapter()
+    private val watchlistAdapter = SectionAdapter(movieClickListener)
     private val topRatedAdapter = SectionAdapter(movieClickListener)
     private val upcomingAdapter = SectionAdapter(movieClickListener)
     private val popularAdapter = SectionAdapter(movieClickListener)
     private val nowPlayingAdapter = SectionAdapter(movieClickListener)
     private val trendingAdapter = SectionAdapter(movieClickListener)
-    private val watchlistAdapter = SectionAdapter(movieClickListener)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -68,19 +69,19 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     }
 
     private fun setMovieSection() {
-        binding.movieSection1.tvTitle.text = getString(R.string.movie_section_top_rated)
+        binding.movieSection1.tvTitle.text = getString(R.string.movie_section_watchlist)
         binding.movieSection2.tvTitle.text = getString(R.string.movie_section_upcoming)
         binding.movieSection3.tvTitle.text = getString(R.string.movie_section_popular)
         binding.movieSection4.tvTitle.text = getString(R.string.movie_section_now_playing)
         binding.movieSection5.tvTitle.text = getString(R.string.movie_section_trending_week)
-        binding.movieSection6.tvTitle.text = getString(R.string.movie_section_watchlist)
+        binding.movieSection6.tvTitle.text = getString(R.string.movie_section_top_rated)
 
-        binding.movieSection1.rvMovieList.adapter = topRatedAdapter
+        binding.movieSection1.rvMovieList.adapter = watchlistAdapter
         binding.movieSection2.rvMovieList.adapter = upcomingAdapter
         binding.movieSection3.rvMovieList.adapter = popularAdapter
         binding.movieSection4.rvMovieList.adapter = nowPlayingAdapter
         binding.movieSection5.rvMovieList.adapter = trendingAdapter
-        binding.movieSection6.rvMovieList.adapter = watchlistAdapter
+        binding.movieSection6.rvMovieList.adapter = topRatedAdapter
 
         binding.movieSection1.rvMovieList.addItemDecoration(MovieverseItemDecoration)
         binding.movieSection2.rvMovieList.addItemDecoration(MovieverseItemDecoration)
@@ -99,12 +100,14 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                     is HomeUiState.Success -> {
                         bannerAdapter.submitList(it.bannerMovieList)
                         genreAdapter.submitList(it.genreList)
+                        watchlistAdapter.submitList(it.watchlistMovieList)
                         topRatedAdapter.submitList(it.topRatedMovieList)
                         upcomingAdapter.submitList(it.upcomingMovieList)
                         popularAdapter.submitList(it.popularMovieList)
                         nowPlayingAdapter.submitList(it.nowPlayingMovieList)
                         trendingAdapter.submitList(it.trendingWeekMovieList)
-                        watchlistAdapter.submitList(it.watchlistMovieList)
+
+                        binding.movieSection1.root.isVisible = it.watchlistMovieList.isNotEmpty()
                     }
 
                     HomeUiState.Failure -> {}

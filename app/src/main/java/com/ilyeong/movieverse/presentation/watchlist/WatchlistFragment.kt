@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
@@ -12,7 +13,6 @@ import androidx.recyclerview.widget.RecyclerView.ItemDecoration
 import com.ilyeong.movieverse.R
 import com.ilyeong.movieverse.databinding.FragmentWatchlistBinding
 import com.ilyeong.movieverse.presentation.common.BaseFragment
-import com.ilyeong.movieverse.presentation.util.MovieClickListener
 import com.ilyeong.movieverse.presentation.watchlist.adapter.WatchlistAdapter
 import com.ilyeong.movieverse.presentation.watchlist.model.WatchlistUiState.Failure
 import com.ilyeong.movieverse.presentation.watchlist.model.WatchlistUiState.Loading
@@ -27,13 +27,21 @@ class WatchlistFragment : BaseFragment<FragmentWatchlistBinding>() {
 
     private val viewModel: WatchlistViewModel by viewModels()
 
-    private val movieClickListener = MovieClickListener { movieId ->
+    private val watchlistAdapter = WatchlistAdapter { movieId ->
         val action = WatchlistFragmentDirections.actionWatchlistFragmentToDetailFragment(movieId)
         findNavController().navigate(action)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        setWatchlist()
+
+        observeUiState()
+    }
+
+    private fun setWatchlist() {
+        binding.rvWatchlist.adapter = watchlistAdapter
 
         binding.rvWatchlist.addItemDecoration(object : ItemDecoration() {
             override fun getItemOffsets(
@@ -47,15 +55,17 @@ class WatchlistFragment : BaseFragment<FragmentWatchlistBinding>() {
                     resources.getDimensionPixelOffset(R.dimen.movieverse_padding_xlarge)
             }
         })
+    }
 
+    private fun observeUiState() {
         repeatOnViewStarted {
             viewModel.uiState.collect {
                 when (it) {
                     Loading -> {}
 
                     is Success -> {
-                        binding.rvWatchlist.adapter =
-                            WatchlistAdapter(it.watchlist, movieClickListener)
+                        watchlistAdapter.submitList(it.watchlist)
+                        binding.tvWatchlistEmpty.isVisible = it.watchlist.isEmpty()
                     }
 
                     Failure -> {}

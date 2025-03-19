@@ -70,24 +70,16 @@ class RecommendedFragment : BaseFragment<FragmentRecommendedBinding>() {
                     is DetailUiState.Success -> {
                         // 시리즈 영화
                         collectionAdapter.submitList(it.collectionMovieList)
-                        binding.movieSection1.tvTitle.isVisible =
-                            it.collectionMovieList.isEmpty().not()
-                        binding.movieSection1.rvMovieList.isVisible =
-                            it.collectionMovieList.isEmpty().not()
+                        binding.movieSection1.root.isVisible = it.collectionMovieList.isNotEmpty()
 
                         // 추천 영화
                         recommendationAdapter.submitList(it.movieRecommendationList)
-                        binding.movieSection2.tvTitle.isVisible =
-                            it.movieRecommendationList.isEmpty().not()
-                        binding.movieSection2.rvMovieList.isVisible =
+                        binding.movieSection2.root.isVisible =
                             it.movieRecommendationList.isEmpty().not()
 
                         // 관련 영화
                         similarAdapter.submitList(it.movieSimilarList)
-                        binding.movieSection3.tvTitle.isVisible =
-                            it.movieSimilarList.isEmpty().not()
-                        binding.movieSection3.rvMovieList.isVisible =
-                            it.movieSimilarList.isEmpty().not()
+                        binding.movieSection3.root.isVisible = it.movieSimilarList.isNotEmpty()
 
                         // 빈 화면
                         binding.tvReviewEmpty.isVisible =
