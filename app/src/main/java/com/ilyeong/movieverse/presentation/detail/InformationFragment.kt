@@ -50,14 +50,13 @@ class InformationFragment : BaseFragment<FragmentInformationBinding>() {
                         genreAdapter.submitList(movie.genreList)
 
                         binding.tvRelease.text = getString(R.string.release, movie.releaseDate)
-                        when (movie.runtime) {
+                        binding.tvRuntime.text = when (movie.runtime) {
                             in (0..59) -> {
-                                binding.tvRuntime.text =
-                                    getString(R.string.runtime_short, movie.runtime)
+                                getString(R.string.runtime_short, movie.runtime)
                             }
 
                             else -> {
-                                binding.tvRuntime.text = getString(
+                                getString(
                                     R.string.runtime_long,
                                     movie.runtime / 60,
                                     movie.runtime % 60
