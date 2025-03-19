@@ -33,6 +33,12 @@ class ReviewRatingView @JvmOverloads constructor(
             ratingTextView.text = context.getString(R.string.rating_count, ratingCount)
         }
 
+    var ratingCountIsVisible: Boolean = true
+        set(value) {
+            field = value
+            ratingTextView.visibility = if (value) VISIBLE else GONE
+        }
+
     init {
         orientation = HORIZONTAL
         gravity = Gravity.CENTER_VERTICAL
