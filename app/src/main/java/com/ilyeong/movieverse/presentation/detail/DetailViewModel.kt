@@ -24,7 +24,6 @@ import javax.inject.Inject
 @HiltViewModel
 class DetailViewModel @Inject constructor(
     private val movieRepository: MovieRepository,
-//    savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow<DetailUiState>(DetailUiState.Loading)
@@ -41,13 +40,15 @@ class DetailViewModel @Inject constructor(
             } ?: flow { emit(emptyList<Movie>()) }
             val movieRecommendationList = movieRepository.getMovieRecommendationList(movieId)
             val movieSimilarList = movieRepository.getMovieSimilarList(movieId)
+            val movieReviewList = movieRepository.getMovieReviewList(movieId)
 
             combine(
                 movieCredit,
                 movieCollection,
                 movieRecommendationList,
                 movieSimilarList,
-            ) { credit, collection, recommendationList, similarList ->
+                movieReviewList
+            ) { credit, collection, recommendationList, similarList, reviewList ->
                 _uiState.update {
                     DetailUiState.Success(
                         movie = movie,
@@ -55,6 +56,7 @@ class DetailViewModel @Inject constructor(
                         collectionMovieList = collection,
                         movieRecommendationList = recommendationList,
                         movieSimilarList = similarList,
+                        movieReviewList = reviewList
                     )
                 }
             }

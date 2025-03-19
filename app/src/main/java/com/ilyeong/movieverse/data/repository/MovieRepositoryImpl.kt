@@ -6,6 +6,7 @@ import com.ilyeong.movieverse.domain.model.Collection
 import com.ilyeong.movieverse.domain.model.Credit
 import com.ilyeong.movieverse.domain.model.Genre
 import com.ilyeong.movieverse.domain.model.Movie
+import com.ilyeong.movieverse.domain.model.Review
 import com.ilyeong.movieverse.domain.model.TimeWindow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
@@ -39,6 +40,11 @@ class MovieRepositoryImpl @Inject constructor(
         val similarList =
             apiService.getMovieSimilarList(movieId).similarList.map { it.toDomain() }
         emit(similarList)
+    }
+
+    override fun getMovieReviewList(movieId: Int) = flow<List<Review>> {
+        val reviewList = apiService.getMovieReviewList(movieId).reviewList.map { it.toDomain() }
+        emit(reviewList)
     }
 
     override fun getTopRatedMovieList() = flow<List<Movie>> {
