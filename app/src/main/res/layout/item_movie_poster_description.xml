@@ -29,6 +29,8 @@
             android:textColor="@color/white"
             android:textStyle="bold"
             android:textSize="20sp"
+            android:ellipsize="end"
+            android:maxLines="1"
             app:drawableEndCompat="@drawable/ic_bookmark_selector"
             tools:text="베놈 : 라스트댄스" />
 

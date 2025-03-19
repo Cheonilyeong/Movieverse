@@ -2,8 +2,10 @@ package com.ilyeong.movieverse.presentation
 
 import android.os.Bundle
 import android.view.LayoutInflater
+import androidx.activity.OnBackPressedCallback
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.isVisible
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
@@ -15,8 +17,8 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class MainActivity : BaseActivity<ActivityMainBinding>() {
 
-    override val viewBindingInflater: (inflater: LayoutInflater) -> ActivityMainBinding
-        get() = ActivityMainBinding::inflate
+    override val viewBindingInflater: (inflater: LayoutInflater) -> ActivityMainBinding =
+        ActivityMainBinding::inflate
 
     private lateinit var navController: NavController
 
@@ -26,6 +28,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         initializeNavController()
         setSystemInsetPadding()
         setUpBottomNavigationView()
+        setBackPressedDispatcher()
     }
 
     private fun initializeNavController() {
@@ -52,6 +55,14 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                     }
                 }
 
+                R.id.detail_fragment -> {
+                    ViewCompat.setOnApplyWindowInsetsListener(binding.root) { v, insets ->
+                        val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+                        v.setPadding(systemBars.left, 0, systemBars.right, systemBars.bottom)
+                        insets
+                    }
+                }
+
                 else -> {
                     ViewCompat.setOnApplyWindowInsetsListener(binding.root) { v, insets ->
                         val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -70,5 +81,23 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
 
     private fun setUpBottomNavigationView() {
         binding.bnv.setupWithNavController(navController)
+
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            binding.bnv.isVisible = (destination.id in listOf(
+                R.id.home_fragment,
+                R.id.watchlist_fragment,
+                R.id.profile_fragment
+            ))
+        }
+    }
+
+    private fun setBackPressedDispatcher() {
+        onBackPressedDispatcher.addCallback(object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                if (navController.popBackStack().not()) {
+                    finish()
+                }
+            }
+        })
     }
 }

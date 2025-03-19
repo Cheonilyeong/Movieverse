@@ -7,6 +7,7 @@ import android.view.Gravity
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.core.view.isVisible
 import com.ilyeong.movieverse.R
 
 class ReviewRatingView @JvmOverloads constructor(
@@ -31,6 +32,12 @@ class ReviewRatingView @JvmOverloads constructor(
         set(value) {
             field = value
             ratingTextView.text = context.getString(R.string.rating_count, ratingCount)
+        }
+
+    var ratingCountIsVisible: Boolean = true
+        set(value) {
+            field = value
+            ratingTextView.isVisible = value
         }
 
     init {

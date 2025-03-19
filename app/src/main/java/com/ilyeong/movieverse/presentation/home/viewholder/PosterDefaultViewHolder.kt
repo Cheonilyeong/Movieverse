@@ -7,18 +7,22 @@ import coil3.load
 import coil3.request.crossfade
 import com.ilyeong.movieverse.databinding.ItemMoviePosterDefaultBinding
 import com.ilyeong.movieverse.domain.model.Movie
+import com.ilyeong.movieverse.presentation.util.MovieClickListener
 
 class PosterDefaultViewHolder private constructor(
     private val binding: ItemMoviePosterDefaultBinding
 ) : ViewHolder(binding.root) {
 
-    fun bind(movie: Movie) {
+    fun bind(movie: Movie, movieClickListener: MovieClickListener) {
         binding.ivPoster.load(movie.posterPath) {
             crossfade(true)
             listener(
                 onStart = { _ -> binding.tvPosterTitle.text = null },
                 onError = { _, _ -> binding.tvPosterTitle.text = movie.title }
             )
+        }
+        binding.root.setOnClickListener {
+            movieClickListener.onMovieClick(movie.id)
         }
     }
 

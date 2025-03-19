@@ -7,6 +7,7 @@ plugins {
     alias(libs.plugins.kotlinx.serialization)
     alias(libs.plugins.dagger.hilt.android)
     alias(libs.plugins.devtools.ksp)
+    alias(libs.plugins.navigation.safeargs)
 }
 
 val properties = Properties()

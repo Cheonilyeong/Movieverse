@@ -2,8 +2,9 @@ package com.ilyeong.movieverse.domain.model
 
 data class Movie(
     val adult: Boolean,
+    val collection: Collection?,
     val backdropPath: String,
-    val genreIdList: List<Int>,
+    val genreList: List<Genre>,
     val id: Int,
     val originalLanguage: String,
     val originalTitle: String,
@@ -11,6 +12,8 @@ data class Movie(
     val popularity: Double,
     val posterPath: String,
     val releaseDate: String,
+    val runtime: Int,
+    val spokenLanguageList: List<SpokenLanguage>,
     val title: String,
     val video: Boolean,
     val voteAverage: Double,
