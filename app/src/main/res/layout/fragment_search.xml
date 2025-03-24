@@ -39,7 +39,6 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:paddingTop="@dimen/movieverse_padding_large"
         android:paddingHorizontal="@dimen/movieverse_padding_large"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         tools:listitem="@layout/item_movie_poster_description" />

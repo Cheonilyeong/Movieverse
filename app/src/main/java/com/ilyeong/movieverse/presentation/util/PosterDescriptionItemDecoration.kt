@@ -13,8 +13,13 @@ object PosterDescriptionItemDecoration : ItemDecoration() {
         parent: RecyclerView,
         state: RecyclerView.State
     ) {
-        super.getItemOffsets(outRect, view, parent, state)
-        outRect.bottom =
-            parent.context.resources.getDimensionPixelOffset(R.dimen.movieverse_padding_large)
+        val position = parent.getChildAdapterPosition(view)
+        val resources = parent.context.resources
+
+        outRect.bottom = resources.getDimensionPixelOffset(R.dimen.movieverse_padding_large)
+
+        when (position) {
+            0 -> outRect.top = resources.getDimensionPixelOffset(R.dimen.movieverse_padding_large)
+        }
     }
 }
