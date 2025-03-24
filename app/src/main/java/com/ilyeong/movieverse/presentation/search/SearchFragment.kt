@@ -6,8 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.ConcatAdapter
 import com.ilyeong.movieverse.databinding.FragmentSearchBinding
 import com.ilyeong.movieverse.presentation.common.BaseFragment
+import com.ilyeong.movieverse.presentation.search.adapter.HeaderAdapter
 import com.ilyeong.movieverse.presentation.search.adapter.TrendAdapter
 import com.ilyeong.movieverse.presentation.search.model.SearchUiState
 import com.ilyeong.movieverse.presentation.util.PosterDescriptionItemDecoration
@@ -21,6 +23,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
 
     private val viewModel: SearchViewModel by viewModels()
 
+    private val trendHeaderAdapter = HeaderAdapter("인기 급상승")
     private val trendAdapter = TrendAdapter()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -39,7 +42,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
     }
 
     private fun setTrend() {
-        binding.rvTrend.adapter = trendAdapter
+        binding.rvTrend.adapter = ConcatAdapter(trendHeaderAdapter, trendAdapter)
         binding.rvTrend.addItemDecoration(PosterDescriptionItemDecoration)
     }
 
@@ -48,6 +51,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
             viewModel.uiState.collect {
                 when (it) {
                     SearchUiState.Loading -> {}
+
                     is SearchUiState.Success -> {
                         trendAdapter.submitList(it.trendingDayMovieList)
                     }

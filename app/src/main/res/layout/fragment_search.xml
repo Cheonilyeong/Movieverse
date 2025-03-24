@@ -43,5 +43,4 @@
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         tools:listitem="@layout/item_movie_poster_description" />
 
-
 </LinearLayout>
