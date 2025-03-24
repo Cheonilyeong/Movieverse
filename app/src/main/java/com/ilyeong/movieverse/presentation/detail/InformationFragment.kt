@@ -12,7 +12,7 @@ import com.ilyeong.movieverse.presentation.common.BaseFragment
 import com.ilyeong.movieverse.presentation.detail.adapter.CastAdapter
 import com.ilyeong.movieverse.presentation.detail.model.DetailUiState
 import com.ilyeong.movieverse.presentation.home.adapter.GenreAdapter
-import com.ilyeong.movieverse.presentation.util.MovieverseItemDecoration
+import com.ilyeong.movieverse.presentation.util.PosterDefaultItemDecoration
 
 class InformationFragment : BaseFragment<FragmentInformationBinding>() {
 
@@ -45,12 +45,12 @@ class InformationFragment : BaseFragment<FragmentInformationBinding>() {
 
     private fun setCast() {
         binding.rvMovieCast.adapter = castAdapter
-        binding.rvMovieCast.addItemDecoration(MovieverseItemDecoration)
+        binding.rvMovieCast.addItemDecoration(PosterDefaultItemDecoration)
     }
 
     private fun setGenre() {
         binding.rvMovieGenre.adapter = genreAdapter
-        binding.rvMovieGenre.addItemDecoration(MovieverseItemDecoration)
+        binding.rvMovieGenre.addItemDecoration(PosterDefaultItemDecoration)
     }
 
     private fun observeUiState() {

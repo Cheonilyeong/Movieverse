@@ -16,7 +16,7 @@ import com.ilyeong.movieverse.presentation.home.adapter.GenreAdapter
 import com.ilyeong.movieverse.presentation.home.adapter.SectionAdapter
 import com.ilyeong.movieverse.presentation.home.model.HomeUiState
 import com.ilyeong.movieverse.presentation.util.MovieClickListener
-import com.ilyeong.movieverse.presentation.util.MovieverseItemDecoration
+import com.ilyeong.movieverse.presentation.util.PosterDefaultItemDecoration
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -80,7 +80,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
     private fun setMovieGenre() {
         binding.rvMovieGenre.adapter = genreAdapter
-        binding.rvMovieGenre.addItemDecoration(MovieverseItemDecoration)
+        binding.rvMovieGenre.addItemDecoration(PosterDefaultItemDecoration)
     }
 
     private fun setMovieSection() {
@@ -98,12 +98,12 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         binding.movieSection5.rvMovieList.adapter = trendingAdapter
         binding.movieSection6.rvMovieList.adapter = topRatedAdapter
 
-        binding.movieSection1.rvMovieList.addItemDecoration(MovieverseItemDecoration)
-        binding.movieSection2.rvMovieList.addItemDecoration(MovieverseItemDecoration)
-        binding.movieSection3.rvMovieList.addItemDecoration(MovieverseItemDecoration)
-        binding.movieSection4.rvMovieList.addItemDecoration(MovieverseItemDecoration)
-        binding.movieSection5.rvMovieList.addItemDecoration(MovieverseItemDecoration)
-        binding.movieSection6.rvMovieList.addItemDecoration(MovieverseItemDecoration)
+        binding.movieSection1.rvMovieList.addItemDecoration(PosterDefaultItemDecoration)
+        binding.movieSection2.rvMovieList.addItemDecoration(PosterDefaultItemDecoration)
+        binding.movieSection3.rvMovieList.addItemDecoration(PosterDefaultItemDecoration)
+        binding.movieSection4.rvMovieList.addItemDecoration(PosterDefaultItemDecoration)
+        binding.movieSection5.rvMovieList.addItemDecoration(PosterDefaultItemDecoration)
+        binding.movieSection6.rvMovieList.addItemDecoration(PosterDefaultItemDecoration)
     }
 
     private fun observeUiState() {
