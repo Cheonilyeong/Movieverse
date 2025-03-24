@@ -1,0 +1,42 @@
+package com.ilyeong.movieverse.presentation.search.viewholder
+
+import android.view.LayoutInflater
+import android.view.ViewGroup
+import androidx.recyclerview.widget.RecyclerView.ViewHolder
+import coil3.load
+import coil3.request.crossfade
+import com.ilyeong.movieverse.databinding.ItemMoviePosterDescriptionBinding
+import com.ilyeong.movieverse.domain.model.Movie
+
+class TrendViewHolder private constructor(
+    private val binding: ItemMoviePosterDescriptionBinding
+) : ViewHolder(binding.root) {
+
+    fun bind(movie: Movie) {
+        binding.posterDefault.ivPoster.load(movie.posterPath) {
+            crossfade(true)
+            listener(
+                onStart = { _ -> binding.posterDefault.tvPosterTitle.text = null },
+                onError = { _, _ -> binding.posterDefault.tvPosterTitle.text = movie.title }
+            )
+        }
+        binding.tvTitle.text = movie.title
+        binding.tvTitle.setCompoundDrawables(null, null, null, null)
+
+        binding.rrv.rating = movie.voteAverage.toDouble()
+        binding.rrv.ratingCount = movie.voteCount
+        
+        binding.tvDescription.text = movie.overview
+    }
+
+    companion object {
+        fun create(parent: ViewGroup): TrendViewHolder {
+            val binding = ItemMoviePosterDescriptionBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent,
+                false
+            )
+            return TrendViewHolder(binding)
+        }
+    }
+}
