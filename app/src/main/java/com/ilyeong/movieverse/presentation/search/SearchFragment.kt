@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
 import com.ilyeong.movieverse.databinding.FragmentSearchBinding
 import com.ilyeong.movieverse.presentation.common.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
@@ -17,5 +18,12 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setToolbarNavigationIcon()
+    }
+
+    private fun setToolbarNavigationIcon() {
+        binding.tb.setNavigationOnClickListener {
+            findNavController().navigateUp()
+        }
     }
 }

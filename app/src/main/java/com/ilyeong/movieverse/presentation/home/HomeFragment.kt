@@ -44,7 +44,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setToolbar()
+        setToolbarMenu()
         setMovieBanner()
         setMovieGenre()
         setMovieSection()
@@ -52,7 +52,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         observeUiState()
     }
 
-    private fun setToolbar() {
+    private fun setToolbarMenu() {
         binding.tb.setOnMenuItemClickListener { menu ->
             when (menu.itemId) {
                 R.id.search -> {
