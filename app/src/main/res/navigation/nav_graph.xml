@@ -2,7 +2,7 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/home_fragment">
+    app:startDestination="@id/search_fragment">
 
     <fragment
         android:id="@+id/home_fragment"
@@ -38,5 +38,10 @@
             android:id="@+id/action_detail_fragment_to_detail_fragment"
             app:destination="@id/detail_fragment" />
     </fragment>
+
+    <fragment
+        android:id="@+id/search_fragment"
+        android:name="com.ilyeong.movieverse.presentation.search.SearchFragment"
+        android:label="@string/search" />
 
 </navigation>

@@ -1,4 +1,4 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <!-- Base application theme. -->
     <style name="Base.Theme.Movieverse" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
@@ -6,4 +6,11 @@
     </style>
 
     <style name="Theme.Movieverse" parent="Base.Theme.Movieverse" />
+
+    <style name="Theme.Movieserse.SearchView.TextAppearance" parent="TextAppearance.Material3.SearchView">
+        <item name="colorAccent">@color/light_gray</item>   <!-- For EditText Cursor Color -->
+        <item name="android:editTextColor">@color/light_gray</item> <!-- For EditText Text Color -->
+        <item name="android:textColorHint">@color/light_gray
+        </item> <!-- For EditText Hint Text Color -->
+    </style>
 </resources>
