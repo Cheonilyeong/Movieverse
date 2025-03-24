@@ -44,11 +44,26 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setToolbar()
         setMovieBanner()
         setMovieGenre()
         setMovieSection()
 
         observeUiState()
+    }
+
+    private fun setToolbar() {
+        binding.tb.setOnMenuItemClickListener { menu ->
+            when (menu.itemId) {
+                R.id.search -> {
+                    val action = HomeFragmentDirections.actionHomeFragmentToSearchFragment()
+                    findNavController().navigate(action)
+                    true
+                }
+
+                else -> false
+            }
+        }
     }
 
     private fun setMovieBanner() {
