@@ -1,5 +1,6 @@
 package com.ilyeong.movieverse.presentation.search
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ilyeong.movieverse.data.repository.MovieRepository
@@ -18,7 +19,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SearchViewModel @Inject constructor(
-    movieRepository: MovieRepository
+    private val movieRepository: MovieRepository
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow<SearchUiState>(SearchUiState.Loading)
@@ -31,6 +32,20 @@ class SearchViewModel @Inject constructor(
                 _uiState.update {
                     SearchUiState.Success(trendingDayMovieList = movieList)
                 }
+            }
+            .onStart {
+                // todo
+            }
+            .catch {
+                // todo
+            }
+            .launchIn(viewModelScope)
+    }
+
+    fun searchMovie(query: String) {
+        movieRepository.searchMovie(query)
+            .onEach { movieList ->
+                Log.d("SearchViewModel", "searchMovie: $movieList")
             }
             .onStart {
                 // todo

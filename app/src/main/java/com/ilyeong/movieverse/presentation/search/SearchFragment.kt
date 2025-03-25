@@ -54,9 +54,9 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
             binding.sv.getQueryFlow()
                 .debounce(500L)
                 .distinctUntilChanged()
-                .collectLatest {
-                    Log.d("search", it)
-                    // viewmodel search api
+                .collectLatest { query ->
+                    Log.d("search", query)
+                    viewModel.searchMovie(query)
                 }
         }
     }

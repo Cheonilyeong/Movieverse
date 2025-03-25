@@ -47,6 +47,12 @@ class MovieRepositoryImpl @Inject constructor(
         emit(reviewList)
     }
 
+    override fun searchMovie(query: String) = flow<List<Movie>> {
+        val searchResult =
+            apiService.searchMovieList(query = query).searchMovieList.map { it.toDomain() }
+        emit(searchResult)
+    }
+
     override fun getTopRatedMovieList() = flow<List<Movie>> {
         val topRatedMovieList = apiService.getTopRatedMovieList().resultList.map { it.toDomain() }
         emit(topRatedMovieList)
