@@ -5,13 +5,18 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.ilyeong.movieverse.databinding.ItemMovieGenreChipBinding
 import com.ilyeong.movieverse.domain.model.Genre
+import com.ilyeong.movieverse.presentation.util.ItemClickListener
 
 class GenreViewHolder private constructor(
     private val binding: ItemMovieGenreChipBinding
 ) : ViewHolder(binding.root) {
 
-    fun bind(genre: Genre) {
+    fun bind(genre: Genre, itemClickListener: ItemClickListener?) {
         binding.chipGenre.text = genre.name
+
+        binding.root.setOnClickListener {
+            itemClickListener?.onItemClick(genre.id)
+        }
     }
 
     companion object {
