@@ -1,7 +1,6 @@
 package com.ilyeong.movieverse.presentation.search
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -66,7 +65,6 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
                 .debounce(500L)
                 .distinctUntilChanged()
                 .collectLatest { query ->
-                    Log.d("search", query)
                     viewModel.searchMovie(query)
                 }
         }
@@ -108,7 +106,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
                         when {
                             // 검색 X
                             it.searchMovieList == null -> {
-                                trendHeaderAdapter.updateHeaderTitle("인기 급상승")
+                                trendHeaderAdapter.updateHeaderTitle(getString(R.string.movie_section_trending_day))
                                 trendAdapter.submitList(it.trendingDayMovieList)
 
                                 binding.rvTrend.isVisible = true
@@ -117,7 +115,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
 
                             // 검색 결과 X
                             it.searchMovieList.isEmpty() -> {
-                                searchHeaderAdapter.updateHeaderTitle("검색 결과가 없습니다.")
+                                searchHeaderAdapter.updateHeaderTitle(getString(R.string.search_result_empty))
                                 searchAdapter.submitList(it.searchMovieList)
 
                                 binding.rvTrend.isVisible = false
@@ -126,7 +124,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
 
                             // 검색 성공
                             else -> {
-                                searchHeaderAdapter.updateHeaderTitle("검색 결과")
+                                searchHeaderAdapter.updateHeaderTitle(getString(R.string.search_result))
                                 searchAdapter.submitList(it.searchMovieList)
 
                                 binding.rvTrend.isVisible = false
