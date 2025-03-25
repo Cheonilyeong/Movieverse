@@ -31,6 +31,11 @@ class GenreFragment : BaseFragment<FragmentGenreBinding>() {
         findNavController().navigate(action)
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        viewModel.loadData(genreId.genreId)
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
