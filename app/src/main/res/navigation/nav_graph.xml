@@ -15,6 +15,10 @@
         <action
             android:id="@+id/action_home_fragment_to_search_fragment"
             app:destination="@id/search_fragment" />
+
+        <action
+            android:id="@+id/action_home_fragment_to_genre_fragment"
+            app:destination="@id/genre_fragment" />
     </fragment>
 
     <fragment
@@ -52,4 +56,15 @@
             app:destination="@id/detail_fragment" />
     </fragment>
 
+    <fragment
+        android:id="@+id/genre_fragment"
+        android:name="com.ilyeong.movieverse.presentation.genre.GenreFragment"
+        android:label="@string/genre">
+        <argument
+            android:name="genreId"
+            app:argType="integer" />
+        <action
+            android:id="@+id/action_genre_fragment_to_detail_fragment"
+            app:destination="@id/detail_fragment" />
+    </fragment>
 </navigation>
