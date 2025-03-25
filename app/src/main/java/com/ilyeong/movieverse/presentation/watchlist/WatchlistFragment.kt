@@ -1,6 +1,5 @@
 package com.ilyeong.movieverse.presentation.watchlist
 
-import android.graphics.Rect
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,11 +7,9 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.RecyclerView.ItemDecoration
-import com.ilyeong.movieverse.R
 import com.ilyeong.movieverse.databinding.FragmentWatchlistBinding
 import com.ilyeong.movieverse.presentation.common.BaseFragment
+import com.ilyeong.movieverse.presentation.util.PosterDescriptionItemDecoration
 import com.ilyeong.movieverse.presentation.watchlist.adapter.WatchlistAdapter
 import com.ilyeong.movieverse.presentation.watchlist.model.WatchlistUiState.Failure
 import com.ilyeong.movieverse.presentation.watchlist.model.WatchlistUiState.Loading
@@ -42,19 +39,7 @@ class WatchlistFragment : BaseFragment<FragmentWatchlistBinding>() {
 
     private fun setWatchlist() {
         binding.rvWatchlist.adapter = watchlistAdapter
-
-        binding.rvWatchlist.addItemDecoration(object : ItemDecoration() {
-            override fun getItemOffsets(
-                outRect: Rect,
-                view: View,
-                parent: RecyclerView,
-                state: RecyclerView.State
-            ) {
-                super.getItemOffsets(outRect, view, parent, state)
-                outRect.bottom =
-                    resources.getDimensionPixelOffset(R.dimen.movieverse_padding_xlarge)
-            }
-        })
+        binding.rvWatchlist.addItemDecoration(PosterDescriptionItemDecoration)
     }
 
     private fun observeUiState() {

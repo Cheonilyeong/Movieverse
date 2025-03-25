@@ -93,4 +93,7 @@ dependencies {
     // coil
     implementation(libs.coil)
     implementation(libs.coil.okhttp)
+
+    // recyclerview
+    implementation(libs.recyclerview)
 }

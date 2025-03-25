@@ -8,12 +8,14 @@ import com.ilyeong.movieverse.data.model.NowPlayingResponse
 import com.ilyeong.movieverse.data.model.PopularResponse
 import com.ilyeong.movieverse.data.model.RecommendationListResponse
 import com.ilyeong.movieverse.data.model.ReviewListResponse
+import com.ilyeong.movieverse.data.model.SearchMovieListResponse
 import com.ilyeong.movieverse.data.model.SimilarListResponse
 import com.ilyeong.movieverse.data.model.TopRatedResponse
 import com.ilyeong.movieverse.data.model.TrendingResponse
 import com.ilyeong.movieverse.data.model.UpComingResponse
 import retrofit2.http.GET
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface MovieApiService {
 
@@ -31,6 +33,9 @@ interface MovieApiService {
 
     @GET("movie/{movie_id}/similar")
     suspend fun getMovieSimilarList(@Path("movie_id") movieId: Int): SimilarListResponse
+
+    @GET("search/movie")
+    suspend fun searchMovieList(@Query("query") query: String): SearchMovieListResponse
 
     @GET("movie/{movie_id}/reviews")
     suspend fun getMovieReviewList(@Path("movie_id") movieId: Int): ReviewListResponse

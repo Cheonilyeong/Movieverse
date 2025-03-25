@@ -13,7 +13,7 @@ import com.ilyeong.movieverse.presentation.common.BaseFragment
 import com.ilyeong.movieverse.presentation.detail.model.DetailUiState
 import com.ilyeong.movieverse.presentation.home.adapter.SectionAdapter
 import com.ilyeong.movieverse.presentation.util.MovieClickListener
-import com.ilyeong.movieverse.presentation.util.MovieverseItemDecoration
+import com.ilyeong.movieverse.presentation.util.PosterDefaultItemDecoration
 
 class RecommendedFragment : BaseFragment<FragmentRecommendedBinding>() {
 
@@ -44,19 +44,19 @@ class RecommendedFragment : BaseFragment<FragmentRecommendedBinding>() {
     private fun setCollection() {
         binding.movieSection1.tvTitle.text = getString(R.string.movie_section_collection)
         binding.movieSection1.rvMovieList.adapter = collectionAdapter
-        binding.movieSection1.rvMovieList.addItemDecoration(MovieverseItemDecoration)
+        binding.movieSection1.rvMovieList.addItemDecoration(PosterDefaultItemDecoration)
     }
 
     private fun setRecommendation() {
         binding.movieSection2.tvTitle.text = getString(R.string.movie_section_recommendation)
         binding.movieSection2.rvMovieList.adapter = recommendationAdapter
-        binding.movieSection2.rvMovieList.addItemDecoration(MovieverseItemDecoration)
+        binding.movieSection2.rvMovieList.addItemDecoration(PosterDefaultItemDecoration)
     }
 
     private fun setSimilar() {
         binding.movieSection3.tvTitle.text = getString(R.string.movie_section_similar)
         binding.movieSection3.rvMovieList.adapter = similarAdapter
-        binding.movieSection3.rvMovieList.addItemDecoration(MovieverseItemDecoration)
+        binding.movieSection3.rvMovieList.addItemDecoration(PosterDefaultItemDecoration)
     }
 
     private fun observeUiState() {

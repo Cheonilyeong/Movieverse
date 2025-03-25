@@ -11,6 +11,10 @@
         <action
             android:id="@+id/action_home_fragment_to_detail_fragment"
             app:destination="@id/detail_fragment" />
+
+        <action
+            android:id="@+id/action_home_fragment_to_search_fragment"
+            app:destination="@id/search_fragment" />
     </fragment>
 
     <fragment
@@ -36,6 +40,15 @@
             app:argType="integer" />
         <action
             android:id="@+id/action_detail_fragment_to_detail_fragment"
+            app:destination="@id/detail_fragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/search_fragment"
+        android:name="com.ilyeong.movieverse.presentation.search.SearchFragment"
+        android:label="@string/search">
+        <action
+            android:id="@+id/action_search_fragment_to_detail_fragment"
             app:destination="@id/detail_fragment" />
     </fragment>
 
