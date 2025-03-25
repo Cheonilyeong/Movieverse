@@ -46,6 +46,10 @@
     <fragment
         android:id="@+id/search_fragment"
         android:name="com.ilyeong.movieverse.presentation.search.SearchFragment"
-        android:label="@string/search" />
+        android:label="@string/search">
+        <action
+            android:id="@+id/action_search_fragment_to_detail_fragment"
+            app:destination="@id/detail_fragment" />
+    </fragment>
 
 </navigation>

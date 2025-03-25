@@ -1,12 +1,13 @@
 package com.ilyeong.movieverse.presentation.search.adapter
 
+import android.annotation.SuppressLint
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView.Adapter
 import com.ilyeong.movieverse.presentation.search.viewholder.HeaderViewHolder
 
-class HeaderAdapter(
-    private val title: String
-) : Adapter<HeaderViewHolder>() {
+class HeaderAdapter : Adapter<HeaderViewHolder>() {
+    private var title: String = ""
+
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
@@ -20,4 +21,10 @@ class HeaderAdapter(
     }
 
     override fun getItemCount() = 1
+
+    @SuppressLint("NotifyDataSetChanged")
+    fun updateHeaderTitle(title: String) {
+        this.title = title
+        notifyDataSetChanged()
+    }
 }

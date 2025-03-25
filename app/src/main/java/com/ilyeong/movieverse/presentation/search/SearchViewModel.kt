@@ -1,6 +1,5 @@
 package com.ilyeong.movieverse.presentation.search
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ilyeong.movieverse.data.repository.MovieRepository
@@ -26,12 +25,12 @@ class SearchViewModel @Inject constructor(
     val uiState: StateFlow<SearchUiState> = _uiState.asStateFlow()
 
     init {
-
         movieRepository.getTrendingMovieList(TimeWindow.DAY)
             .onEach { movieList ->
-                _uiState.update {
-                    SearchUiState.Success(trendingDayMovieList = movieList)
-                }
+                _uiState.value = SearchUiState.Success(
+                    trendingDayMovieList = movieList,
+                    searchMovieList = null
+                )
             }
             .onStart {
                 // todo
@@ -43,9 +42,42 @@ class SearchViewModel @Inject constructor(
     }
 
     fun searchMovie(query: String) {
+        if (query.isBlank()) {
+            _uiState.update {
+                when (it) {
+                    SearchUiState.Loading -> {
+                        SearchUiState.Loading
+                    }
+
+                    is SearchUiState.Success -> {
+                        it.copy(searchMovieList = null)
+                    }
+
+                    SearchUiState.Failure -> {
+                        SearchUiState.Failure
+                    }
+                }
+            }
+
+            return
+        }
+
         movieRepository.searchMovie(query)
             .onEach { movieList ->
-                Log.d("SearchViewModel", "searchMovie: $movieList")
+                _uiState.update {
+                    when (it) {
+                        is SearchUiState.Success -> {
+                            it.copy(searchMovieList = movieList)
+                        }
+
+                        else -> {
+                            SearchUiState.Success(
+                                trendingDayMovieList = emptyList(),
+                                searchMovieList = movieList
+                            )
+                        }
+                    }
+                }
             }
             .onStart {
                 // todo
