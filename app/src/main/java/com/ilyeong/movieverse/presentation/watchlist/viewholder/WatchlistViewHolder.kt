@@ -7,13 +7,13 @@ import coil3.load
 import coil3.request.crossfade
 import com.ilyeong.movieverse.databinding.ItemMoviePosterDescriptionBinding
 import com.ilyeong.movieverse.domain.model.Movie
-import com.ilyeong.movieverse.presentation.util.MovieClickListener
+import com.ilyeong.movieverse.presentation.util.ItemClickListener
 
 class WatchlistViewHolder private constructor(
     private val binding: ItemMoviePosterDescriptionBinding,
 ) : ViewHolder(binding.root) {
 
-    fun bind(movie: Movie, movieClickListener: MovieClickListener) {
+    fun bind(movie: Movie, itemClickListener: ItemClickListener) {
         binding.posterDefault.ivPoster.load(movie.posterPath) {
             crossfade(true)
             listener(
@@ -30,7 +30,7 @@ class WatchlistViewHolder private constructor(
         binding.tvDescription.text = movie.overview
 
         binding.root.setOnClickListener {
-            movieClickListener.onMovieClick(movie.id)
+            itemClickListener.onItemClick(movie.id)
         }
     }
 

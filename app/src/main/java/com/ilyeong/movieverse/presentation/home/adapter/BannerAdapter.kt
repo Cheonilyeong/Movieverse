@@ -4,10 +4,10 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import com.ilyeong.movieverse.domain.model.Movie
 import com.ilyeong.movieverse.presentation.home.viewholder.PosterFullViewHolder
-import com.ilyeong.movieverse.presentation.util.MovieClickListener
+import com.ilyeong.movieverse.presentation.util.ItemClickListener
 import com.ilyeong.movieverse.presentation.util.MovieDiffUtil
 
-class BannerAdapter(private val movieClickListener: MovieClickListener) :
+class BannerAdapter(private val itemClickListener: ItemClickListener) :
     ListAdapter<Movie, PosterFullViewHolder>(MovieDiffUtil) {
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -18,6 +18,6 @@ class BannerAdapter(private val movieClickListener: MovieClickListener) :
         holder: PosterFullViewHolder,
         position: Int
     ) {
-        holder.bind(getItem(position), movieClickListener)
+        holder.bind(getItem(position), itemClickListener)
     }
 }
