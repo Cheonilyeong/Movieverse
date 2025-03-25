@@ -7,12 +7,13 @@ import coil3.load
 import coil3.request.crossfade
 import com.ilyeong.movieverse.databinding.ItemMoviePosterDescriptionBinding
 import com.ilyeong.movieverse.domain.model.Movie
+import com.ilyeong.movieverse.presentation.util.MovieClickListener
 
 class TrendViewHolder private constructor(
     private val binding: ItemMoviePosterDescriptionBinding
 ) : ViewHolder(binding.root) {
 
-    fun bind(movie: Movie) {
+    fun bind(movie: Movie, movieClickListener: MovieClickListener) {
         binding.posterDefault.ivPoster.load(movie.posterPath) {
             crossfade(true)
             listener(
@@ -25,8 +26,12 @@ class TrendViewHolder private constructor(
 
         binding.rrv.rating = movie.voteAverage.toDouble()
         binding.rrv.ratingCount = movie.voteCount
-        
+
         binding.tvDescription.text = movie.overview
+
+        binding.root.setOnClickListener {
+            movieClickListener.onMovieClick(movie.id)
+        }
     }
 
     companion object {

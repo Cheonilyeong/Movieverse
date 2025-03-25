@@ -4,9 +4,12 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import com.ilyeong.movieverse.domain.model.Movie
 import com.ilyeong.movieverse.presentation.search.viewholder.TrendViewHolder
+import com.ilyeong.movieverse.presentation.util.MovieClickListener
 import com.ilyeong.movieverse.presentation.util.MovieDiffUtil
 
-class TrendAdapter : ListAdapter<Movie, TrendViewHolder>(MovieDiffUtil) {
+class TrendAdapter(
+    private val movieClickListener: MovieClickListener
+) : ListAdapter<Movie, TrendViewHolder>(MovieDiffUtil) {
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
@@ -16,7 +19,7 @@ class TrendAdapter : ListAdapter<Movie, TrendViewHolder>(MovieDiffUtil) {
         holder: TrendViewHolder,
         position: Int
     ) {
-        holder.bind(getItem(position))
+        holder.bind(getItem(position), movieClickListener)
     }
 
 }
