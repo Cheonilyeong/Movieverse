@@ -19,6 +19,8 @@
         android:id="@+id/rv_genre_movie"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:paddingTop="@dimen/movieverse_padding_large"
+        android:paddingHorizontal="@dimen/movieverse_padding_large"
         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
         tools:listitem="@layout/item_movie_poster_default" />
 
