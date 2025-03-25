@@ -8,12 +8,13 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.ItemDecoration
 import com.ilyeong.movieverse.R
 import com.ilyeong.movieverse.databinding.FragmentGenreBinding
 import com.ilyeong.movieverse.presentation.common.BaseFragment
 import com.ilyeong.movieverse.presentation.genre.model.GenreUiState
 import com.ilyeong.movieverse.presentation.home.adapter.SectionAdapter
-import com.ilyeong.movieverse.presentation.util.PosterDescriptionItemDecoration
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -39,16 +40,32 @@ class GenreFragment : BaseFragment<FragmentGenreBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setToolbar()
         setGenreMovie()
 
         observeUiState()
+    }
+
+    private fun setToolbar() {
+        binding.tb.setNavigationOnClickListener {
+            findNavController().navigateUp()
+        }
     }
 
     private fun setGenreMovie() {
         binding.rvGenreMovie.adapter = genreMovieAdapter
         binding.rvGenreMovie.layoutManager =
             GridLayoutManager(requireContext(), calculateSpanCount())
-        binding.rvGenreMovie.addItemDecoration(PosterDescriptionItemDecoration)
+        binding.rvGenreMovie.addItemDecoration(object : ItemDecoration() {
+            override fun getItemOffsets(
+                outRect: android.graphics.Rect,
+                view: View,
+                parent: RecyclerView,
+                state: RecyclerView.State
+            ) {
+                outRect.bottom = resources.getDimensionPixelSize(R.dimen.movieverse_padding_small)
+            }
+        })
     }
 
     private fun calculateSpanCount(): Int {
@@ -63,6 +80,7 @@ class GenreFragment : BaseFragment<FragmentGenreBinding>() {
             viewModel.uiState.collect {
                 when (it) {
                     GenreUiState.Loading -> {}
+
                     is GenreUiState.Success -> {
                         binding.tb.title = it.genre.name
                         genreMovieAdapter.submitList(it.movieList)
