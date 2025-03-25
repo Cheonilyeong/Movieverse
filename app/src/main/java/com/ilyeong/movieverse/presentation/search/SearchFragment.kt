@@ -1,6 +1,7 @@
 package com.ilyeong.movieverse.presentation.search
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,7 +14,12 @@ import com.ilyeong.movieverse.presentation.search.adapter.HeaderAdapter
 import com.ilyeong.movieverse.presentation.search.adapter.TrendAdapter
 import com.ilyeong.movieverse.presentation.search.model.SearchUiState
 import com.ilyeong.movieverse.presentation.util.PosterDescriptionItemDecoration
+import com.ilyeong.movieverse.presentation.util.getQueryFlow
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.distinctUntilChanged
 
 @AndroidEntryPoint
 class SearchFragment : BaseFragment<FragmentSearchBinding>() {
@@ -30,6 +36,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
         super.onViewCreated(view, savedInstanceState)
 
         setToolbarNavigationIcon()
+        setSearchView()
         setTrend()
 
         observeUiState()
@@ -38,6 +45,19 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
     private fun setToolbarNavigationIcon() {
         binding.tb.setNavigationOnClickListener {
             findNavController().navigateUp()
+        }
+    }
+
+    @OptIn(FlowPreview::class)
+    private fun setSearchView() {
+        repeatOnViewStarted {
+            binding.sv.getQueryFlow()
+                .debounce(500L)
+                .distinctUntilChanged()
+                .collectLatest {
+                    Log.d("search", it)
+                    // viewmodel search api
+                }
         }
     }
 
