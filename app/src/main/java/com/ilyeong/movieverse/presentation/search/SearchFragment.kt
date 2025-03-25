@@ -16,7 +16,7 @@ import com.ilyeong.movieverse.presentation.home.adapter.SectionAdapter
 import com.ilyeong.movieverse.presentation.search.adapter.HeaderAdapter
 import com.ilyeong.movieverse.presentation.search.adapter.TrendAdapter
 import com.ilyeong.movieverse.presentation.search.model.SearchUiState
-import com.ilyeong.movieverse.presentation.util.MovieClickListener
+import com.ilyeong.movieverse.presentation.util.ItemClickListener
 import com.ilyeong.movieverse.presentation.util.PosterDescriptionItemDecoration
 import com.ilyeong.movieverse.presentation.util.getQueryFlow
 import dagger.hilt.android.AndroidEntryPoint
@@ -33,16 +33,16 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
 
     private val viewModel: SearchViewModel by viewModels()
 
-    val movieClickListener = MovieClickListener { movieId ->
+    val itemClickListener = ItemClickListener { movieId ->
         val action = SearchFragmentDirections.actionSearchFragmentToDetailFragment(movieId)
         findNavController().navigate(action)
     }
 
     private val trendHeaderAdapter = HeaderAdapter()
-    private val trendAdapter = TrendAdapter(movieClickListener)
+    private val trendAdapter = TrendAdapter(itemClickListener)
 
     private val searchHeaderAdapter = HeaderAdapter()
-    private val searchAdapter = SectionAdapter(movieClickListener)
+    private val searchAdapter = SectionAdapter(itemClickListener)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

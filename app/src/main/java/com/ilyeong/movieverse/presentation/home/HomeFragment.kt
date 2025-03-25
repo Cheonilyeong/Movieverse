@@ -15,7 +15,7 @@ import com.ilyeong.movieverse.presentation.home.adapter.BannerAdapter
 import com.ilyeong.movieverse.presentation.home.adapter.GenreAdapter
 import com.ilyeong.movieverse.presentation.home.adapter.SectionAdapter
 import com.ilyeong.movieverse.presentation.home.model.HomeUiState
-import com.ilyeong.movieverse.presentation.util.MovieClickListener
+import com.ilyeong.movieverse.presentation.util.ItemClickListener
 import com.ilyeong.movieverse.presentation.util.PosterDefaultItemDecoration
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -27,13 +27,18 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
     private val viewModel: HomeViewModel by viewModels()
 
-    private val movieClickListener = MovieClickListener { movieId ->
+    private val movieClickListener = ItemClickListener { movieId ->
         val action = HomeFragmentDirections.actionHomeFragmentToDetailFragment(movieId)
         findNavController().navigate(action)
     }
 
+    private val genreClickListener = ItemClickListener { genreId ->
+        val action = HomeFragmentDirections.actionHomeFragmentToGenreFragment(genreId)
+        findNavController().navigate(action)
+    }
+
     private val bannerAdapter = BannerAdapter(movieClickListener)
-    private val genreAdapter = GenreAdapter()
+    private val genreAdapter = GenreAdapter(genreClickListener)
     private val watchlistAdapter = SectionAdapter(movieClickListener)
     private val topRatedAdapter = SectionAdapter(movieClickListener)
     private val upcomingAdapter = SectionAdapter(movieClickListener)

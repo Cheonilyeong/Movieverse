@@ -12,7 +12,7 @@ import com.ilyeong.movieverse.databinding.FragmentRecommendedBinding
 import com.ilyeong.movieverse.presentation.common.BaseFragment
 import com.ilyeong.movieverse.presentation.detail.model.DetailUiState
 import com.ilyeong.movieverse.presentation.home.adapter.SectionAdapter
-import com.ilyeong.movieverse.presentation.util.MovieClickListener
+import com.ilyeong.movieverse.presentation.util.ItemClickListener
 import com.ilyeong.movieverse.presentation.util.PosterDefaultItemDecoration
 
 class RecommendedFragment : BaseFragment<FragmentRecommendedBinding>() {
@@ -22,14 +22,14 @@ class RecommendedFragment : BaseFragment<FragmentRecommendedBinding>() {
 
     private val viewModel: DetailViewModel by viewModels({ requireParentFragment() })
 
-    private val movieClickListener = MovieClickListener { movieId ->
+    private val itemClickListener = ItemClickListener { movieId ->
         val action = DetailFragmentDirections.actionDetailFragmentToDetailFragment(movieId)
         findNavController().navigate(action)
     }
 
-    private val collectionAdapter = SectionAdapter(movieClickListener)
-    private val recommendationAdapter = SectionAdapter(movieClickListener)
-    private val similarAdapter = SectionAdapter(movieClickListener)
+    private val collectionAdapter = SectionAdapter(itemClickListener)
+    private val recommendationAdapter = SectionAdapter(itemClickListener)
+    private val similarAdapter = SectionAdapter(itemClickListener)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

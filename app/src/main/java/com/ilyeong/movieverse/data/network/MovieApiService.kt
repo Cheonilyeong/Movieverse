@@ -2,6 +2,7 @@ package com.ilyeong.movieverse.data.network
 
 import com.ilyeong.movieverse.data.model.CollectionResponse
 import com.ilyeong.movieverse.data.model.CreditResponse
+import com.ilyeong.movieverse.data.model.DiscoverResponse
 import com.ilyeong.movieverse.data.model.GenreListResponse
 import com.ilyeong.movieverse.data.model.MovieDetailResponse
 import com.ilyeong.movieverse.data.model.NowPlayingResponse
@@ -33,6 +34,9 @@ interface MovieApiService {
 
     @GET("movie/{movie_id}/similar")
     suspend fun getMovieSimilarList(@Path("movie_id") movieId: Int): SimilarListResponse
+
+    @GET("discover/movie")
+    suspend fun getMovieListByGenre(@Query("with_genres") genreId: Int): DiscoverResponse
 
     @GET("search/movie")
     suspend fun searchMovieList(@Query("query") query: String): SearchMovieListResponse

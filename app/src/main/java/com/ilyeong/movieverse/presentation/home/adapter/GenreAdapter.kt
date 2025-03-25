@@ -5,8 +5,11 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import com.ilyeong.movieverse.domain.model.Genre
 import com.ilyeong.movieverse.presentation.home.viewholder.GenreViewHolder
+import com.ilyeong.movieverse.presentation.util.ItemClickListener
 
-class GenreAdapter : ListAdapter<Genre, GenreViewHolder>(genreDiffUtil) {
+class GenreAdapter(
+    private val itemClickListener: ItemClickListener? = null,
+) : ListAdapter<Genre, GenreViewHolder>(genreDiffUtil) {
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
@@ -16,7 +19,7 @@ class GenreAdapter : ListAdapter<Genre, GenreViewHolder>(genreDiffUtil) {
         holder: GenreViewHolder,
         position: Int
     ) {
-        holder.bind(getItem(position))
+        holder.bind(getItem(position), itemClickListener)
     }
 }
 
