@@ -41,5 +41,6 @@ fun RecommendationResponse.toDomain() = Movie(
     title = title,
     video = video,
     voteAverage = voteAverage,
-    voteCount = voteCount
+    voteCount = voteCount,
+    isInWatchlist = false,
 )

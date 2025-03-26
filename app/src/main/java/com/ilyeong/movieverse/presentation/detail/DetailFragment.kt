@@ -36,6 +36,7 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>() {
         super.onViewCreated(view, savedInstanceState)
 
         setToolBarNavigationIcon()
+        setMovieWatchlistIcon()
         setMovieTab()
 
         observeUiState()
@@ -44,6 +45,12 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>() {
     private fun setToolBarNavigationIcon() {
         binding.tb.setNavigationOnClickListener {
             findNavController().navigateUp()
+        }
+    }
+
+    private fun setMovieWatchlistIcon() {
+        binding.ivWatchlist.setOnClickListener {
+            viewModel.addMovieToWatchlist()
         }
     }
 
@@ -86,6 +93,7 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>() {
                         }
 
                         binding.tvMovieTitle.text = movie.title
+                        binding.ivWatchlist.isSelected = movie.isInWatchlist
 
                         binding.rrv.rating = movie.voteAverage
                         binding.rrv.ratingCount = movie.voteCount

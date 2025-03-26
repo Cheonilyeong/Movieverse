@@ -6,4 +6,5 @@ import kotlinx.coroutines.flow.Flow
 interface UserRepository {
 
     fun getWatchlistMovieList(): Flow<List<Movie>>
+    fun addMovieToWatchlist(movieId: Int, watchlist: Boolean): Flow<Unit>
 }

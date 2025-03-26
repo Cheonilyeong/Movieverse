@@ -6,7 +6,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class SimilarResponse(
+data class WatchlistMovieListResponse(
     @SerialName("adult") val adult: Boolean,
     @SerialName("backdrop_path") val backdropPath: String = "",
     @SerialName("genre_ids") val genreIdList: List<Int> = emptyList(),
@@ -23,7 +23,7 @@ data class SimilarResponse(
     @SerialName("vote_count") val voteCount: Int
 )
 
-fun SimilarResponse.toDomain() = Movie(
+fun WatchlistMovieListResponse.toDomain() = Movie(
     adult = adult,
     backdropPath = "https://image.tmdb.org/t/p/original/$backdropPath",
     collection = null,
@@ -41,5 +41,5 @@ fun SimilarResponse.toDomain() = Movie(
     video = video,
     voteAverage = voteAverage,
     voteCount = voteCount,
-    isInWatchlist = false,
+    isInWatchlist = true,
 )
