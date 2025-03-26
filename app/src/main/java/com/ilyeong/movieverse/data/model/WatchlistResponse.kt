@@ -6,7 +6,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class WatchlistResponse(
     @SerialName("page") val page: Int,
-    @SerialName("results") val resultList: List<MovieResponse> = emptyList(),
+    @SerialName("results") val resultList: List<WatchlistListResponse> = emptyList(),
     @SerialName("total_pages") val totalPage: Int,
     @SerialName("total_results") val totalResults: Int
 )

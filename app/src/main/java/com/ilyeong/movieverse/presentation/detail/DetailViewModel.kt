@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ilyeong.movieverse.data.repository.MovieRepository
+import com.ilyeong.movieverse.data.repository.UserRepository
 import com.ilyeong.movieverse.domain.model.Movie
 import com.ilyeong.movieverse.presentation.detail.model.DetailUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -17,6 +18,7 @@ import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.update
 import javax.inject.Inject
@@ -24,6 +26,7 @@ import javax.inject.Inject
 @HiltViewModel
 class DetailViewModel @Inject constructor(
     private val movieRepository: MovieRepository,
+    private val userRepository: UserRepository,
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow<DetailUiState>(DetailUiState.Loading)
@@ -66,5 +69,33 @@ class DetailViewModel @Inject constructor(
             Log.d("DetailViewModel", "error: $it")
             // todo
         }.launchIn(viewModelScope)
+    }
+
+    fun addMovieToWatchlist() {
+        val currentState = uiState.value as? DetailUiState.Success ?: return
+
+        val movieId = currentState.movie.id
+        val watchlist = currentState.movie.isInWatchlist.not()
+
+        userRepository.addMovieToWatchlist(movieId, watchlist)
+            .onEach {
+                _uiState.update { currentState ->
+                    when (currentState) {
+                        is DetailUiState.Success -> currentState.copy(
+                            movie = currentState.movie.copy(
+                                isInWatchlist = watchlist
+                            )
+                        )
+
+                        else -> currentState
+                    }
+                }
+            }
+            .onStart {
+                // todo
+            }.catch {
+                // todo
+            }
+            .launchIn(viewModelScope)
     }
 }
