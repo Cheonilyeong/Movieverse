@@ -22,7 +22,6 @@ class TrendViewHolder private constructor(
             )
         }
         binding.tvTitle.text = movie.title
-        binding.tvTitle.setCompoundDrawables(null, null, null, null)
 
         binding.rrv.rating = movie.voteAverage.toDouble()
         binding.rrv.ratingCount = movie.voteCount
