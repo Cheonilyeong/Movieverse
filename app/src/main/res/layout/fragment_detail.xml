@@ -38,12 +38,22 @@
         android:ellipsize="end"
         android:maxLines="1"
         android:layout_marginTop="@dimen/movieverse_padding_large"
-        android:layout_marginHorizontal="@dimen/movieverse_padding_large"
-        app:drawableEndCompat="@drawable/ic_bookmark_selector"
+        android:layout_marginStart="@dimen/movieverse_padding_large"
         app:layout_constraintTop_toBottomOf="@id/iv_backdrop"
         app:layout_constraintStart_toEndOf="@id/poster_default"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/iv_watchlist"
         tools:text="베놈 : 라스트 댄스" />
+
+    <ImageView
+        android:id="@+id/iv_watchlist"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_bookmark_selector"
+        android:contentDescription="@string/watchlist"
+        android:layout_marginEnd="@dimen/movieverse_padding_large"
+        app:layout_constraintTop_toTopOf="@id/tv_movie_title"
+        app:layout_constraintStart_toEndOf="@id/tv_movie_title"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <com.ilyeong.movieverse.presentation.common.ReviewRatingView
         android:id="@+id/rrv"
