@@ -41,4 +41,5 @@ fun MovieResponse.toDomain() = Movie(
     video = video,
     voteAverage = voteAverage,
     voteCount = voteCount,
+    isInWatchlist = false,
 )
