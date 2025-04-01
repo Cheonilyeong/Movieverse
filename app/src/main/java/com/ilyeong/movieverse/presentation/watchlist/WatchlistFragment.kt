@@ -35,6 +35,7 @@ class WatchlistFragment : BaseFragment<FragmentWatchlistBinding>() {
         setWatchlist()
 
         observeUiState()
+        loadData()
     }
 
     private fun setWatchlist() {
@@ -57,5 +58,9 @@ class WatchlistFragment : BaseFragment<FragmentWatchlistBinding>() {
                 }
             }
         }
+    }
+
+    private fun loadData() {
+        viewModel.loadData()
     }
 }
