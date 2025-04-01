@@ -99,7 +99,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <include layout="@layout/item_movie_detail_shimmer" />
+        <include layout="@layout/shimmer_fragment_detail" />
 
     </com.facebook.shimmer.ShimmerFrameLayout>
 

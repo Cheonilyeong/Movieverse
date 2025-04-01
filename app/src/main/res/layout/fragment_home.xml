@@ -188,19 +188,7 @@
         android:layout_height="match_parent"
         android:fitsSystemWindows="true">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <include layout="@layout/item_movie_poster_full_shimmer" />
-
-            <include layout="@layout/item_movie_genre_chip_shimmer" />
-
-            <include layout="@layout/item_movie_poster_default_shimmer" />
-
-            <include layout="@layout/item_movie_poster_default_shimmer" />
-        </LinearLayout>
+        <include layout="@layout/shimmer_fragment_home" />
 
     </com.facebook.shimmer.ShimmerFrameLayout>
 
