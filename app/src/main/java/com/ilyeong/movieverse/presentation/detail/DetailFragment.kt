@@ -83,27 +83,29 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>() {
                         binding.sfl.isVisible = false
                         binding.content.isVisible = true
 
-                        val movie = it.movie
+                        with(it.movie) {
+                            binding.ivBackdrop.load(this.backdropPath) {
+                                crossfade(true)
+                            }
 
-                        binding.ivBackdrop.load(movie.backdropPath) {
-                            crossfade(true)
+                            binding.posterDefault.ivPoster.load(this.posterPath) {
+                                crossfade(true)
+                                listener(
+                                    onStart = { _ ->
+                                        binding.posterDefault.tvPosterTitle.text = null
+                                    },
+                                    onError = { _, _ ->
+                                        binding.posterDefault.tvPosterTitle.text = this@with.title
+                                    }
+                                )
+                            }
+
+                            binding.tvMovieTitle.text = this.title
+                            binding.ivWatchlist.isSelected = this.isInWatchlist
+
+                            binding.rrv.rating = this.voteAverage
+                            binding.rrv.ratingCount = this.voteCount
                         }
-
-                        binding.posterDefault.ivPoster.load(movie.posterPath) {
-                            crossfade(true)
-                            listener(
-                                onStart = { _ -> binding.posterDefault.tvPosterTitle.text = null },
-                                onError = { _, _ ->
-                                    binding.posterDefault.tvPosterTitle.text = movie.title
-                                }
-                            )
-                        }
-
-                        binding.tvMovieTitle.text = movie.title
-                        binding.ivWatchlist.isSelected = movie.isInWatchlist
-
-                        binding.rrv.rating = movie.voteAverage
-                        binding.rrv.ratingCount = movie.voteCount
                     }
 
                     DetailUiState.Failure -> {
