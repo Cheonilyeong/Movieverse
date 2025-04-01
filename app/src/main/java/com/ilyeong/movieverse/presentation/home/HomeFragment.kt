@@ -55,6 +55,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         setMovieSection()
 
         observeUiState()
+        loadData()
     }
 
     private fun setToolbarMenu() {
@@ -134,5 +135,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                 }
             }
         }
+    }
+
+    private fun loadData() {
+        viewModel.loadData()
     }
 }

@@ -22,14 +22,14 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    movieRepository: MovieRepository,
-    userRepository: UserRepository,
+    private val movieRepository: MovieRepository,
+    private val userRepository: UserRepository,
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow<HomeUiState>(HomeUiState.Loading)
     val uiState: StateFlow<HomeUiState> = _uiState.asStateFlow()
 
-    init {
+    fun loadData() {
         val trendingDayFlow = movieRepository.getTrendingMovieList(TimeWindow.DAY)
         val genreFlow = movieRepository.getMovieGenreList()
         val topRatedFlow = movieRepository.getTopRatedMovieList()

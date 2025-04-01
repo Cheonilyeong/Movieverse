@@ -17,13 +17,13 @@ import javax.inject.Inject
 
 @HiltViewModel
 class WatchlistViewModel @Inject constructor(
-    userRepository: UserRepository
+    private val userRepository: UserRepository
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow<WatchlistUiState>(WatchlistUiState.Loading)
     val uiState: StateFlow<WatchlistUiState> = _uiState.asStateFlow()
 
-    init {
+    fun loadData() {
         userRepository.getWatchlistMovieList()
             .onStart {
                 // todo
