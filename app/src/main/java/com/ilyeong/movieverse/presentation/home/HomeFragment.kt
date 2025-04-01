@@ -59,16 +59,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     }
 
     private fun setToolbarMenu() {
-        binding.tb.setOnMenuItemClickListener { menu ->
-            when (menu.itemId) {
-                R.id.search -> {
-                    val action = HomeFragmentDirections.actionHomeFragmentToSearchFragment()
-                    findNavController().navigate(action)
-                    true
-                }
-
-                else -> false
-            }
+        binding.tb.setOnMenuItemClickListener { _ ->
+            val action = HomeFragmentDirections.actionHomeFragmentToSearchFragment()
+            findNavController().navigate(action)
+            true
         }
     }
 
@@ -116,9 +110,17 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         repeatOnViewStarted {
             viewModel.uiState.collect {
                 when (it) {
-                    HomeUiState.Loading -> {}
+                    HomeUiState.Loading -> {
+                        binding.sfl.startShimmer()
+                        binding.sfl.isVisible = true
+                        binding.sv.isVisible = false
+                    }
 
                     is HomeUiState.Success -> {
+                        binding.sfl.stopShimmer()
+                        binding.sfl.isVisible = false
+                        binding.sv.isVisible = true
+
                         bannerAdapter.submitList(it.bannerMovieList)
                         genreAdapter.submitList(it.genreList)
                         watchlistAdapter.submitList(it.watchlistMovieList)
