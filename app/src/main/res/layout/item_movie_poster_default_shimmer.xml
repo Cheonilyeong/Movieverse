@@ -9,35 +9,35 @@
     <com.google.android.material.imageview.ShapeableImageView
         android:layout_width="@dimen/movieverse_poster_default_width"
         android:layout_height="@dimen/movieverse_poster_default_height"
-        android:background="@color/dark_gray"
+        android:background="@color/gray"
         app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Small"
         android:layout_marginStart="@dimen/movieverse_padding_large" />
 
     <com.google.android.material.imageview.ShapeableImageView
         android:layout_width="@dimen/movieverse_poster_default_width"
         android:layout_height="@dimen/movieverse_poster_default_height"
-        android:background="@color/dark_gray"
+        android:background="@color/gray"
         app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Small"
         android:layout_marginStart="@dimen/movieverse_padding_large" />
 
     <com.google.android.material.imageview.ShapeableImageView
         android:layout_width="@dimen/movieverse_poster_default_width"
         android:layout_height="@dimen/movieverse_poster_default_height"
-        android:background="@color/dark_gray"
+        android:background="@color/gray"
         app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Small"
         android:layout_marginStart="@dimen/movieverse_padding_large" />
 
     <com.google.android.material.imageview.ShapeableImageView
         android:layout_width="@dimen/movieverse_poster_default_width"
         android:layout_height="@dimen/movieverse_poster_default_height"
-        android:background="@color/dark_gray"
+        android:background="@color/gray"
         app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Small"
         android:layout_marginStart="@dimen/movieverse_padding_large" />
 
     <com.google.android.material.imageview.ShapeableImageView
         android:layout_width="@dimen/movieverse_poster_default_width"
         android:layout_height="@dimen/movieverse_poster_default_height"
-        android:background="@color/dark_gray"
+        android:background="@color/gray"
         app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Small"
         android:layout_marginStart="@dimen/movieverse_padding_large" />
 </LinearLayout>

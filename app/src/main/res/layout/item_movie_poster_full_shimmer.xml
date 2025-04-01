@@ -9,7 +9,7 @@
         android:layout_height="0dp"
         android:paddingTop="?attr/actionBarSize"
         android:paddingHorizontal="@dimen/movieverse_padding_large"
-        android:background="@color/light_gray"
+        android:background="@color/gray"
         app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Small"
         app:layout_constraintDimensionRatio="1:1.7"
         app:layout_constraintTop_toTopOf="parent"

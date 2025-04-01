@@ -10,36 +10,36 @@
     <com.google.android.material.chip.Chip
         android:layout_width="100dp"
         android:layout_height="50dp"
-        app:chipBackgroundColor="@color/light_gray"
+        app:chipBackgroundColor="@color/gray"
         style="@style/Widget.Material3.Chip.Suggestion.Elevated" />
 
     <com.google.android.material.chip.Chip
         android:layout_width="100dp"
         android:layout_height="50dp"
-        app:chipBackgroundColor="@color/light_gray"
+        app:chipBackgroundColor="@color/gray"
         style="@style/Widget.Material3.Chip.Suggestion.Elevated" />
 
     <com.google.android.material.chip.Chip
         android:layout_width="100dp"
         android:layout_height="50dp"
-        app:chipBackgroundColor="@color/light_gray"
+        app:chipBackgroundColor="@color/gray"
         style="@style/Widget.Material3.Chip.Suggestion.Elevated" />
 
     <com.google.android.material.chip.Chip
         android:layout_width="100dp"
         android:layout_height="50dp"
-        app:chipBackgroundColor="@color/light_gray"
+        app:chipBackgroundColor="@color/gray"
         style="@style/Widget.Material3.Chip.Suggestion.Elevated" />
 
     <com.google.android.material.chip.Chip
         android:layout_width="100dp"
         android:layout_height="60dp"
-        app:chipBackgroundColor="@color/light_gray"
+        app:chipBackgroundColor="@color/gray"
         style="@style/Widget.Material3.Chip.Suggestion.Elevated" />
 
     <com.google.android.material.chip.Chip
         android:layout_width="100dp"
         android:layout_height="50dp"
-        app:chipBackgroundColor="@color/light_gray"
+        app:chipBackgroundColor="@color/gray"
         style="@style/Widget.Material3.Chip.Suggestion.Elevated" />
 </LinearLayout>
