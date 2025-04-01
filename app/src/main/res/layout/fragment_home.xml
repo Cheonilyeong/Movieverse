@@ -195,7 +195,7 @@
 
             <include layout="@layout/item_movie_poster_full_shimmer" />
 
-            <include layout="@layout/item_movie_genre_shimmer" />
+            <include layout="@layout/item_movie_genre_chip_shimmer" />
 
             <include layout="@layout/item_movie_poster_default_shimmer" />
 

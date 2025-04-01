@@ -47,9 +47,18 @@ class WatchlistFragment : BaseFragment<FragmentWatchlistBinding>() {
         repeatOnViewStarted {
             viewModel.uiState.collect {
                 when (it) {
-                    Loading -> {}
+                    is Loading -> {
+                        binding.sfl.startShimmer()
+                        binding.sfl.isVisible = true
+                        binding.rvWatchlist.isVisible = false
+                        binding.tvWatchlistEmpty.isVisible = false
+                    }
 
                     is Success -> {
+                        binding.sfl.stopShimmer()
+                        binding.sfl.isVisible = false
+                        binding.rvWatchlist.isVisible = true
+
                         watchlistAdapter.submitList(it.watchlist)
                         binding.tvWatchlistEmpty.isVisible = it.watchlist.isEmpty()
                     }
