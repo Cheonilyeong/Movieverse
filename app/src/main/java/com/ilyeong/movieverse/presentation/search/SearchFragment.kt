@@ -103,9 +103,17 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
         repeatOnViewStarted {
             viewModel.uiState.collect {
                 when (it) {
-                    SearchUiState.Loading -> {}
+                    is SearchUiState.Loading -> {
+                        binding.sfl.startShimmer()
+                        binding.sfl.isVisible = true
+                        binding.content.isVisible = false
+                    }
 
                     is SearchUiState.Success -> {
+                        binding.sfl.stopShimmer()
+                        binding.sfl.isVisible = false
+                        binding.content.isVisible = true
+
                         when {
                             // 검색 X
                             it.searchMovieList == null -> {
@@ -136,7 +144,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
                         }
                     }
 
-                    SearchUiState.Failure -> {}
+                    is SearchUiState.Failure -> {}
                 }
             }
         }
