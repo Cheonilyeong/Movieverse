@@ -5,7 +5,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ilyeong.movieverse.data.repository.MovieRepository
 import com.ilyeong.movieverse.data.repository.UserRepository
+import com.ilyeong.movieverse.domain.model.Credit
 import com.ilyeong.movieverse.domain.model.Movie
+import com.ilyeong.movieverse.domain.model.Review
 import com.ilyeong.movieverse.presentation.detail.model.DetailUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -14,10 +16,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.update
@@ -34,34 +33,39 @@ class DetailViewModel @Inject constructor(
 
     @OptIn(ExperimentalCoroutinesApi::class)
     fun loadData(movieId: Int) {
-        val movieDetail = movieRepository.getMovieDetail(movieId)
+        val detailFlow = movieRepository.getMovieDetail(movieId)
+        val creditFlow = movieRepository.getMovieCredit(movieId)
+        val recommendationListFlow = movieRepository.getMovieRecommendationList(movieId)
+        val similarListFlow = movieRepository.getMovieSimilarList(movieId)
+        val reviewListFlow = movieRepository.getMovieReviewList(movieId)
+        val watchlistFlow = userRepository.getWatchlistMovieList()
 
-        movieDetail.flatMapLatest { movie ->
-            val movieCredit = movieRepository.getMovieCredit(movieId)
-            val movieCollection = movie.collection?.let {
-                movieRepository.getMovieCollection(movie.collection.id).map { it.partList }
-            } ?: flow { emit(emptyList<Movie>()) }
-            val movieRecommendationList = movieRepository.getMovieRecommendationList(movieId)
-            val movieSimilarList = movieRepository.getMovieSimilarList(movieId)
-            val movieReviewList = movieRepository.getMovieReviewList(movieId)
+        combine(
+            detailFlow,
+            creditFlow,
+            recommendationListFlow,
+            similarListFlow,
+            reviewListFlow,
+            watchlistFlow
+        ) {
+            val detail = it[0] as Movie
+            val credit = it[1] as Credit
+            val recommendationList = it[2] as List<Movie>
+            val similarList = it[3] as List<Movie>
+            val reviewList = it[4] as List<Review>
+            val watchlist = it[5] as List<Movie>
 
-            combine(
-                movieCredit,
-                movieCollection,
-                movieRecommendationList,
-                movieSimilarList,
-                movieReviewList
-            ) { credit, collection, recommendationList, similarList, reviewList ->
-                _uiState.update {
-                    DetailUiState.Success(
-                        movie = movie,
-                        cast = credit.cast,
-                        collectionMovieList = collection,
-                        movieRecommendationList = recommendationList,
-                        movieSimilarList = similarList,
-                        movieReviewList = reviewList
-                    )
-                }
+            val isInWatchlist = watchlist.any { movie -> movie.id == detail.id }
+
+            _uiState.update {
+                DetailUiState.Success(
+                    movie = detail.copy(isInWatchlist = isInWatchlist),
+                    cast = credit.cast,
+                    collectionMovieList = detail.collection?.partList ?: emptyList(),
+                    movieRecommendationList = recommendationList,
+                    movieSimilarList = similarList,
+                    movieReviewList = reviewList
+                )
             }
         }.onStart {
             // todo
@@ -82,9 +86,7 @@ class DetailViewModel @Inject constructor(
                 _uiState.update { currentState ->
                     when (currentState) {
                         is DetailUiState.Success -> currentState.copy(
-                            movie = currentState.movie.copy(
-                                isInWatchlist = watchlist
-                            )
+                            movie = currentState.movie.copy(isInWatchlist = watchlist)
                         )
 
                         else -> currentState
