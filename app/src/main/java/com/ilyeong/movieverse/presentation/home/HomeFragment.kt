@@ -90,26 +90,26 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     }
 
     private fun setMovieSection() {
-        binding.movieSection1.tvTitle.text = getString(R.string.movie_section_watchlist)
-        binding.movieSection2.tvTitle.text = getString(R.string.movie_section_upcoming)
-        binding.movieSection3.tvTitle.text = getString(R.string.movie_section_popular)
-        binding.movieSection4.tvTitle.text = getString(R.string.movie_section_now_playing)
-        binding.movieSection5.tvTitle.text = getString(R.string.movie_section_trending_week)
-        binding.movieSection6.tvTitle.text = getString(R.string.movie_section_top_rated)
+        binding.tvMovieSection1.text = getString(R.string.movie_section_watchlist)
+        binding.tvMovieSection2.text = getString(R.string.movie_section_upcoming)
+        binding.tvMovieSection3.text = getString(R.string.movie_section_popular)
+        binding.tvMovieSection4.text = getString(R.string.movie_section_now_playing)
+        binding.tvMovieSection5.text = getString(R.string.movie_section_trending_week)
+        binding.tvMovieSection6.text = getString(R.string.movie_section_top_rated)
 
-        binding.movieSection1.rvMovieList.adapter = watchlistAdapter
-        binding.movieSection2.rvMovieList.adapter = upcomingAdapter
-        binding.movieSection3.rvMovieList.adapter = popularAdapter
-        binding.movieSection4.rvMovieList.adapter = nowPlayingAdapter
-        binding.movieSection5.rvMovieList.adapter = trendingAdapter
-        binding.movieSection6.rvMovieList.adapter = topRatedAdapter
+        binding.rvMovieSection1.adapter = watchlistAdapter
+        binding.rvMovieSection2.adapter = upcomingAdapter
+        binding.rvMovieSection3.adapter = popularAdapter
+        binding.rvMovieSection4.adapter = nowPlayingAdapter
+        binding.rvMovieSection5.adapter = trendingAdapter
+        binding.rvMovieSection6.adapter = topRatedAdapter
 
-        binding.movieSection1.rvMovieList.addItemDecoration(PosterDefaultItemDecoration)
-        binding.movieSection2.rvMovieList.addItemDecoration(PosterDefaultItemDecoration)
-        binding.movieSection3.rvMovieList.addItemDecoration(PosterDefaultItemDecoration)
-        binding.movieSection4.rvMovieList.addItemDecoration(PosterDefaultItemDecoration)
-        binding.movieSection5.rvMovieList.addItemDecoration(PosterDefaultItemDecoration)
-        binding.movieSection6.rvMovieList.addItemDecoration(PosterDefaultItemDecoration)
+        binding.rvMovieSection1.addItemDecoration(PosterDefaultItemDecoration)
+        binding.rvMovieSection2.addItemDecoration(PosterDefaultItemDecoration)
+        binding.rvMovieSection3.addItemDecoration(PosterDefaultItemDecoration)
+        binding.rvMovieSection4.addItemDecoration(PosterDefaultItemDecoration)
+        binding.rvMovieSection5.addItemDecoration(PosterDefaultItemDecoration)
+        binding.rvMovieSection6.addItemDecoration(PosterDefaultItemDecoration)
     }
 
     private fun observeUiState() {
@@ -128,7 +128,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                         nowPlayingAdapter.submitList(it.nowPlayingMovieList)
                         trendingAdapter.submitList(it.trendingWeekMovieList)
 
-                        binding.movieSection1.root.isVisible = it.watchlistMovieList.isNotEmpty()
+                        binding.tvMovieSection1.isVisible = it.watchlistMovieList.isNotEmpty()
+                        binding.rvMovieSection1.isVisible = it.watchlistMovieList.isNotEmpty()
                     }
 
                     HomeUiState.Failure -> {}

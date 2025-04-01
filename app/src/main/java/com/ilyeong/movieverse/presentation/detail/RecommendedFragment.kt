@@ -42,21 +42,21 @@ class RecommendedFragment : BaseFragment<FragmentRecommendedBinding>() {
     }
 
     private fun setCollection() {
-        binding.movieSection1.tvTitle.text = getString(R.string.movie_section_collection)
-        binding.movieSection1.rvMovieList.adapter = collectionAdapter
-        binding.movieSection1.rvMovieList.addItemDecoration(PosterDefaultItemDecoration)
+        binding.tvMovieSection1.text = getString(R.string.movie_section_collection)
+        binding.rvMovieSection1.adapter = collectionAdapter
+        binding.rvMovieSection1.addItemDecoration(PosterDefaultItemDecoration)
     }
 
     private fun setRecommendation() {
-        binding.movieSection2.tvTitle.text = getString(R.string.movie_section_recommendation)
-        binding.movieSection2.rvMovieList.adapter = recommendationAdapter
-        binding.movieSection2.rvMovieList.addItemDecoration(PosterDefaultItemDecoration)
+        binding.tvMovieSection2.text = getString(R.string.movie_section_recommendation)
+        binding.rvMovieSection2.adapter = recommendationAdapter
+        binding.rvMovieSection2.addItemDecoration(PosterDefaultItemDecoration)
     }
 
     private fun setSimilar() {
-        binding.movieSection3.tvTitle.text = getString(R.string.movie_section_similar)
-        binding.movieSection3.rvMovieList.adapter = similarAdapter
-        binding.movieSection3.rvMovieList.addItemDecoration(PosterDefaultItemDecoration)
+        binding.tvMovieSection3.text = getString(R.string.movie_section_similar)
+        binding.rvMovieSection3.adapter = similarAdapter
+        binding.rvMovieSection3.addItemDecoration(PosterDefaultItemDecoration)
     }
 
     private fun observeUiState() {
@@ -70,16 +70,18 @@ class RecommendedFragment : BaseFragment<FragmentRecommendedBinding>() {
                     is DetailUiState.Success -> {
                         // 시리즈 영화
                         collectionAdapter.submitList(it.collectionMovieList)
-                        binding.movieSection1.root.isVisible = it.collectionMovieList.isNotEmpty()
+                        binding.tvMovieSection1.isVisible = it.collectionMovieList.isNotEmpty()
+                        binding.rvMovieSection1.isVisible = it.collectionMovieList.isNotEmpty()
 
                         // 추천 영화
                         recommendationAdapter.submitList(it.movieRecommendationList)
-                        binding.movieSection2.root.isVisible =
-                            it.movieRecommendationList.isEmpty().not()
+                        binding.tvMovieSection2.isVisible = it.movieRecommendationList.isNotEmpty()
+                        binding.rvMovieSection2.isVisible = it.movieRecommendationList.isNotEmpty()
 
                         // 관련 영화
                         similarAdapter.submitList(it.movieSimilarList)
-                        binding.movieSection3.root.isVisible = it.movieSimilarList.isNotEmpty()
+                        binding.tvMovieSection3.isVisible = it.movieSimilarList.isNotEmpty()
+                        binding.rvMovieSection3.isVisible = it.movieSimilarList.isNotEmpty()
 
                         // 빈 화면
                         binding.tvReviewEmpty.isVisible =
