@@ -113,13 +113,13 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                     HomeUiState.Loading -> {
                         binding.sfl.startShimmer()
                         binding.sfl.isVisible = true
-                        binding.sv.isVisible = false
+                        binding.content.isVisible = false
                     }
 
                     is HomeUiState.Success -> {
                         binding.sfl.stopShimmer()
                         binding.sfl.isVisible = false
-                        binding.sv.isVisible = true
+                        binding.content.isVisible = true
 
                         bannerAdapter.submitList(it.bannerMovieList)
                         genreAdapter.submitList(it.genreList)
