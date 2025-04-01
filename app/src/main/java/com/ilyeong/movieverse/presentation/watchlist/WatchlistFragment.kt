@@ -50,14 +50,13 @@ class WatchlistFragment : BaseFragment<FragmentWatchlistBinding>() {
                     is Loading -> {
                         binding.sfl.startShimmer()
                         binding.sfl.isVisible = true
-                        binding.rvWatchlist.isVisible = false
-                        binding.tvWatchlistEmpty.isVisible = false
+                        binding.content.isVisible = false
                     }
 
                     is Success -> {
                         binding.sfl.stopShimmer()
                         binding.sfl.isVisible = false
-                        binding.rvWatchlist.isVisible = true
+                        binding.content.isVisible = true
 
                         watchlistAdapter.submitList(it.watchlist)
                         binding.tvWatchlistEmpty.isVisible = it.watchlist.isEmpty()
