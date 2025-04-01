@@ -1,6 +1,5 @@
 package com.ilyeong.movieverse.data.repository
 
-import com.ilyeong.movieverse.domain.model.Collection
 import com.ilyeong.movieverse.domain.model.Credit
 import com.ilyeong.movieverse.domain.model.Genre
 import com.ilyeong.movieverse.domain.model.Movie
@@ -12,7 +11,6 @@ interface MovieRepository {
 
     fun getMovieDetail(movieId: Int): Flow<Movie>
     fun getMovieCredit(movieId: Int): Flow<Credit>
-    fun getMovieCollection(collectionId: Int): Flow<Collection>
     fun getMovieRecommendationList(movieId: Int): Flow<List<Movie>>
     fun getMovieSimilarList(movieId: Int): Flow<List<Movie>>
     fun getMovieReviewList(movieId: Int): Flow<List<Review>>
