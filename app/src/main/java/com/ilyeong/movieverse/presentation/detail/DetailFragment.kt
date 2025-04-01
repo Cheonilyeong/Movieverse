@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -72,10 +73,16 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>() {
             viewModel.uiState.collect {
                 when (it) {
                     DetailUiState.Loading -> {
-                        // todo
+                        binding.sfl.startShimmer()
+                        binding.sfl.isVisible = true
+                        binding.content.isVisible = false
                     }
 
                     is DetailUiState.Success -> {
+                        binding.sfl.stopShimmer()
+                        binding.sfl.isVisible = false
+                        binding.content.isVisible = true
+
                         val movie = it.movie
 
                         binding.ivBackdrop.load(movie.backdropPath) {
