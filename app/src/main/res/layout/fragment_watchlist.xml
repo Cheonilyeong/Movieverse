@@ -58,4 +58,8 @@
 
     </com.facebook.shimmer.ShimmerFrameLayout>
 
+    <include
+        layout="@layout/view_load_data_fail"
+        android:id="@+id/ldf" />
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
