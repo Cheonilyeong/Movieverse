@@ -18,6 +18,7 @@ import com.ilyeong.movieverse.presentation.common.adapter.PosterDescriptionAdapt
 import com.ilyeong.movieverse.presentation.common.adapter.PosterRatioAdapter
 import com.ilyeong.movieverse.presentation.common.fragment.BaseFragment
 import com.ilyeong.movieverse.presentation.search.adapter.HeaderAdapter
+import com.ilyeong.movieverse.presentation.search.model.SearchEvent.ShowMessage
 import com.ilyeong.movieverse.presentation.search.model.SearchUiState
 import com.ilyeong.movieverse.presentation.util.ItemClickListener
 import com.ilyeong.movieverse.presentation.util.PosterDescriptionItemDecoration
@@ -53,10 +54,13 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
 
         setToolbarNavigationIcon()
         setSearchView()
-        setSearch()
         setTrend()
+        setSearch()
+        setRetryBtn()
 
         observeUiState()
+        observeEvents()
+        loadData()
     }
 
     private fun setToolbarNavigationIcon() {
@@ -138,11 +142,10 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
         })
     }
 
-    private fun calculateSpanCount(): Int {
-        val screenWidth = resources.displayMetrics.widthPixels
-        val itemWidth = resources.getDimensionPixelSize(R.dimen.movieverse_poster_default_width)
-
-        return (screenWidth / itemWidth)
+    private fun setRetryBtn() {
+        binding.ldf.btnRetry.setOnClickListener {
+            viewModel.loadData()
+        }
     }
 
     private fun observeUiState() {
@@ -153,12 +156,14 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
                         binding.sfl.startShimmer()
                         binding.sfl.isVisible = true
                         binding.content.isVisible = false
+                        binding.ldf.root.isVisible = false
                     }
 
                     is SearchUiState.Success -> {
                         binding.sfl.stopShimmer()
                         binding.sfl.isVisible = false
                         binding.content.isVisible = true
+                        binding.ldf.root.isVisible = false
 
                         when {
                             // 검색 X
@@ -190,9 +195,30 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
                         }
                     }
 
-                    is SearchUiState.Failure -> {}
+                    is SearchUiState.Failure -> {
+                        binding.sfl.stopShimmer()
+                        binding.sfl.isVisible = false
+                        binding.content.isVisible = false
+                        binding.ldf.root.isVisible = true
+                    }
                 }
             }
         }
+    }
+
+    private fun observeEvents() {
+        repeatOnViewStarted {
+            viewModel.events.collect {
+                when (it) {
+                    is ShowMessage -> {
+                        showMessage(it.error.message.toString())
+                    }
+                }
+            }
+        }
+    }
+
+    private fun loadData() {
+        viewModel.loadData()
     }
 }

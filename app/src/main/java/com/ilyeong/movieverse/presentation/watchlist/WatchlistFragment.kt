@@ -11,6 +11,7 @@ import com.ilyeong.movieverse.databinding.FragmentWatchlistBinding
 import com.ilyeong.movieverse.presentation.common.adapter.PosterDescriptionAdapter
 import com.ilyeong.movieverse.presentation.common.fragment.BaseFragment
 import com.ilyeong.movieverse.presentation.util.PosterDescriptionItemDecoration
+import com.ilyeong.movieverse.presentation.watchlist.model.WatchlistEvent.ShowMessage
 import com.ilyeong.movieverse.presentation.watchlist.model.WatchlistUiState.Failure
 import com.ilyeong.movieverse.presentation.watchlist.model.WatchlistUiState.Loading
 import com.ilyeong.movieverse.presentation.watchlist.model.WatchlistUiState.Success
@@ -33,14 +34,22 @@ class WatchlistFragment : BaseFragment<FragmentWatchlistBinding>() {
         super.onViewCreated(view, savedInstanceState)
 
         setWatchlist()
+        setRetryBtn()
 
         observeUiState()
+        observeEvents()
         loadData()
     }
 
     private fun setWatchlist() {
         binding.rvWatchlist.adapter = watchlistAdapter
         binding.rvWatchlist.addItemDecoration(PosterDescriptionItemDecoration)
+    }
+
+    private fun setRetryBtn() {
+        binding.ldf.btnRetry.setOnClickListener {
+            loadData()
+        }
     }
 
     private fun observeUiState() {
@@ -51,18 +60,35 @@ class WatchlistFragment : BaseFragment<FragmentWatchlistBinding>() {
                         binding.sfl.startShimmer()
                         binding.sfl.isVisible = true
                         binding.content.isVisible = false
+                        binding.ldf.root.isVisible = false
                     }
 
                     is Success -> {
                         binding.sfl.stopShimmer()
                         binding.sfl.isVisible = false
                         binding.content.isVisible = true
+                        binding.ldf.root.isVisible = false
 
                         watchlistAdapter.submitList(it.watchlist)
                         binding.tvWatchlistEmpty.isVisible = it.watchlist.isEmpty()
                     }
 
-                    Failure -> {}
+                    Failure -> {
+                        binding.sfl.stopShimmer()
+                        binding.sfl.isVisible = false
+                        binding.content.isVisible = false
+                        binding.ldf.root.isVisible = true
+                    }
+                }
+            }
+        }
+    }
+
+    private fun observeEvents() {
+        repeatOnViewStarted {
+            viewModel.events.collect {
+                when (it) {
+                    is ShowMessage -> showMessage(it.error.message.toString())
                 }
             }
         }

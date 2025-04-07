@@ -52,10 +52,10 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>() {
 
     private fun observeEvents() {
         repeatOnStarted {
-            viewModel.events.collect { event ->
-                when (event) {
+            viewModel.events.collect {
+                when (it) {
                     is LoginEvent.NavigateToCustomTabs -> {
-                        val uri = Uri.parse(event.url)
+                        val uri = Uri.parse(it.url)
                         CustomTabsIntent.Builder().build()
                             .launchUrl(this@LoginActivity, uri)
                     }
@@ -67,7 +67,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>() {
                     }
 
                     is LoginEvent.ShowMessage -> {
-                        showMessage(event.error.message.toString())
+                        showMessage(it.error.message.toString())
                     }
                 }
             }

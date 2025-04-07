@@ -22,6 +22,9 @@
     <string name="language">Audio &#160;&#160;&#160; %s</string>
     <string name="search_result">Search Results</string>
 
+    <string name="load_error_message">Failed to load data.</string>
+    <string name="retry">Retry</string>
+
     <string name="watchlist_empty">No items in watchlist.</string>
     <string name="info_empty">No information available.</string>
     <string name="release_empty">Release Date &#160;&#160;&#160; No information available.</string>

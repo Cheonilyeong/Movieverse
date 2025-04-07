@@ -103,6 +103,10 @@
 
     </com.facebook.shimmer.ShimmerFrameLayout>
 
+    <include
+        layout="@layout/view_load_data_fail"
+        android:id="@+id/ldf" />
+
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/tb"
         android:layout_width="match_parent"

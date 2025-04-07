@@ -212,4 +212,8 @@
             app:layout_scrollFlags="noScroll" />
     </com.google.android.material.appbar.AppBarLayout>
 
+    <include
+        layout="@layout/view_load_data_fail"
+        android:id="@+id/ldf" />
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
