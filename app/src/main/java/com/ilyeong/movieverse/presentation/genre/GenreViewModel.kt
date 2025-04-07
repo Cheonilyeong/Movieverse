@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.ilyeong.movieverse.data.repository.MovieRepository
 import com.ilyeong.movieverse.presentation.genre.model.GenreUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -35,7 +36,15 @@ class GenreViewModel @Inject constructor(
                 )
             }
         }.onStart {
-            // todo
+            when (_uiState.value) {
+                is GenreUiState.Loading -> {
+                    delay(1000L)
+                }      // Shimmer Test
+                is GenreUiState.Success -> { /* no-op */
+                }
+
+                is GenreUiState.Failure -> TODO()
+            }
         }.catch {
             // todo
         }.launchIn(viewModelScope)

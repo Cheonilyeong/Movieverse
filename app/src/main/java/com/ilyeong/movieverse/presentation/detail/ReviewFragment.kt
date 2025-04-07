@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import com.ilyeong.movieverse.databinding.FragmentReviewBinding
-import com.ilyeong.movieverse.presentation.common.BaseFragment
+import com.ilyeong.movieverse.presentation.common.fragment.BaseFragment
 import com.ilyeong.movieverse.presentation.detail.adapter.ReviewAdapter
 import com.ilyeong.movieverse.presentation.detail.model.DetailUiState
 

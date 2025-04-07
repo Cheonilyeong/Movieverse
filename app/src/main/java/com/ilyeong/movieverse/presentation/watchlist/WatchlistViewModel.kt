@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.ilyeong.movieverse.data.repository.UserRepository
 import com.ilyeong.movieverse.presentation.watchlist.model.WatchlistUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -26,7 +27,13 @@ class WatchlistViewModel @Inject constructor(
     fun loadData() {
         userRepository.getWatchlistMovieList()
             .onStart {
-                // todo
+                when (_uiState.value) {
+                    is WatchlistUiState.Loading -> {
+                        delay(1000L)
+                    }       // Shimmer Test
+                    is WatchlistUiState.Success -> {}
+                    is WatchlistUiState.Failure -> {}
+                }
             }
             .catch {
                 // todo

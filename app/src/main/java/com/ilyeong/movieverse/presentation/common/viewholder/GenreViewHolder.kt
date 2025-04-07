@@ -1,15 +1,15 @@
-package com.ilyeong.movieverse.presentation.home.viewholder
+package com.ilyeong.movieverse.presentation.common.viewholder
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.RecyclerView.ViewHolder
+import androidx.recyclerview.widget.RecyclerView
 import com.ilyeong.movieverse.databinding.ItemMovieGenreChipBinding
 import com.ilyeong.movieverse.domain.model.Genre
 import com.ilyeong.movieverse.presentation.util.ItemClickListener
 
 class GenreViewHolder private constructor(
     private val binding: ItemMovieGenreChipBinding
-) : ViewHolder(binding.root) {
+) : RecyclerView.ViewHolder(binding.root) {
 
     fun bind(genre: Genre, itemClickListener: ItemClickListener?) {
         binding.chipGenre.text = genre.name

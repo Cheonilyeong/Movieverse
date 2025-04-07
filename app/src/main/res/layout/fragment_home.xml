@@ -5,7 +5,7 @@
     android:layout_height="match_parent">
 
     <ScrollView
-        android:id="@+id/sv"
+        android:id="@+id/content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/black">
@@ -61,7 +61,7 @@
                 app:layout_constraintTop_toBottomOf="@id/tv_movie_section1"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                tools:listitem="@layout/item_movie_poster_default" />
+                tools:listitem="@layout/item_movie_poster_fixed_size" />
 
             <TextView
                 android:id="@+id/tv_movie_section2"
@@ -84,7 +84,7 @@
                 app:layout_constraintTop_toBottomOf="@id/tv_movie_section2"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                tools:listitem="@layout/item_movie_poster_default" />
+                tools:listitem="@layout/item_movie_poster_fixed_size" />
 
             <TextView
                 android:id="@+id/tv_movie_section3"
@@ -107,7 +107,7 @@
                 app:layout_constraintTop_toBottomOf="@id/tv_movie_section3"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                tools:listitem="@layout/item_movie_poster_default" />
+                tools:listitem="@layout/item_movie_poster_fixed_size" />
 
             <TextView
                 android:id="@+id/tv_movie_section4"
@@ -130,7 +130,7 @@
                 app:layout_constraintTop_toBottomOf="@id/tv_movie_section4"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                tools:listitem="@layout/item_movie_poster_default" />
+                tools:listitem="@layout/item_movie_poster_fixed_size" />
 
             <TextView
                 android:id="@+id/tv_movie_section5"
@@ -153,7 +153,7 @@
                 app:layout_constraintTop_toBottomOf="@id/tv_movie_section5"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                tools:listitem="@layout/item_movie_poster_default" />
+                tools:listitem="@layout/item_movie_poster_fixed_size" />
 
             <TextView
                 android:id="@+id/tv_movie_section6"
@@ -176,11 +176,21 @@
                 app:layout_constraintTop_toBottomOf="@id/tv_movie_section6"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                tools:listitem="@layout/item_movie_poster_default" />
+                tools:listitem="@layout/item_movie_poster_fixed_size" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </ScrollView>
+
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:id="@+id/sfl"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true">
+
+        <include layout="@layout/shimmer_fragment_home" />
+
+    </com.facebook.shimmer.ShimmerFrameLayout>
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"

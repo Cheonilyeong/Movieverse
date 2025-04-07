@@ -6,6 +6,7 @@ import com.ilyeong.movieverse.data.repository.MovieRepository
 import com.ilyeong.movieverse.domain.model.TimeWindow
 import com.ilyeong.movieverse.presentation.search.model.SearchUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -33,7 +34,13 @@ class SearchViewModel @Inject constructor(
                 )
             }
             .onStart {
-                // todo
+                when (_uiState.value) {
+                    is SearchUiState.Loading -> {
+                        delay(1000L)
+                    }       // Shimmer Test
+                    is SearchUiState.Success -> {}
+                    SearchUiState.Failure -> {}
+                }
             }
             .catch {
                 // todo
@@ -45,17 +52,11 @@ class SearchViewModel @Inject constructor(
         if (query.isBlank()) {
             _uiState.update {
                 when (it) {
-                    SearchUiState.Loading -> {
-                        SearchUiState.Loading
-                    }
-
                     is SearchUiState.Success -> {
                         it.copy(searchMovieList = null)
                     }
 
-                    SearchUiState.Failure -> {
-                        SearchUiState.Failure
-                    }
+                    else -> it
                 }
             }
 

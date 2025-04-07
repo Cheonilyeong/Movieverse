@@ -8,7 +8,7 @@
 
     <include
         android:id="@+id/poster_default"
-        layout="@layout/item_movie_poster_default" />
+        layout="@layout/item_movie_poster_fixed_size" />
 
     <Space
         android:layout_width="@dimen/movieverse_padding_large"
@@ -30,7 +30,7 @@
             android:maxLines="1"
             tools:text="베놈 : 라스트댄스" />
 
-        <com.ilyeong.movieverse.presentation.common.ReviewRatingView
+        <com.ilyeong.movieverse.presentation.common.view.ReviewRatingView
             android:id="@+id/rrv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />

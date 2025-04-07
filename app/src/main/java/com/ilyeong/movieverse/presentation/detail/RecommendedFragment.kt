@@ -9,11 +9,11 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.ilyeong.movieverse.R
 import com.ilyeong.movieverse.databinding.FragmentRecommendedBinding
-import com.ilyeong.movieverse.presentation.common.BaseFragment
+import com.ilyeong.movieverse.presentation.common.adapter.PosterFixedAdapter
+import com.ilyeong.movieverse.presentation.common.fragment.BaseFragment
 import com.ilyeong.movieverse.presentation.detail.model.DetailUiState
-import com.ilyeong.movieverse.presentation.home.adapter.SectionAdapter
 import com.ilyeong.movieverse.presentation.util.ItemClickListener
-import com.ilyeong.movieverse.presentation.util.PosterDefaultItemDecoration
+import com.ilyeong.movieverse.presentation.util.PosterFixedItemDecoration
 
 class RecommendedFragment : BaseFragment<FragmentRecommendedBinding>() {
 
@@ -27,9 +27,9 @@ class RecommendedFragment : BaseFragment<FragmentRecommendedBinding>() {
         findNavController().navigate(action)
     }
 
-    private val collectionAdapter = SectionAdapter(itemClickListener)
-    private val recommendationAdapter = SectionAdapter(itemClickListener)
-    private val similarAdapter = SectionAdapter(itemClickListener)
+    private val collectionAdapter = PosterFixedAdapter(itemClickListener)
+    private val recommendationAdapter = PosterFixedAdapter(itemClickListener)
+    private val similarAdapter = PosterFixedAdapter(itemClickListener)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -44,19 +44,19 @@ class RecommendedFragment : BaseFragment<FragmentRecommendedBinding>() {
     private fun setCollection() {
         binding.tvMovieSection1.text = getString(R.string.movie_section_collection)
         binding.rvMovieSection1.adapter = collectionAdapter
-        binding.rvMovieSection1.addItemDecoration(PosterDefaultItemDecoration)
+        binding.rvMovieSection1.addItemDecoration(PosterFixedItemDecoration)
     }
 
     private fun setRecommendation() {
         binding.tvMovieSection2.text = getString(R.string.movie_section_recommendation)
         binding.rvMovieSection2.adapter = recommendationAdapter
-        binding.rvMovieSection2.addItemDecoration(PosterDefaultItemDecoration)
+        binding.rvMovieSection2.addItemDecoration(PosterFixedItemDecoration)
     }
 
     private fun setSimilar() {
         binding.tvMovieSection3.text = getString(R.string.movie_section_similar)
         binding.rvMovieSection3.adapter = similarAdapter
-        binding.rvMovieSection3.addItemDecoration(PosterDefaultItemDecoration)
+        binding.rvMovieSection3.addItemDecoration(PosterFixedItemDecoration)
     }
 
     private fun observeUiState() {

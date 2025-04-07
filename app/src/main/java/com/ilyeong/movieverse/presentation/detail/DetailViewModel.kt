@@ -11,6 +11,7 @@ import com.ilyeong.movieverse.domain.model.Review
 import com.ilyeong.movieverse.presentation.detail.model.DetailUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -68,7 +69,13 @@ class DetailViewModel @Inject constructor(
                 )
             }
         }.onStart {
-            // todo
+            when (_uiState.value) {
+                is DetailUiState.Loading -> {
+                    delay(1000L)
+                }       // Shimmer Test
+                is DetailUiState.Success -> {}
+                is DetailUiState.Failure -> {}
+            }
         }.catch {
             Log.d("DetailViewModel", "error: $it")
             // todo

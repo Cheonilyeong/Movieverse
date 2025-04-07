@@ -1,16 +1,16 @@
-package com.ilyeong.movieverse.presentation.home.viewholder
+package com.ilyeong.movieverse.presentation.common.viewholder
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import coil3.load
 import coil3.request.crossfade
-import com.ilyeong.movieverse.databinding.ItemMoviePosterFullSizeBinding
+import com.ilyeong.movieverse.databinding.ItemMoviePosterRatioSizeBinding
 import com.ilyeong.movieverse.domain.model.Movie
 import com.ilyeong.movieverse.presentation.util.ItemClickListener
 
-class PosterFullViewHolder private constructor(
-    private val binding: ItemMoviePosterFullSizeBinding
+class PosterRatioViewHolder private constructor(
+    private val binding: ItemMoviePosterRatioSizeBinding
 ) : RecyclerView.ViewHolder(binding.root) {
 
     fun bind(movie: Movie, itemClickListener: ItemClickListener) {
@@ -27,14 +27,14 @@ class PosterFullViewHolder private constructor(
     }
 
     companion object {
-        fun create(parent: ViewGroup): PosterFullViewHolder {
+        fun create(parent: ViewGroup): PosterRatioViewHolder {
             val binding =
-                ItemMoviePosterFullSizeBinding.inflate(
+                ItemMoviePosterRatioSizeBinding.inflate(
                     LayoutInflater.from(parent.context),
                     parent,
                     false
                 )
-            return PosterFullViewHolder(binding)
+            return PosterRatioViewHolder(binding)
         }
     }
 }

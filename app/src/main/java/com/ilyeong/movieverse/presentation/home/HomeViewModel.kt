@@ -10,6 +10,7 @@ import com.ilyeong.movieverse.domain.model.Movie
 import com.ilyeong.movieverse.domain.model.TimeWindow
 import com.ilyeong.movieverse.presentation.home.model.HomeUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -71,7 +72,15 @@ class HomeViewModel @Inject constructor(
                 )
             }
         }.onStart {
-            // todo
+            when (_uiState.value) {
+                is HomeUiState.Loading -> {
+                    delay(1000L)
+                }      // Shimmer Test
+                is HomeUiState.Success -> { /* no-op */
+                }
+
+                is HomeUiState.Failure -> TODO()
+            }
         }.catch {
             // todo
             Log.d("Home", "catch: $it")

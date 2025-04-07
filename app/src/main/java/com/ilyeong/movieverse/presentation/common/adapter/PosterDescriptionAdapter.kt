@@ -1,23 +1,25 @@
-package com.ilyeong.movieverse.presentation.watchlist.adapter
+package com.ilyeong.movieverse.presentation.common.adapter
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import com.ilyeong.movieverse.domain.model.Movie
+import com.ilyeong.movieverse.presentation.common.viewholder.PosterDescriptionViewHolder
 import com.ilyeong.movieverse.presentation.util.ItemClickListener
 import com.ilyeong.movieverse.presentation.util.MovieDiffUtil
-import com.ilyeong.movieverse.presentation.watchlist.viewholder.WatchlistViewHolder
 
-class WatchlistAdapter(
+class PosterDescriptionAdapter(
     private val itemClickListener: ItemClickListener
-) : ListAdapter<Movie, WatchlistViewHolder>(MovieDiffUtil) {
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-        WatchlistViewHolder.create(parent)
+) : ListAdapter<Movie, PosterDescriptionViewHolder>(MovieDiffUtil) {
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ) = PosterDescriptionViewHolder.create(parent)
 
     override fun onBindViewHolder(
-        holder: WatchlistViewHolder,
+        holder: PosterDescriptionViewHolder,
         position: Int
     ) {
         holder.bind(getItem(position), itemClickListener)
     }
+
 }

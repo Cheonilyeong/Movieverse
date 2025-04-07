@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -12,7 +13,7 @@ import coil3.request.crossfade
 import com.google.android.material.tabs.TabLayoutMediator
 import com.ilyeong.movieverse.R
 import com.ilyeong.movieverse.databinding.FragmentDetailBinding
-import com.ilyeong.movieverse.presentation.common.BaseFragment
+import com.ilyeong.movieverse.presentation.common.fragment.BaseFragment
 import com.ilyeong.movieverse.presentation.detail.adapter.DetailTabAdapter
 import com.ilyeong.movieverse.presentation.detail.model.DetailUiState
 import dagger.hilt.android.AndroidEntryPoint
@@ -72,31 +73,39 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>() {
             viewModel.uiState.collect {
                 when (it) {
                     DetailUiState.Loading -> {
-                        // todo
+                        binding.sfl.startShimmer()
+                        binding.sfl.isVisible = true
+                        binding.content.isVisible = false
                     }
 
                     is DetailUiState.Success -> {
-                        val movie = it.movie
+                        binding.sfl.stopShimmer()
+                        binding.sfl.isVisible = false
+                        binding.content.isVisible = true
 
-                        binding.ivBackdrop.load(movie.backdropPath) {
-                            crossfade(true)
+                        with(it.movie) {
+                            binding.ivBackdrop.load(this.backdropPath) {
+                                crossfade(true)
+                            }
+
+                            binding.posterDefault.ivPoster.load(this.posterPath) {
+                                crossfade(true)
+                                listener(
+                                    onStart = { _ ->
+                                        binding.posterDefault.tvPosterTitle.text = null
+                                    },
+                                    onError = { _, _ ->
+                                        binding.posterDefault.tvPosterTitle.text = this@with.title
+                                    }
+                                )
+                            }
+
+                            binding.tvMovieTitle.text = this.title
+                            binding.ivWatchlist.isSelected = this.isInWatchlist
+
+                            binding.rrv.rating = this.voteAverage
+                            binding.rrv.ratingCount = this.voteCount
                         }
-
-                        binding.posterDefault.ivPoster.load(movie.posterPath) {
-                            crossfade(true)
-                            listener(
-                                onStart = { _ -> binding.posterDefault.tvPosterTitle.text = null },
-                                onError = { _, _ ->
-                                    binding.posterDefault.tvPosterTitle.text = movie.title
-                                }
-                            )
-                        }
-
-                        binding.tvMovieTitle.text = movie.title
-                        binding.ivWatchlist.isSelected = movie.isInWatchlist
-
-                        binding.rrv.rating = movie.voteAverage
-                        binding.rrv.ratingCount = movie.voteCount
                     }
 
                     DetailUiState.Failure -> {
