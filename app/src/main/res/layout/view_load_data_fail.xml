@@ -8,13 +8,16 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/load_error_message" />
+        android:text="@string/load_error_message"
+        android:textColor="@color/white" />
 
     <Button
         android:id="@+id/btn_retry"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/movieverse_padding_xlarge"
-        android:text="@string/retry" />
+        android:text="@string/retry"
+        android:textColor="@color/white"
+        android:backgroundTint="@color/gray" />
 
 </LinearLayout>
