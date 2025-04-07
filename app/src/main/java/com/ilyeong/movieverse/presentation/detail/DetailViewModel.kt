@@ -1,6 +1,5 @@
 package com.ilyeong.movieverse.presentation.detail
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ilyeong.movieverse.data.repository.MovieRepository
@@ -8,19 +7,22 @@ import com.ilyeong.movieverse.data.repository.UserRepository
 import com.ilyeong.movieverse.domain.model.Credit
 import com.ilyeong.movieverse.domain.model.Movie
 import com.ilyeong.movieverse.domain.model.Review
+import com.ilyeong.movieverse.presentation.detail.model.DetailEvent
+import com.ilyeong.movieverse.presentation.detail.model.DetailEvent.ShowMessage
 import com.ilyeong.movieverse.presentation.detail.model.DetailUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
-import kotlinx.coroutines.flow.update
 import javax.inject.Inject
 
 @HiltViewModel
@@ -31,6 +33,9 @@ class DetailViewModel @Inject constructor(
 
     private val _uiState = MutableStateFlow<DetailUiState>(DetailUiState.Loading)
     val uiState: StateFlow<DetailUiState> = _uiState.asStateFlow()
+
+    private val _events = MutableSharedFlow<DetailEvent>()
+    val events = _events.asSharedFlow()
 
     @OptIn(ExperimentalCoroutinesApi::class)
     fun loadData(movieId: Int) {
@@ -58,27 +63,26 @@ class DetailViewModel @Inject constructor(
 
             val isInWatchlist = watchlist.any { movie -> movie.id == detail.id }
 
-            _uiState.update {
-                DetailUiState.Success(
-                    movie = detail.copy(isInWatchlist = isInWatchlist),
-                    cast = credit.cast,
-                    collectionMovieList = detail.collection?.partList ?: emptyList(),
-                    movieRecommendationList = recommendationList,
-                    movieSimilarList = similarList,
-                    movieReviewList = reviewList
-                )
-            }
+            _uiState.value = DetailUiState.Success(
+                movie = detail.copy(isInWatchlist = isInWatchlist),
+                cast = credit.cast,
+                collectionMovieList = detail.collection?.partList ?: emptyList(),
+                movieRecommendationList = recommendationList,
+                movieSimilarList = similarList,
+                movieReviewList = reviewList
+            )
         }.onStart {
             when (_uiState.value) {
-                is DetailUiState.Loading -> {
-                    delay(1000L)
-                }       // Shimmer Test
-                is DetailUiState.Success -> {}
-                is DetailUiState.Failure -> {}
+                is DetailUiState.Loading -> delay(1000L)    // Shimmer Test
+                is DetailUiState.Success -> {}      // no-op
+                is DetailUiState.Failure -> _uiState.value = DetailUiState.Loading
             }
         }.catch {
-            Log.d("DetailViewModel", "error: $it")
-            // todo
+            when (_uiState.value) {
+                is DetailUiState.Loading -> _uiState.value = DetailUiState.Failure
+                is DetailUiState.Success -> _events.emit(ShowMessage(it))
+                is DetailUiState.Failure -> _events.emit(ShowMessage(it))
+            }
         }.launchIn(viewModelScope)
     }
 
@@ -90,20 +94,13 @@ class DetailViewModel @Inject constructor(
 
         userRepository.addMovieToWatchlist(movieId, watchlist)
             .onEach {
-                _uiState.update { currentState ->
-                    when (currentState) {
-                        is DetailUiState.Success -> currentState.copy(
-                            movie = currentState.movie.copy(isInWatchlist = watchlist)
-                        )
-
-                        else -> currentState
-                    }
-                }
+                _uiState.value =
+                    currentState.copy(movie = currentState.movie.copy(isInWatchlist = watchlist))
             }
             .onStart {
-                // todo
+                //  no-op
             }.catch {
-                // todo
+                _events.emit(ShowMessage(it))
             }
             .launchIn(viewModelScope)
     }

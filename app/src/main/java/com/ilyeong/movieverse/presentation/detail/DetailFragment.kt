@@ -15,6 +15,7 @@ import com.ilyeong.movieverse.R
 import com.ilyeong.movieverse.databinding.FragmentDetailBinding
 import com.ilyeong.movieverse.presentation.common.fragment.BaseFragment
 import com.ilyeong.movieverse.presentation.detail.adapter.DetailTabAdapter
+import com.ilyeong.movieverse.presentation.detail.model.DetailEvent.ShowMessage
 import com.ilyeong.movieverse.presentation.detail.model.DetailUiState
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -39,8 +40,10 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>() {
         setToolBarNavigationIcon()
         setMovieWatchlistIcon()
         setMovieTab()
+        setRetryBtn()
 
         observeUiState()
+        observeEvents()
     }
 
     private fun setToolBarNavigationIcon() {
@@ -68,6 +71,12 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>() {
         }.attach()
     }
 
+    private fun setRetryBtn() {
+        binding.ldf.btnRetry.setOnClickListener {
+            viewModel.loadData(movieId.movieId)
+        }
+    }
+
     private fun observeUiState() {
         repeatOnViewStarted {
             viewModel.uiState.collect {
@@ -76,17 +85,17 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>() {
                         binding.sfl.startShimmer()
                         binding.sfl.isVisible = true
                         binding.content.isVisible = false
+                        binding.ldf.root.isVisible = false
                     }
 
                     is DetailUiState.Success -> {
                         binding.sfl.stopShimmer()
                         binding.sfl.isVisible = false
                         binding.content.isVisible = true
+                        binding.ldf.root.isVisible = false
 
                         with(it.movie) {
-                            binding.ivBackdrop.load(this.backdropPath) {
-                                crossfade(true)
-                            }
+                            binding.ivBackdrop.load(this.backdropPath) { crossfade(true) }
 
                             binding.posterDefault.ivPoster.load(this.posterPath) {
                                 crossfade(true)
@@ -109,8 +118,21 @@ class DetailFragment : BaseFragment<FragmentDetailBinding>() {
                     }
 
                     DetailUiState.Failure -> {
-                        // todo
+                        binding.sfl.stopShimmer()
+                        binding.sfl.isVisible = false
+                        binding.content.isVisible = false
+                        binding.ldf.root.isVisible = true
                     }
+                }
+            }
+        }
+    }
+
+    private fun observeEvents() {
+        repeatOnViewStarted {
+            viewModel.events.collect {
+                when (it) {
+                    is ShowMessage -> showMessage(it.error.message.toString())
                 }
             }
         }
