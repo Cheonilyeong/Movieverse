@@ -49,4 +49,9 @@
             tools:listitem="@layout/shimmer_item_movie_poster_ratio_size" />
 
     </com.facebook.shimmer.ShimmerFrameLayout>
+
+    <include
+        layout="@layout/view_load_data_fail"
+        android:id="@+id/ldf" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -17,6 +17,7 @@ import com.ilyeong.movieverse.databinding.FragmentGenreBinding
 import com.ilyeong.movieverse.presentation.common.adapter.PosterRatioAdapter
 import com.ilyeong.movieverse.presentation.common.fragment.BaseFragment
 import com.ilyeong.movieverse.presentation.genre.adapter.ShimmerPosterRatioAdapter
+import com.ilyeong.movieverse.presentation.genre.model.GenreEvent.ShowMessage
 import com.ilyeong.movieverse.presentation.genre.model.GenreUiState
 import com.ilyeong.movieverse.presentation.util.calculateSpanCount
 import dagger.hilt.android.AndroidEntryPoint
@@ -46,8 +47,10 @@ class GenreFragment : BaseFragment<FragmentGenreBinding>() {
 
         setToolbar()
         setGenreMovie()
-        
+        setRetryBtn()
+
         observeUiState()
+        observeEvents()
     }
 
     private fun setToolbar() {
@@ -107,6 +110,12 @@ class GenreFragment : BaseFragment<FragmentGenreBinding>() {
         binding.rvShimmer.addItemDecoration(itemDecoration)
     }
 
+    private fun setRetryBtn() {
+        binding.ldf.btnRetry.setOnClickListener {
+            viewModel.loadData(genreId.genreId)
+        }
+    }
+
     private fun observeUiState() {
         repeatOnViewStarted {
             viewModel.uiState.collect {
@@ -115,18 +124,35 @@ class GenreFragment : BaseFragment<FragmentGenreBinding>() {
                         binding.sfl.startShimmer()
                         binding.sfl.isVisible = true
                         binding.rvGenreMovie.isVisible = false
+                        binding.ldf.root.isVisible = false
                     }
 
                     is GenreUiState.Success -> {
                         binding.sfl.stopShimmer()
                         binding.sfl.isVisible = false
                         binding.rvGenreMovie.isVisible = true
+                        binding.ldf.root.isVisible = false
 
                         binding.tb.title = it.genre.name
                         genreMovieAdapter.submitList(it.movieList)
                     }
 
-                    GenreUiState.Failure -> {}
+                    GenreUiState.Failure -> {
+                        binding.sfl.stopShimmer()
+                        binding.sfl.isVisible = false
+                        binding.rvGenreMovie.isVisible = false
+                        binding.ldf.root.isVisible = true
+                    }
+                }
+            }
+        }
+    }
+
+    private fun observeEvents() {
+        repeatOnViewStarted {
+            viewModel.events.collect {
+                when (it) {
+                    is ShowMessage -> showMessage(it.error.message.toString())
                 }
             }
         }
