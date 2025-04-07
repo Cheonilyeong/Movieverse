@@ -1,5 +1,6 @@
 package com.ilyeong.movieverse.presentation.search
 
+import android.graphics.Rect
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,15 +10,18 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.ItemDecoration
 import com.ilyeong.movieverse.R
 import com.ilyeong.movieverse.databinding.FragmentSearchBinding
-import com.ilyeong.movieverse.presentation.common.BaseFragment
-import com.ilyeong.movieverse.presentation.home.adapter.SectionAdapter
+import com.ilyeong.movieverse.presentation.common.adapter.PosterDescriptionAdapter
+import com.ilyeong.movieverse.presentation.common.adapter.PosterRatioAdapter
+import com.ilyeong.movieverse.presentation.common.fragment.BaseFragment
 import com.ilyeong.movieverse.presentation.search.adapter.HeaderAdapter
-import com.ilyeong.movieverse.presentation.search.adapter.TrendAdapter
 import com.ilyeong.movieverse.presentation.search.model.SearchUiState
 import com.ilyeong.movieverse.presentation.util.ItemClickListener
 import com.ilyeong.movieverse.presentation.util.PosterDescriptionItemDecoration
+import com.ilyeong.movieverse.presentation.util.calculateSpanCount
 import com.ilyeong.movieverse.presentation.util.getQueryFlow
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.FlowPreview
@@ -39,10 +43,10 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
     }
 
     private val trendHeaderAdapter = HeaderAdapter()
-    private val trendAdapter = TrendAdapter(itemClickListener)
+    private val posterDescriptionAdapter = PosterDescriptionAdapter(itemClickListener)
 
     private val searchHeaderAdapter = HeaderAdapter()
-    private val searchAdapter = SectionAdapter(itemClickListener)
+    private val searchAdapter = PosterRatioAdapter(itemClickListener)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -74,12 +78,12 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
     }
 
     private fun setTrend() {
-        binding.rvTrend.adapter = ConcatAdapter(trendHeaderAdapter, trendAdapter)
+        binding.rvTrend.adapter = ConcatAdapter(trendHeaderAdapter, posterDescriptionAdapter)
         binding.rvTrend.addItemDecoration(PosterDescriptionItemDecoration)
     }
 
     private fun setSearch() {
-        val spanCount = calculateSpanCount()
+        val spanCount = binding.rvSearch.calculateSpanCount()
 
         binding.rvSearch.adapter = ConcatAdapter(searchHeaderAdapter, searchAdapter)
         binding.rvSearch.layoutManager = GridLayoutManager(requireContext(), spanCount)
@@ -89,7 +93,49 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
                 }
             }
 
-        binding.rvSearch.addItemDecoration(PosterDescriptionItemDecoration)
+        binding.rvSearch.addItemDecoration(object : ItemDecoration() {
+            override fun getItemOffsets(
+                outRect: Rect,
+                view: View,
+                parent: RecyclerView,
+                state: RecyclerView.State
+            ) {
+                val position = parent.getChildAdapterPosition(view)
+                if (position == RecyclerView.NO_POSITION) return
+
+                val layoutManager = parent.layoutManager as? GridLayoutManager ?: return
+                val spanSizeLookup = layoutManager.spanSizeLookup
+                val spanCount = layoutManager.spanCount
+                val spanIndex = spanSizeLookup.getSpanIndex(position, spanCount)
+
+                val resources = parent.context.resources
+                val mediumPadding =
+                    resources.getDimensionPixelOffset(R.dimen.movieverse_padding_medium)
+                val largePadding =
+                    resources.getDimensionPixelOffset(R.dimen.movieverse_padding_large)
+
+                outRect.bottom = largePadding
+
+                if (position == 0) return
+
+                val third = (mediumPadding / 3f).toInt()
+                when (spanIndex) {
+                    0 -> {
+                        outRect.right = third * 2
+                    }
+
+                    spanCount - 1 -> {
+                        outRect.left = third * 2
+                    }
+
+                    else -> {
+                        outRect.left = third
+                        outRect.right = third
+                    }
+                }
+            }
+
+        })
     }
 
     private fun calculateSpanCount(): Int {
@@ -118,7 +164,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
                             // 검색 X
                             it.searchMovieList == null -> {
                                 trendHeaderAdapter.updateHeaderTitle(getString(R.string.movie_section_trending_day))
-                                trendAdapter.submitList(it.trendingDayMovieList)
+                                posterDescriptionAdapter.submitList(it.trendingDayMovieList)
 
                                 binding.rvTrend.isVisible = true
                                 binding.rvSearch.isVisible = false

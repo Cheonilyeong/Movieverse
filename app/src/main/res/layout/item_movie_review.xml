@@ -40,7 +40,7 @@
         app:layout_constraintStart_toEndOf="@id/cv_avatar"
         tools:text="웜뱃" />
 
-    <com.ilyeong.movieverse.presentation.common.ReviewRatingView
+    <com.ilyeong.movieverse.presentation.common.view.ReviewRatingView
         android:id="@+id/rrv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

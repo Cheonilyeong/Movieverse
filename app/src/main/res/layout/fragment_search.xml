@@ -37,7 +37,7 @@
             android:id="@+id/rv_trend"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingHorizontal="@dimen/movieverse_padding_large"
+            android:layout_marginHorizontal="@dimen/movieverse_padding_large"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:listitem="@layout/item_movie_poster_description" />
 
@@ -45,7 +45,8 @@
             android:id="@+id/rv_search"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingHorizontal="@dimen/movieverse_padding_large"
+            android:layout_marginTop="@dimen/movieverse_padding_large"
+            android:layout_marginHorizontal="@dimen/movieverse_padding_large"
             app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
             tools:listitem="@layout/item_movie_poster_description" />
 

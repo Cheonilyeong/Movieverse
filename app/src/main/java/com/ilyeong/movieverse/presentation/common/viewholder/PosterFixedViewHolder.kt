@@ -1,17 +1,17 @@
-package com.ilyeong.movieverse.presentation.home.viewholder
+package com.ilyeong.movieverse.presentation.common.viewholder
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.RecyclerView.ViewHolder
+import androidx.recyclerview.widget.RecyclerView
 import coil3.load
 import coil3.request.crossfade
-import com.ilyeong.movieverse.databinding.ItemMoviePosterDefaultBinding
+import com.ilyeong.movieverse.databinding.ItemMoviePosterFixedSizeBinding
 import com.ilyeong.movieverse.domain.model.Movie
 import com.ilyeong.movieverse.presentation.util.ItemClickListener
 
-class PosterDefaultViewHolder private constructor(
-    private val binding: ItemMoviePosterDefaultBinding
-) : ViewHolder(binding.root) {
+class PosterFixedViewHolder private constructor(
+    private val binding: ItemMoviePosterFixedSizeBinding
+) : RecyclerView.ViewHolder(binding.root) {
 
     fun bind(movie: Movie, itemClickListener: ItemClickListener) {
         binding.ivPoster.load(movie.posterPath) {
@@ -27,14 +27,14 @@ class PosterDefaultViewHolder private constructor(
     }
 
     companion object {
-        fun create(parent: ViewGroup): PosterDefaultViewHolder {
+        fun create(parent: ViewGroup): PosterFixedViewHolder {
             val binding =
-                ItemMoviePosterDefaultBinding.inflate(
+                ItemMoviePosterFixedSizeBinding.inflate(
                     LayoutInflater.from(parent.context),
                     parent,
                     false
                 )
-            return PosterDefaultViewHolder(binding)
+            return PosterFixedViewHolder(binding)
         }
     }
 }

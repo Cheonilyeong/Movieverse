@@ -1,10 +1,10 @@
-package com.ilyeong.movieverse.presentation.home.adapter
+package com.ilyeong.movieverse.presentation.common.adapter
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import com.ilyeong.movieverse.domain.model.Genre
-import com.ilyeong.movieverse.presentation.home.viewholder.GenreViewHolder
+import com.ilyeong.movieverse.presentation.common.viewholder.GenreViewHolder
 import com.ilyeong.movieverse.presentation.util.ItemClickListener
 
 class GenreAdapter(

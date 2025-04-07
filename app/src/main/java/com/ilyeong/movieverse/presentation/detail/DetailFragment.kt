@@ -13,7 +13,7 @@ import coil3.request.crossfade
 import com.google.android.material.tabs.TabLayoutMediator
 import com.ilyeong.movieverse.R
 import com.ilyeong.movieverse.databinding.FragmentDetailBinding
-import com.ilyeong.movieverse.presentation.common.BaseFragment
+import com.ilyeong.movieverse.presentation.common.fragment.BaseFragment
 import com.ilyeong.movieverse.presentation.detail.adapter.DetailTabAdapter
 import com.ilyeong.movieverse.presentation.detail.model.DetailUiState
 import dagger.hilt.android.AndroidEntryPoint

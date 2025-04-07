@@ -10,13 +10,13 @@ import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.MarginPageTransformer
 import com.ilyeong.movieverse.R
 import com.ilyeong.movieverse.databinding.FragmentHomeBinding
-import com.ilyeong.movieverse.presentation.common.BaseFragment
-import com.ilyeong.movieverse.presentation.home.adapter.BannerAdapter
-import com.ilyeong.movieverse.presentation.home.adapter.GenreAdapter
-import com.ilyeong.movieverse.presentation.home.adapter.SectionAdapter
+import com.ilyeong.movieverse.presentation.common.adapter.GenreAdapter
+import com.ilyeong.movieverse.presentation.common.adapter.PosterFixedAdapter
+import com.ilyeong.movieverse.presentation.common.fragment.BaseFragment
+import com.ilyeong.movieverse.presentation.home.adapter.PosterFullViewHolder
 import com.ilyeong.movieverse.presentation.home.model.HomeUiState
 import com.ilyeong.movieverse.presentation.util.ItemClickListener
-import com.ilyeong.movieverse.presentation.util.PosterDefaultItemDecoration
+import com.ilyeong.movieverse.presentation.util.PosterFixedItemDecoration
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -37,14 +37,14 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         findNavController().navigate(action)
     }
 
-    private val bannerAdapter = BannerAdapter(movieClickListener)
+    private val posterFullViewHolder = PosterFullViewHolder(movieClickListener)
     private val genreAdapter = GenreAdapter(genreClickListener)
-    private val watchlistAdapter = SectionAdapter(movieClickListener)
-    private val topRatedAdapter = SectionAdapter(movieClickListener)
-    private val upcomingAdapter = SectionAdapter(movieClickListener)
-    private val popularAdapter = SectionAdapter(movieClickListener)
-    private val nowPlayingAdapter = SectionAdapter(movieClickListener)
-    private val trendingAdapter = SectionAdapter(movieClickListener)
+    private val watchlistAdapter = PosterFixedAdapter(movieClickListener)
+    private val topRatedAdapter = PosterFixedAdapter(movieClickListener)
+    private val upcomingAdapter = PosterFixedAdapter(movieClickListener)
+    private val popularAdapter = PosterFixedAdapter(movieClickListener)
+    private val nowPlayingAdapter = PosterFixedAdapter(movieClickListener)
+    private val trendingAdapter = PosterFixedAdapter(movieClickListener)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -67,7 +67,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     }
 
     private fun setMovieBanner() {
-        binding.vpBanner.adapter = bannerAdapter
+        binding.vpBanner.adapter = posterFullViewHolder
         binding.vpBanner.offscreenPageLimit = 1
         binding.vpBanner.setPageTransformer(
             MarginPageTransformer(
@@ -80,7 +80,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
     private fun setMovieGenre() {
         binding.rvMovieGenre.adapter = genreAdapter
-        binding.rvMovieGenre.addItemDecoration(PosterDefaultItemDecoration)
+        binding.rvMovieGenre.addItemDecoration(PosterFixedItemDecoration)
     }
 
     private fun setMovieSection() {
@@ -98,12 +98,12 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         binding.rvMovieSection5.adapter = trendingAdapter
         binding.rvMovieSection6.adapter = topRatedAdapter
 
-        binding.rvMovieSection1.addItemDecoration(PosterDefaultItemDecoration)
-        binding.rvMovieSection2.addItemDecoration(PosterDefaultItemDecoration)
-        binding.rvMovieSection3.addItemDecoration(PosterDefaultItemDecoration)
-        binding.rvMovieSection4.addItemDecoration(PosterDefaultItemDecoration)
-        binding.rvMovieSection5.addItemDecoration(PosterDefaultItemDecoration)
-        binding.rvMovieSection6.addItemDecoration(PosterDefaultItemDecoration)
+        binding.rvMovieSection1.addItemDecoration(PosterFixedItemDecoration)
+        binding.rvMovieSection2.addItemDecoration(PosterFixedItemDecoration)
+        binding.rvMovieSection3.addItemDecoration(PosterFixedItemDecoration)
+        binding.rvMovieSection4.addItemDecoration(PosterFixedItemDecoration)
+        binding.rvMovieSection5.addItemDecoration(PosterFixedItemDecoration)
+        binding.rvMovieSection6.addItemDecoration(PosterFixedItemDecoration)
     }
 
     private fun observeUiState() {
@@ -121,7 +121,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                         binding.sfl.isVisible = false
                         binding.content.isVisible = true
 
-                        bannerAdapter.submitList(it.bannerMovieList)
+                        posterFullViewHolder.submitList(it.bannerMovieList)
                         genreAdapter.submitList(it.genreList)
                         watchlistAdapter.submitList(it.watchlistMovieList)
                         topRatedAdapter.submitList(it.topRatedMovieList)

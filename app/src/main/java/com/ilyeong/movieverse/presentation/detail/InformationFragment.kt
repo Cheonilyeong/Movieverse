@@ -8,11 +8,11 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import com.ilyeong.movieverse.R
 import com.ilyeong.movieverse.databinding.FragmentInformationBinding
-import com.ilyeong.movieverse.presentation.common.BaseFragment
+import com.ilyeong.movieverse.presentation.common.adapter.GenreAdapter
+import com.ilyeong.movieverse.presentation.common.fragment.BaseFragment
 import com.ilyeong.movieverse.presentation.detail.adapter.CastAdapter
 import com.ilyeong.movieverse.presentation.detail.model.DetailUiState
-import com.ilyeong.movieverse.presentation.home.adapter.GenreAdapter
-import com.ilyeong.movieverse.presentation.util.PosterDefaultItemDecoration
+import com.ilyeong.movieverse.presentation.util.PosterFixedItemDecoration
 
 class InformationFragment : BaseFragment<FragmentInformationBinding>() {
 
@@ -45,12 +45,12 @@ class InformationFragment : BaseFragment<FragmentInformationBinding>() {
 
     private fun setCast() {
         binding.rvMovieCast.adapter = castAdapter
-        binding.rvMovieCast.addItemDecoration(PosterDefaultItemDecoration)
+        binding.rvMovieCast.addItemDecoration(PosterFixedItemDecoration)
     }
 
     private fun setGenre() {
         binding.rvMovieGenre.adapter = genreAdapter
-        binding.rvMovieGenre.addItemDecoration(PosterDefaultItemDecoration)
+        binding.rvMovieGenre.addItemDecoration(PosterFixedItemDecoration)
     }
 
     private fun observeUiState() {

@@ -1,9 +1,11 @@
 package com.ilyeong.movieverse.presentation.genre
 
+import android.graphics.Rect
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -12,9 +14,11 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ItemDecoration
 import com.ilyeong.movieverse.R
 import com.ilyeong.movieverse.databinding.FragmentGenreBinding
-import com.ilyeong.movieverse.presentation.common.BaseFragment
+import com.ilyeong.movieverse.presentation.common.adapter.PosterRatioAdapter
+import com.ilyeong.movieverse.presentation.common.fragment.BaseFragment
+import com.ilyeong.movieverse.presentation.genre.adapter.ShimmerPosterRatioAdapter
 import com.ilyeong.movieverse.presentation.genre.model.GenreUiState
-import com.ilyeong.movieverse.presentation.home.adapter.SectionAdapter
+import com.ilyeong.movieverse.presentation.util.calculateSpanCount
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -27,7 +31,7 @@ class GenreFragment : BaseFragment<FragmentGenreBinding>() {
 
     private val genreId: GenreFragmentArgs by navArgs()
 
-    private val genreMovieAdapter = SectionAdapter { movieId ->
+    private val genreMovieAdapter = PosterRatioAdapter { movieId ->
         val action = GenreFragmentDirections.actionGenreFragmentToDetailFragment(movieId)
         findNavController().navigate(action)
     }
@@ -42,7 +46,7 @@ class GenreFragment : BaseFragment<FragmentGenreBinding>() {
 
         setToolbar()
         setGenreMovie()
-
+        
         observeUiState()
     }
 
@@ -53,35 +57,71 @@ class GenreFragment : BaseFragment<FragmentGenreBinding>() {
     }
 
     private fun setGenreMovie() {
-        binding.rvGenreMovie.adapter = genreMovieAdapter
-        binding.rvGenreMovie.layoutManager =
-            GridLayoutManager(requireContext(), calculateSpanCount())
-        binding.rvGenreMovie.addItemDecoration(object : ItemDecoration() {
+        val spanCount = binding.rvGenreMovie.calculateSpanCount()
+        val itemDecoration = object : ItemDecoration() {
             override fun getItemOffsets(
-                outRect: android.graphics.Rect,
+                outRect: Rect,
                 view: View,
                 parent: RecyclerView,
                 state: RecyclerView.State
             ) {
-                outRect.bottom = resources.getDimensionPixelSize(R.dimen.movieverse_padding_small)
+                val position = parent.getChildAdapterPosition(view)
+                if (position == RecyclerView.NO_POSITION) return
+
+                val layoutManager = parent.layoutManager as? GridLayoutManager ?: return
+                val spanSizeLookup = layoutManager.spanSizeLookup
+                val spanCount = layoutManager.spanCount
+                val spanIndex = spanSizeLookup.getSpanIndex(position, spanCount)
+
+                val mediumPadding =
+                    resources.getDimensionPixelOffset(R.dimen.movieverse_padding_medium)
+                val largePadding =
+                    resources.getDimensionPixelOffset(R.dimen.movieverse_padding_large)
+
+                outRect.bottom = largePadding
+
+                val third = (mediumPadding / 3f).toInt()
+                when (spanIndex) {
+                    0 -> {
+                        outRect.right = third * 2
+                    }
+
+                    spanCount - 1 -> {
+                        outRect.left = third * 2
+                    }
+
+                    else -> {
+                        outRect.left = third
+                        outRect.right = third
+                    }
+                }
             }
-        })
-    }
+        }
 
-    private fun calculateSpanCount(): Int {
-        val screenWidth = resources.displayMetrics.widthPixels
-        val itemWidth = resources.getDimensionPixelSize(R.dimen.movieverse_poster_default_width)
+        binding.rvGenreMovie.adapter = genreMovieAdapter
+        binding.rvGenreMovie.layoutManager = GridLayoutManager(requireContext(), spanCount)
+        binding.rvGenreMovie.addItemDecoration(itemDecoration)
 
-        return (screenWidth / itemWidth)
+        binding.rvShimmer.adapter = ShimmerPosterRatioAdapter(spanCount * 5)
+        binding.rvShimmer.layoutManager = GridLayoutManager(requireContext(), spanCount)
+        binding.rvShimmer.addItemDecoration(itemDecoration)
     }
 
     private fun observeUiState() {
         repeatOnViewStarted {
             viewModel.uiState.collect {
                 when (it) {
-                    GenreUiState.Loading -> {}
+                    GenreUiState.Loading -> {
+                        binding.sfl.startShimmer()
+                        binding.sfl.isVisible = true
+                        binding.rvGenreMovie.isVisible = false
+                    }
 
                     is GenreUiState.Success -> {
+                        binding.sfl.stopShimmer()
+                        binding.sfl.isVisible = false
+                        binding.rvGenreMovie.isVisible = true
+
                         binding.tb.title = it.genre.name
                         genreMovieAdapter.submitList(it.movieList)
                     }

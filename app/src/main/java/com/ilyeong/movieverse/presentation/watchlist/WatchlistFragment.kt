@@ -8,9 +8,9 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.ilyeong.movieverse.databinding.FragmentWatchlistBinding
-import com.ilyeong.movieverse.presentation.common.BaseFragment
+import com.ilyeong.movieverse.presentation.common.adapter.PosterDescriptionAdapter
+import com.ilyeong.movieverse.presentation.common.fragment.BaseFragment
 import com.ilyeong.movieverse.presentation.util.PosterDescriptionItemDecoration
-import com.ilyeong.movieverse.presentation.watchlist.adapter.WatchlistAdapter
 import com.ilyeong.movieverse.presentation.watchlist.model.WatchlistUiState.Failure
 import com.ilyeong.movieverse.presentation.watchlist.model.WatchlistUiState.Loading
 import com.ilyeong.movieverse.presentation.watchlist.model.WatchlistUiState.Success
@@ -24,7 +24,7 @@ class WatchlistFragment : BaseFragment<FragmentWatchlistBinding>() {
 
     private val viewModel: WatchlistViewModel by viewModels()
 
-    private val watchlistAdapter = WatchlistAdapter { movieId ->
+    private val watchlistAdapter = PosterDescriptionAdapter { movieId ->
         val action = WatchlistFragmentDirections.actionWatchlistFragmentToDetailFragment(movieId)
         findNavController().navigate(action)
     }

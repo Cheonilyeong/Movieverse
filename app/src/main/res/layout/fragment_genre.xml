@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@color/black">
 
     <com.google.android.material.appbar.MaterialToolbar
@@ -13,15 +12,41 @@
         android:layout_height="wrap_content"
         app:titleTextColor="@color/white"
         app:navigationIcon="@drawable/ic_arrow_back_24"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         tools:title="공포" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_genre_movie"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingTop="@dimen/movieverse_padding_large"
-        android:paddingHorizontal="@dimen/movieverse_padding_large"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/movieverse_padding_large"
+        android:layout_marginHorizontal="@dimen/movieverse_padding_large"
         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-        tools:listitem="@layout/item_movie_poster_default" />
+        app:layout_constraintTop_toBottomOf="@id/tb"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:listitem="@layout/item_movie_poster_fixed_size" />
 
-</LinearLayout>
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:id="@+id/sfl"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/movieverse_padding_large"
+        android:layout_marginHorizontal="@dimen/movieverse_padding_large"
+        app:layout_constraintTop_toBottomOf="@id/tb"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_shimmer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:itemCount="10"
+            tools:listitem="@layout/shimmer_item_movie_poster_ratio_size" />
+
+    </com.facebook.shimmer.ShimmerFrameLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
