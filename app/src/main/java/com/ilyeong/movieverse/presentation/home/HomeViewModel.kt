@@ -76,10 +76,11 @@ class HomeViewModel @Inject constructor(
             )
         }.onStart {
             when (_uiState.value) {
-                is HomeUiState.Loading -> delay(1000L)    // Shimmer Tess
+                is HomeUiState.Loading -> {}    // no-op
                 is HomeUiState.Success -> {}    // no-op
                 is HomeUiState.Failure -> _uiState.value = HomeUiState.Loading
             }
+            delay(1000L)    // Shimmer Tess
         }.catch { error ->
             when (_uiState.value) {
                 is HomeUiState.Loading -> _uiState.value = HomeUiState.Failure

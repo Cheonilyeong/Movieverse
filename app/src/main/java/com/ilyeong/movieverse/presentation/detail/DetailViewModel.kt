@@ -73,10 +73,11 @@ class DetailViewModel @Inject constructor(
             )
         }.onStart {
             when (_uiState.value) {
-                is DetailUiState.Loading -> delay(1000L)    // Shimmer Test
+                is DetailUiState.Loading -> {}      // no-op
                 is DetailUiState.Success -> {}      // no-op
                 is DetailUiState.Failure -> _uiState.value = DetailUiState.Loading
             }
+            delay(1000L)    // Shimmer Test
         }.catch {
             when (_uiState.value) {
                 is DetailUiState.Loading -> _uiState.value = DetailUiState.Failure

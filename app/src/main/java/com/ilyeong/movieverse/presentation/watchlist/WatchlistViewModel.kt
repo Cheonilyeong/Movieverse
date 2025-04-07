@@ -34,10 +34,11 @@ class WatchlistViewModel @Inject constructor(
         userRepository.getWatchlistMovieList()
             .onStart {
                 when (_uiState.value) {
-                    is WatchlistUiState.Loading -> delay(1000L)     // Shimmer Test
+                    is WatchlistUiState.Loading -> {}       // no-op
                     is WatchlistUiState.Success -> {}       // no-op
                     is WatchlistUiState.Failure -> _uiState.value = WatchlistUiState.Loading
                 }
+                delay(1000L)     // Shimmer Test
             }
             .catch { error ->
                 when (_uiState.value) {
