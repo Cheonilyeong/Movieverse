@@ -14,6 +14,7 @@ import com.ilyeong.movieverse.presentation.common.adapter.GenreAdapter
 import com.ilyeong.movieverse.presentation.common.adapter.PosterFixedAdapter
 import com.ilyeong.movieverse.presentation.common.fragment.BaseFragment
 import com.ilyeong.movieverse.presentation.home.adapter.PosterFullViewHolder
+import com.ilyeong.movieverse.presentation.home.model.HomeEvent
 import com.ilyeong.movieverse.presentation.home.model.HomeUiState
 import com.ilyeong.movieverse.presentation.util.ItemClickListener
 import com.ilyeong.movieverse.presentation.util.PosterFixedItemDecoration
@@ -53,8 +54,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         setMovieBanner()
         setMovieGenre()
         setMovieSection()
+        setRetryBtn()
 
         observeUiState()
+        observeEvents()
         loadData()
     }
 
@@ -106,6 +109,12 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         binding.rvMovieSection6.addItemDecoration(PosterFixedItemDecoration)
     }
 
+    private fun setRetryBtn() {
+        binding.ldf.btnRetry.setOnClickListener {
+            loadData()
+        }
+    }
+
     private fun observeUiState() {
         repeatOnViewStarted {
             viewModel.uiState.collect {
@@ -114,12 +123,14 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                         binding.sfl.startShimmer()
                         binding.sfl.isVisible = true
                         binding.content.isVisible = false
+                        binding.ldf.root.isVisible = false
                     }
 
                     is HomeUiState.Success -> {
                         binding.sfl.stopShimmer()
                         binding.sfl.isVisible = false
                         binding.content.isVisible = true
+                        binding.ldf.root.isVisible = false
 
                         posterFullViewHolder.submitList(it.bannerMovieList)
                         genreAdapter.submitList(it.genreList)
@@ -134,7 +145,22 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                         binding.rvMovieSection1.isVisible = it.watchlistMovieList.isNotEmpty()
                     }
 
-                    HomeUiState.Failure -> {}
+                    HomeUiState.Failure -> {
+                        binding.sfl.stopShimmer()
+                        binding.sfl.isVisible = false
+                        binding.content.isVisible = false
+                        binding.ldf.root.isVisible = true
+                    }
+                }
+            }
+        }
+    }
+
+    private fun observeEvents() {
+        repeatOnViewStarted {
+            viewModel.events.collect { event ->
+                when (event) {
+                    is HomeEvent.ShowMessage -> showMessage(event.error.message.toString())
                 }
             }
         }
