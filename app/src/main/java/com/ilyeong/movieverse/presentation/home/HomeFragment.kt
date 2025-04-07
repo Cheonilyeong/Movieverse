@@ -158,9 +158,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
     private fun observeEvents() {
         repeatOnViewStarted {
-            viewModel.events.collect { event ->
-                when (event) {
-                    is HomeEvent.ShowMessage -> showMessage(event.error.message.toString())
+            viewModel.events.collect {
+                when (it) {
+                    is HomeEvent.ShowMessage -> showMessage(it.error.message.toString())
                 }
             }
         }
