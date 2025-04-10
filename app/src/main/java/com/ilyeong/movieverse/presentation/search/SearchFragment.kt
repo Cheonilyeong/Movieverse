@@ -207,12 +207,16 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
             searchAdapter.loadStateFlow.collectLatest {
                 // 검색 쿼리가 있을 때
                 // Trend RecyclerView 위에 덧 그린다.
+                val loading = it.refresh is LoadState.Loading
                 val notLoading = it.refresh is LoadState.NotLoading
                 val error = it.refresh is LoadState.Error
 
+                //  첫 검색에 성공 했거나 이전 검색 결과가 있을 때
                 binding.rvSearch.isVisible =
-                    ((searchAdapter.itemCount > 0) || notLoading)     // 첫 로딩 성공하면 보여준다.
-                binding.ldf.root.isVisible = error
+                    (notLoading || (searchAdapter.itemCount > 0))
+                // 첫 검색에 실패 했거나 재시도 중일 때
+                binding.ldf.root.isVisible =
+                    (error || (binding.ldf.root.isVisible && loading))
 
                 searchHeaderAdapter.updateHeaderTitle(
                     when {
