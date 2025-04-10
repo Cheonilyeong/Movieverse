@@ -22,12 +22,13 @@ class SearchPagingSource(
 
         return try {
             val response = apiService.searchMovieList(query = query, page = page)
+            val prevPage = if (page == 1) null else page - 1
             val nextPage =
                 if (response.searchMovieList.isEmpty() || response.page == response.totalPages) null else page + 1
 
             LoadResult.Page(
                 data = response.searchMovieList.map { it.toDomain() },
-                prevKey = if (page == 1) null else page - 1,
+                prevKey = prevPage,
                 nextKey = nextPage,
             )
         } catch (e: Exception) {
