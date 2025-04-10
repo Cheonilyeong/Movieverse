@@ -51,7 +51,6 @@ class GenreFragment : BaseFragment<FragmentGenreBinding>() {
 
         observeUiState()
         observePagingData()
-        observeEvents()
     }
 
     private fun setToolbar() {
@@ -115,6 +114,7 @@ class GenreFragment : BaseFragment<FragmentGenreBinding>() {
 
     private fun setRetryBtn() {
         binding.ldf.btnRetry.setOnClickListener {
+            viewModel.setGenreId(genreId.genreId)
             genreMovieAdapter.retry()
         }
     }
@@ -162,15 +162,5 @@ class GenreFragment : BaseFragment<FragmentGenreBinding>() {
                 }
             }
         }
-    }
-
-    private fun observeEvents() {
-//        repeatOnViewStarted {
-//            viewModel.events.collect {
-//                when (it) {
-//                    is ShowMessage -> showMessage(it.error.message.toString())
-//                }
-//            }
-//        }
     }
 }

@@ -15,7 +15,6 @@ import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.flow.onStart
 import javax.inject.Inject
 
 @HiltViewModel
@@ -41,10 +40,7 @@ class GenreViewModel @Inject constructor(
         _genreId.value = genreId
 
         movieRepository.getMovieGenreList()
-            .onStart {
-                _uiState.value = GenreUiState(null)
-                delay(1000L)     // Shimmer Test
-            }.onEach { genreList ->
+            .onEach { genreList ->
                 _uiState.value = GenreUiState(genreList.find { it.id == genreId })
             }.catch {
                 _uiState.value = GenreUiState(null)
