@@ -1,5 +1,6 @@
 package com.ilyeong.movieverse.data.repository
 
+import androidx.paging.PagingData
 import com.ilyeong.movieverse.domain.model.Credit
 import com.ilyeong.movieverse.domain.model.Genre
 import com.ilyeong.movieverse.domain.model.Movie
@@ -16,7 +17,7 @@ interface MovieRepository {
     fun getMovieReviewList(movieId: Int): Flow<List<Review>>
     fun getMovieListByGenre(genreId: Int): Flow<List<Movie>>
 
-    fun searchMovie(query: String): Flow<List<Movie>>
+    fun searchMoviePaging(query: String): Flow<PagingData<Movie>>
 
     fun getTopRatedMovieList(): Flow<List<Movie>>
     fun getUpcomingMovieList(): Flow<List<Movie>>
