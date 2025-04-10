@@ -39,7 +39,10 @@ interface MovieApiService {
     suspend fun getMovieListByGenre(@Query("with_genres") genreId: Int): DiscoverResponse
 
     @GET("search/movie")
-    suspend fun searchMovieList(@Query("query") query: String): SearchMovieListResponse
+    suspend fun searchMovieList(
+        @Query("query") query: String,
+        @Query("page") page: Int = 1
+    ): SearchMovieListResponse
 
     @GET("movie/{movie_id}/reviews")
     suspend fun getMovieReviewList(@Path("movie_id") movieId: Int): ReviewListResponse

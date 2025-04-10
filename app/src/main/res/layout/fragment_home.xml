@@ -192,6 +192,10 @@
 
     </com.facebook.shimmer.ShimmerFrameLayout>
 
+    <include
+        layout="@layout/view_load_data_fail"
+        android:id="@+id/ldf" />
+
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -211,9 +215,5 @@
             app:menu="@menu/home_app_bar_menu"
             app:layout_scrollFlags="noScroll" />
     </com.google.android.material.appbar.AppBarLayout>
-
-    <include
-        layout="@layout/view_load_data_fail"
-        android:id="@+id/ldf" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

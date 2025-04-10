@@ -23,8 +23,8 @@ class HeaderAdapter : Adapter<HeaderViewHolder>() {
     override fun getItemCount() = 1
 
     @SuppressLint("NotifyDataSetChanged")
-    fun updateHeaderTitle(title: String) {
-        this.title = title
+    fun updateHeaderTitle(title: String?) {
+        this.title = title ?: ""
         notifyDataSetChanged()
     }
 }

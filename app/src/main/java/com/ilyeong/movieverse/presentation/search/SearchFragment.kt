@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.paging.LoadState
 import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -15,11 +16,12 @@ import androidx.recyclerview.widget.RecyclerView.ItemDecoration
 import com.ilyeong.movieverse.R
 import com.ilyeong.movieverse.databinding.FragmentSearchBinding
 import com.ilyeong.movieverse.presentation.common.adapter.PosterDescriptionAdapter
-import com.ilyeong.movieverse.presentation.common.adapter.PosterRatioAdapter
 import com.ilyeong.movieverse.presentation.common.fragment.BaseFragment
 import com.ilyeong.movieverse.presentation.search.adapter.HeaderAdapter
-import com.ilyeong.movieverse.presentation.search.model.SearchEvent.ShowMessage
-import com.ilyeong.movieverse.presentation.search.model.SearchUiState
+import com.ilyeong.movieverse.presentation.search.adapter.PosterRatioPagingAdapter
+import com.ilyeong.movieverse.presentation.search.model.SearchUiState.EmptyPrompt
+import com.ilyeong.movieverse.presentation.search.model.SearchUiState.Loading
+import com.ilyeong.movieverse.presentation.search.model.SearchUiState.Trending
 import com.ilyeong.movieverse.presentation.util.ItemClickListener
 import com.ilyeong.movieverse.presentation.util.PosterDescriptionItemDecoration
 import com.ilyeong.movieverse.presentation.util.calculateSpanCount
@@ -47,7 +49,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
     private val posterDescriptionAdapter = PosterDescriptionAdapter(itemClickListener)
 
     private val searchHeaderAdapter = HeaderAdapter()
-    private val searchAdapter = PosterRatioAdapter(itemClickListener)
+    private val searchAdapter = PosterRatioPagingAdapter(itemClickListener)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -59,8 +61,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
         setRetryBtn()
 
         observeUiState()
-        observeEvents()
-        loadData()
+        observePagingData()
     }
 
     private fun setToolbarNavigationIcon() {
@@ -75,8 +76,14 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
             binding.sv.getQueryFlow()
                 .debounce(500L)
                 .distinctUntilChanged()
-                .collectLatest { query ->
-                    viewModel.searchMovie(query)
+                .collectLatest {
+                    viewModel.setQuery(it)
+
+                    // 검색 쿼리가 없을 때
+                    if (it.isEmpty()) {
+                        binding.rvSearch.isVisible = false
+                        binding.ldf.root.isVisible = false
+                    }
                 }
         }
     }
@@ -120,7 +127,10 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
 
                 outRect.bottom = largePadding
 
-                if (position == 0) return
+                if (position == 0) {
+                    outRect.top = largePadding
+                    return
+                }
 
                 val third = (mediumPadding / 3f).toInt()
                 when (spanIndex) {
@@ -144,81 +154,78 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
 
     private fun setRetryBtn() {
         binding.ldf.btnRetry.setOnClickListener {
-            viewModel.loadData()
+            searchAdapter.retry()
         }
     }
 
     private fun observeUiState() {
         repeatOnViewStarted {
             viewModel.uiState.collect {
+                /*
+                검색 하는 중이 아니면 아래를 보여준다..
+                1. Loading -> 처음 Search 화면에 들어왔을 때
+                2. EmptyPrompt -> 트렌트 영화를 가져오는 데 실패했을 때
+                3. Trending -> 트렌트 영화를 가져오는 데 성공했을 때
+
+                검색하는 중이라면 이 위에 검색 결과를 덧 그린다.
+                검색을 취소하면 다시 위를 보여준다.
+                */
                 when (it) {
-                    is SearchUiState.Loading -> {
-                        binding.sfl.startShimmer()
-                        binding.sfl.isVisible = true
-                        binding.content.isVisible = false
-                        binding.ldf.root.isVisible = false
+                    is Loading -> {
+                        binding.lpb.isVisible = true
+                        binding.tv.isVisible = false
+                        binding.rvTrend.isVisible = false
                     }
 
-                    is SearchUiState.Success -> {
-                        binding.sfl.stopShimmer()
-                        binding.sfl.isVisible = false
-                        binding.content.isVisible = true
-                        binding.ldf.root.isVisible = false
-
-                        when {
-                            // 검색 X
-                            it.searchMovieList == null -> {
-                                trendHeaderAdapter.updateHeaderTitle(getString(R.string.movie_section_trending_day))
-                                posterDescriptionAdapter.submitList(it.trendingDayMovieList)
-
-                                binding.rvTrend.isVisible = true
-                                binding.rvSearch.isVisible = false
-                            }
-
-                            // 검색 결과 X
-                            it.searchMovieList.isEmpty() -> {
-                                searchHeaderAdapter.updateHeaderTitle(getString(R.string.search_result_empty))
-                                searchAdapter.submitList(it.searchMovieList)
-
-                                binding.rvTrend.isVisible = false
-                                binding.rvSearch.isVisible = true
-                            }
-
-                            // 검색 성공
-                            else -> {
-                                searchHeaderAdapter.updateHeaderTitle(getString(R.string.search_result))
-                                searchAdapter.submitList(it.searchMovieList)
-
-                                binding.rvTrend.isVisible = false
-                                binding.rvSearch.isVisible = true
-                            }
-                        }
+                    is EmptyPrompt -> {
+                        binding.lpb.isVisible = false
+                        binding.tv.isVisible = true
+                        binding.rvTrend.isVisible = false
                     }
 
-                    is SearchUiState.Failure -> {
-                        binding.sfl.stopShimmer()
-                        binding.sfl.isVisible = false
-                        binding.content.isVisible = false
-                        binding.ldf.root.isVisible = true
+                    is Trending -> {
+                        binding.lpb.isVisible = false
+                        binding.tv.isVisible = false
+                        binding.rvTrend.isVisible = true
+
+                        trendHeaderAdapter.updateHeaderTitle(getString(R.string.movie_section_trending_day))
+                        posterDescriptionAdapter.submitList(it.movies)
                     }
                 }
             }
         }
     }
 
-    private fun observeEvents() {
+    private fun observePagingData() {
         repeatOnViewStarted {
-            viewModel.events.collect {
-                when (it) {
-                    is ShowMessage -> {
-                        showMessage(it.error.message.toString())
-                    }
-                }
+            viewModel.searchMoviePaging.collectLatest {
+                searchAdapter.submitData(it)
             }
         }
-    }
 
-    private fun loadData() {
-        viewModel.loadData()
+        repeatOnViewStarted {
+            searchAdapter.loadStateFlow.collectLatest {
+                // 검색 쿼리가 있을 때
+                // Trend RecyclerView 위에 덧 그린다.
+                val loading = it.refresh is LoadState.Loading
+                val notLoading = it.refresh is LoadState.NotLoading
+                val error = it.refresh is LoadState.Error
+
+                //  첫 검색에 성공 했거나 이전 검색 결과가 있을 때
+                binding.rvSearch.isVisible =
+                    (notLoading || (searchAdapter.itemCount > 0))
+                // 첫 검색에 실패 했거나 재시도 중일 때
+                binding.ldf.root.isVisible =
+                    (error || (binding.ldf.root.isVisible && loading))
+
+                searchHeaderAdapter.updateHeaderTitle(
+                    when {
+                        (searchAdapter.itemCount > 0) -> getString(R.string.search_result)
+                        (searchAdapter.itemCount == 0) -> getString(R.string.search_result_empty)
+                        else -> null
+                    }
+                )
+            }
+        }
     }
 }

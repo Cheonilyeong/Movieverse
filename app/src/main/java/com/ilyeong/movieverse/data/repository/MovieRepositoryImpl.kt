@@ -1,12 +1,17 @@
 package com.ilyeong.movieverse.data.repository
 
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
 import com.ilyeong.movieverse.data.model.toDomain
 import com.ilyeong.movieverse.data.network.MovieApiService
+import com.ilyeong.movieverse.data.paging.SearchPagingSource
 import com.ilyeong.movieverse.domain.model.Credit
 import com.ilyeong.movieverse.domain.model.Genre
 import com.ilyeong.movieverse.domain.model.Movie
 import com.ilyeong.movieverse.domain.model.Review
 import com.ilyeong.movieverse.domain.model.TimeWindow
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
@@ -53,10 +58,14 @@ class MovieRepositoryImpl @Inject constructor(
         emit(movieListByGenre)
     }
 
-    override fun searchMovie(query: String) = flow<List<Movie>> {
-        val searchResult =
-            apiService.searchMovieList(query = query).searchMovieList.map { it.toDomain() }
-        emit(searchResult)
+    override fun searchMoviePaging(query: String): Flow<PagingData<Movie>> {
+        return Pager(
+            config = PagingConfig(
+                pageSize = 20,
+                enablePlaceholders = false
+            ),
+            pagingSourceFactory = { SearchPagingSource(apiService, query) }
+        ).flow
     }
 
     override fun getTopRatedMovieList() = flow<List<Movie>> {
