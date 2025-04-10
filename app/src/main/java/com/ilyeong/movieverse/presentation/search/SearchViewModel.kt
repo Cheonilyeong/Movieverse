@@ -8,8 +8,9 @@ import com.ilyeong.movieverse.data.repository.MovieRepository
 import com.ilyeong.movieverse.domain.model.Movie
 import com.ilyeong.movieverse.domain.model.TimeWindow
 import com.ilyeong.movieverse.presentation.search.model.SearchUiState
+import com.ilyeong.movieverse.presentation.search.model.SearchUiState.Failure
 import com.ilyeong.movieverse.presentation.search.model.SearchUiState.Loading
-import com.ilyeong.movieverse.presentation.search.model.SearchUiState.Trending
+import com.ilyeong.movieverse.presentation.search.model.SearchUiState.Success
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.delay
@@ -49,8 +50,13 @@ class SearchViewModel @Inject constructor(
                 _uiState.value = Loading
                 delay(1000L)    // Loading Test
             }
-            .onEach { _uiState.value = Trending(it) }
-            .catch { _uiState.value = SearchUiState.EmptyPrompt }
+            .onEach {
+                when (it.isEmpty()) {
+                    true -> _uiState.value = Failure
+                    false -> _uiState.value = Success(it)
+                }
+            }
+            .catch { _uiState.value = Failure }
             .launchIn(viewModelScope)
     }
 
