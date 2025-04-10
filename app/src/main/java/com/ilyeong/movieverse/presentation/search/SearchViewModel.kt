@@ -12,6 +12,7 @@ import com.ilyeong.movieverse.presentation.search.model.SearchUiState.Loading
 import com.ilyeong.movieverse.presentation.search.model.SearchUiState.Trending
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
@@ -44,7 +45,10 @@ class SearchViewModel @Inject constructor(
 
     init {
         movieRepository.getTrendingMovieList(TimeWindow.DAY)
-            .onStart { _uiState.value = Loading }
+            .onStart {
+                _uiState.value = Loading
+                delay(1000L)    // Loading Test
+            }
             .onEach { _uiState.value = Trending(it) }
             .catch { _uiState.value = SearchUiState.EmptyPrompt }
             .launchIn(viewModelScope)
