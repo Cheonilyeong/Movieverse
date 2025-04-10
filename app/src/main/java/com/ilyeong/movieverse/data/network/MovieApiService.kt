@@ -36,12 +36,15 @@ interface MovieApiService {
     suspend fun getMovieSimilarList(@Path("movie_id") movieId: Int): SimilarListResponse
 
     @GET("discover/movie")
-    suspend fun getMovieListByGenre(@Query("with_genres") genreId: Int): DiscoverResponse
+    suspend fun getMovieListByGenre(
+        @Query("with_genres") genreId: Int,
+        @Query("page") page: Int
+    ): DiscoverResponse
 
     @GET("search/movie")
     suspend fun searchMovieList(
         @Query("query") query: String,
-        @Query("page") page: Int = 1
+        @Query("page") page: Int = 1,
     ): SearchMovieListResponse
 
     @GET("movie/{movie_id}/reviews")
