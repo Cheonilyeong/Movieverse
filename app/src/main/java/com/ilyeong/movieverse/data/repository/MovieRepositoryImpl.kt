@@ -60,7 +60,10 @@ class MovieRepositoryImpl @Inject constructor(
 
     override fun searchMoviePaging(query: String): Flow<PagingData<Movie>> {
         return Pager(
-            config = PagingConfig(pageSize = 20),
+            config = PagingConfig(
+                pageSize = 20,
+                enablePlaceholders = false
+            ),
             pagingSourceFactory = { SearchPagingSource(apiService, query) }
         ).flow
     }
