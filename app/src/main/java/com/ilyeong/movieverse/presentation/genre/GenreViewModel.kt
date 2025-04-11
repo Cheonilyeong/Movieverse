@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
 import com.ilyeong.movieverse.data.repository.MovieRepository
+import com.ilyeong.movieverse.domain.model.Genre
 import com.ilyeong.movieverse.presentation.genre.model.GenreUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -33,7 +34,7 @@ class GenreViewModel @Inject constructor(
         }
         .cachedIn(viewModelScope)
 
-    private val _uiState = MutableStateFlow<GenreUiState>(GenreUiState(null))
+    private val _uiState = MutableStateFlow<GenreUiState>(GenreUiState(Genre(0, "")))
     val uiState = _uiState.asStateFlow()
 
     fun setGenreId(genreId: Int) {
@@ -41,9 +42,10 @@ class GenreViewModel @Inject constructor(
 
         movieRepository.getMovieGenreList()
             .onEach { genreList ->
-                _uiState.value = GenreUiState(genreList.find { it.id == genreId })
+                _uiState.value =
+                    GenreUiState(genreList.find { it.id == genreId } ?: Genre(genreId, ""))
             }.catch {
-                _uiState.value = GenreUiState(null)
+                _uiState.value = GenreUiState(Genre(genreId, ""))
             }.launchIn(viewModelScope)
     }
 }

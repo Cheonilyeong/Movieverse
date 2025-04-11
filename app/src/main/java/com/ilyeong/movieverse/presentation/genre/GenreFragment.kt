@@ -114,7 +114,6 @@ class GenreFragment : BaseFragment<FragmentGenreBinding>() {
 
     private fun setRetryBtn() {
         binding.ldf.btnRetry.setOnClickListener {
-            viewModel.setGenreId(genreId.genreId)
             genreMovieAdapter.retry()
         }
     }
@@ -124,7 +123,7 @@ class GenreFragment : BaseFragment<FragmentGenreBinding>() {
             viewModel.uiState.collect {
                 // 장르 이름을 가져오지 못하면 그냥 보여주지 않는다.
                 // 중요한 거는 장르 영화 목록
-                binding.tb.title = it.genre?.name ?: ""
+                binding.tb.title = it.genre.name
             }
         }
     }
