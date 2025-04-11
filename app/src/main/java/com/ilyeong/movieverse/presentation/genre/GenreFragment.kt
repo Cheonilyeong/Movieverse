@@ -9,18 +9,18 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ItemDecoration
 import com.ilyeong.movieverse.R
 import com.ilyeong.movieverse.databinding.FragmentGenreBinding
-import com.ilyeong.movieverse.presentation.common.adapter.PosterRatioAdapter
+import com.ilyeong.movieverse.presentation.common.adapter.PosterRatioPagingAdapter
 import com.ilyeong.movieverse.presentation.common.fragment.BaseFragment
 import com.ilyeong.movieverse.presentation.genre.adapter.ShimmerPosterRatioAdapter
-import com.ilyeong.movieverse.presentation.genre.model.GenreEvent.ShowMessage
-import com.ilyeong.movieverse.presentation.genre.model.GenreUiState
 import com.ilyeong.movieverse.presentation.util.calculateSpanCount
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
 
 @AndroidEntryPoint
 class GenreFragment : BaseFragment<FragmentGenreBinding>() {
@@ -32,14 +32,14 @@ class GenreFragment : BaseFragment<FragmentGenreBinding>() {
 
     private val genreId: GenreFragmentArgs by navArgs()
 
-    private val genreMovieAdapter = PosterRatioAdapter { movieId ->
+    private val genreMovieAdapter = PosterRatioPagingAdapter { movieId ->
         val action = GenreFragmentDirections.actionGenreFragmentToDetailFragment(movieId)
         findNavController().navigate(action)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel.loadData(genreId.genreId)
+        viewModel.setGenreId(genreId.genreId)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -50,7 +50,7 @@ class GenreFragment : BaseFragment<FragmentGenreBinding>() {
         setRetryBtn()
 
         observeUiState()
-        observeEvents()
+        observePagingData()
     }
 
     private fun setToolbar() {
@@ -80,6 +80,8 @@ class GenreFragment : BaseFragment<FragmentGenreBinding>() {
                     resources.getDimensionPixelOffset(R.dimen.movieverse_padding_medium)
                 val largePadding =
                     resources.getDimensionPixelOffset(R.dimen.movieverse_padding_large)
+
+                if (position < spanCount) outRect.top = largePadding
 
                 outRect.bottom = largePadding
 
@@ -112,47 +114,50 @@ class GenreFragment : BaseFragment<FragmentGenreBinding>() {
 
     private fun setRetryBtn() {
         binding.ldf.btnRetry.setOnClickListener {
-            viewModel.loadData(genreId.genreId)
+            genreMovieAdapter.retry()
         }
     }
 
     private fun observeUiState() {
         repeatOnViewStarted {
             viewModel.uiState.collect {
-                when (it) {
-                    GenreUiState.Loading -> {
-                        binding.sfl.startShimmer()
-                        binding.sfl.isVisible = true
-                        binding.rvGenreMovie.isVisible = false
-                        binding.ldf.root.isVisible = false
-                    }
-
-                    is GenreUiState.Success -> {
-                        binding.sfl.stopShimmer()
-                        binding.sfl.isVisible = false
-                        binding.rvGenreMovie.isVisible = true
-                        binding.ldf.root.isVisible = false
-
-                        binding.tb.title = it.genre.name
-                        genreMovieAdapter.submitList(it.movieList)
-                    }
-
-                    GenreUiState.Failure -> {
-                        binding.sfl.stopShimmer()
-                        binding.sfl.isVisible = false
-                        binding.rvGenreMovie.isVisible = false
-                        binding.ldf.root.isVisible = true
-                    }
-                }
+                // 장르 이름을 가져오지 못하면 그냥 보여주지 않는다.
+                // 중요한 거는 장르 영화 목록
+                binding.tb.title = it.genre.name
             }
         }
     }
 
-    private fun observeEvents() {
+    private fun observePagingData() {
         repeatOnViewStarted {
-            viewModel.events.collect {
-                when (it) {
-                    is ShowMessage -> showMessage(it.error.message.toString())
+            viewModel.genreMoviePaging.collectLatest {
+                genreMovieAdapter.submitData(it)
+            }
+        }
+
+        repeatOnViewStarted {
+            genreMovieAdapter.loadStateFlow.collectLatest {
+                when (it.refresh) {
+                    is LoadState.Loading -> {
+                        binding.sfl.startShimmer()
+                        binding.rvShimmer.isVisible = true
+                        binding.rvGenreMovie.isVisible = false
+                        binding.ldf.root.isVisible = false
+                    }
+
+                    is LoadState.NotLoading -> {
+                        binding.sfl.stopShimmer()
+                        binding.rvShimmer.isVisible = false
+                        binding.rvGenreMovie.isVisible = true
+                        binding.ldf.root.isVisible = false
+                    }
+
+                    is LoadState.Error -> {
+                        binding.sfl.stopShimmer()
+                        binding.rvShimmer.isVisible = false
+                        binding.rvGenreMovie.isVisible = false
+                        binding.ldf.root.isVisible = true
+                    }
                 }
             }
         }

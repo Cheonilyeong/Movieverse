@@ -16,12 +16,12 @@ import androidx.recyclerview.widget.RecyclerView.ItemDecoration
 import com.ilyeong.movieverse.R
 import com.ilyeong.movieverse.databinding.FragmentSearchBinding
 import com.ilyeong.movieverse.presentation.common.adapter.PosterDescriptionAdapter
+import com.ilyeong.movieverse.presentation.common.adapter.PosterRatioPagingAdapter
 import com.ilyeong.movieverse.presentation.common.fragment.BaseFragment
 import com.ilyeong.movieverse.presentation.search.adapter.HeaderAdapter
-import com.ilyeong.movieverse.presentation.search.adapter.PosterRatioPagingAdapter
-import com.ilyeong.movieverse.presentation.search.model.SearchUiState.EmptyPrompt
+import com.ilyeong.movieverse.presentation.search.model.SearchUiState.Failure
 import com.ilyeong.movieverse.presentation.search.model.SearchUiState.Loading
-import com.ilyeong.movieverse.presentation.search.model.SearchUiState.Trending
+import com.ilyeong.movieverse.presentation.search.model.SearchUiState.Success
 import com.ilyeong.movieverse.presentation.util.ItemClickListener
 import com.ilyeong.movieverse.presentation.util.PosterDescriptionItemDecoration
 import com.ilyeong.movieverse.presentation.util.calculateSpanCount
@@ -164,8 +164,8 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
                 /*
                 검색 하는 중이 아니면 아래를 보여준다..
                 1. Loading -> 처음 Search 화면에 들어왔을 때
-                2. EmptyPrompt -> 트렌트 영화를 가져오는 데 실패했을 때
-                3. Trending -> 트렌트 영화를 가져오는 데 성공했을 때
+                2. Success -> 트렌트 영화를 가져오는 데 성공했을 때
+                3. Failure -> 트렌트 영화를 가져오는 데 실패했을 때
 
                 검색하는 중이라면 이 위에 검색 결과를 덧 그린다.
                 검색을 취소하면 다시 위를 보여준다.
@@ -177,19 +177,19 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>() {
                         binding.rvTrend.isVisible = false
                     }
 
-                    is EmptyPrompt -> {
-                        binding.lpb.isVisible = false
-                        binding.tv.isVisible = true
-                        binding.rvTrend.isVisible = false
-                    }
-
-                    is Trending -> {
+                    is Success -> {
                         binding.lpb.isVisible = false
                         binding.tv.isVisible = false
                         binding.rvTrend.isVisible = true
 
                         trendHeaderAdapter.updateHeaderTitle(getString(R.string.movie_section_trending_day))
-                        posterDescriptionAdapter.submitList(it.movies)
+                        posterDescriptionAdapter.submitList(it.trendMovieList)
+                    }
+
+                    is Failure -> {
+                        binding.lpb.isVisible = false
+                        binding.tv.isVisible = true
+                        binding.rvTrend.isVisible = false
                     }
                 }
             }

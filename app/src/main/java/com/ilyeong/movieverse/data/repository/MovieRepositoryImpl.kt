@@ -5,6 +5,7 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.ilyeong.movieverse.data.model.toDomain
 import com.ilyeong.movieverse.data.network.MovieApiService
+import com.ilyeong.movieverse.data.paging.GenreMoviePagingSource
 import com.ilyeong.movieverse.data.paging.SearchPagingSource
 import com.ilyeong.movieverse.domain.model.Credit
 import com.ilyeong.movieverse.domain.model.Genre
@@ -52,10 +53,14 @@ class MovieRepositoryImpl @Inject constructor(
         emit(reviewList)
     }
 
-    override fun getMovieListByGenre(genreId: Int) = flow<List<Movie>> {
-        val movieListByGenre =
-            apiService.getMovieListByGenre(genreId = genreId).discoverMovieList.map { it.toDomain() }
-        emit(movieListByGenre)
+    override fun getMovieListByGenrePaging(genreId: Int): Flow<PagingData<Movie>> {
+        return Pager(
+            config = PagingConfig(
+                pageSize = 20,
+                enablePlaceholders = false
+            ),
+            pagingSourceFactory = { GenreMoviePagingSource(apiService, genreId) }
+        ).flow
     }
 
     override fun searchMoviePaging(query: String): Flow<PagingData<Movie>> {

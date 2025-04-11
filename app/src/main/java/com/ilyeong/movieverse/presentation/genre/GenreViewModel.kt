@@ -2,21 +2,20 @@ package com.ilyeong.movieverse.presentation.genre
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.paging.cachedIn
 import com.ilyeong.movieverse.data.repository.MovieRepository
-import com.ilyeong.movieverse.presentation.genre.model.GenreEvent
-import com.ilyeong.movieverse.presentation.genre.model.GenreEvent.ShowMessage
+import com.ilyeong.movieverse.domain.model.Genre
 import com.ilyeong.movieverse.presentation.genre.model.GenreUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
 @HiltViewModel
@@ -24,34 +23,29 @@ class GenreViewModel @Inject constructor(
     private val movieRepository: MovieRepository,
 ) : ViewModel() {
 
-    private val _uiState = MutableStateFlow<GenreUiState>(GenreUiState.Loading)
-    val uiState: StateFlow<GenreUiState> = _uiState.asStateFlow()
+    private val _genreId = MutableStateFlow<Int?>(null)
 
-    private val _events = MutableSharedFlow<GenreEvent>()
-    val events = _events.asSharedFlow()
+    @OptIn(ExperimentalCoroutinesApi::class)
+    val genreMoviePaging = _genreId
+        .filterNotNull()
+        .flatMapLatest {
+            delay(1000L)        // Shimmer Test
+            movieRepository.getMovieListByGenrePaging(it)
+        }
+        .cachedIn(viewModelScope)
 
-    fun loadData(genreId: Int) {
-        val movieList = movieRepository.getMovieListByGenre(genreId)
-        val genreList = movieRepository.getMovieGenreList()
+    private val _uiState = MutableStateFlow<GenreUiState>(GenreUiState(Genre(0, "")))
+    val uiState = _uiState.asStateFlow()
 
-        combine(movieList, genreList) { movieList, genreList ->
-            _uiState.value = GenreUiState.Success(
-                genre = genreList.first { it.id == genreId },
-                movieList = movieList
-            )
-        }.onStart {
-            when (_uiState.value) {
-                is GenreUiState.Loading -> {}       // no-op
-                is GenreUiState.Success -> {}       // no-op
-                is GenreUiState.Failure -> _uiState.value = GenreUiState.Loading
-            }
-            delay(1000L)     // Shimmer Test
-        }.catch {
-            when (_uiState.value) {
-                is GenreUiState.Loading -> _uiState.value = GenreUiState.Failure
-                is GenreUiState.Success -> _events.emit(ShowMessage(it))
-                is GenreUiState.Failure -> _events.emit(ShowMessage(it))
-            }
-        }.launchIn(viewModelScope)
+    fun setGenreId(genreId: Int) {
+        _genreId.value = genreId
+
+        movieRepository.getMovieGenreList()
+            .onEach { genreList ->
+                _uiState.value =
+                    GenreUiState(genreList.find { it.id == genreId } ?: Genre(genreId, ""))
+            }.catch {
+                _uiState.value = GenreUiState(Genre(genreId, ""))
+            }.launchIn(viewModelScope)
     }
 }
