@@ -22,12 +22,13 @@ class GenreMoviePagingSource(
 
         return try {
             val response = movieApiService.getMovieListByGenre(genreId, page)
+            val prevPage = if (page == 1) null else page - 1
             val nextPage =
                 if (response.discoverMovieList.isEmpty() || response.page == response.totalPages) null else page + 1
 
             LoadResult.Page(
                 data = response.discoverMovieList.map { it.toDomain() },
-                prevKey = if (page == 1) null else page - 1,
+                prevKey = prevPage,
                 nextKey = nextPage
             )
         } catch (e: Exception) {
