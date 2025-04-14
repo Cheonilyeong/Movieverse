@@ -3,6 +3,7 @@ package com.ilyeong.movieverse.data.repository
 import com.ilyeong.movieverse.data.model.WatchlistPostRequest
 import com.ilyeong.movieverse.data.model.toDomain
 import com.ilyeong.movieverse.data.network.UserApiService
+import com.ilyeong.movieverse.domain.model.AccountStates
 import com.ilyeong.movieverse.domain.model.Movie
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
@@ -14,6 +15,11 @@ class UserRepositoryImpl @Inject constructor(
     override fun getWatchlistMovieList() = flow<List<Movie>> {
         val watchlistMovieList = apiService.getWatchlistMovieList().resultList.map { it.toDomain() }
         emit(watchlistMovieList)
+    }
+
+    override fun getMovieAccountStates(movieId: Int) = flow<AccountStates> {
+        val movieAccountStates = apiService.getMovieAccountStates(movieId).toDomain()
+        emit(movieAccountStates)
     }
 
     override fun addMovieToWatchlist(movieId: Int, watchlist: Boolean) = flow<Unit> {
