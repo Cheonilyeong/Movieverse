@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ilyeong.movieverse.data.repository.MovieRepository
 import com.ilyeong.movieverse.data.repository.UserRepository
+import com.ilyeong.movieverse.domain.model.AccountStates
 import com.ilyeong.movieverse.domain.model.Credit
 import com.ilyeong.movieverse.domain.model.Movie
 import com.ilyeong.movieverse.domain.model.Review
@@ -38,31 +39,29 @@ class DetailViewModel @Inject constructor(
 
     fun loadData(movieId: Int) {
         val detailFlow = movieRepository.getMovieDetail(movieId)
+        val accountStatesFlow = userRepository.getMovieAccountStates(movieId)
         val creditFlow = movieRepository.getMovieCredit(movieId)
         val recommendationListFlow = movieRepository.getMovieRecommendationList(movieId)
         val similarListFlow = movieRepository.getMovieSimilarList(movieId)
         val reviewListFlow = movieRepository.getMovieReviewList(movieId)
-        val watchlistFlow = userRepository.getWatchlistMovieList()
 
         combine(
             detailFlow,
+            accountStatesFlow,
             creditFlow,
             recommendationListFlow,
             similarListFlow,
             reviewListFlow,
-            watchlistFlow
         ) {
             val detail = it[0] as Movie
-            val credit = it[1] as Credit
-            val recommendationList = it[2] as List<Movie>
-            val similarList = it[3] as List<Movie>
-            val reviewList = it[4] as List<Review>
-            val watchlist = it[5] as List<Movie>
-
-            val isInWatchlist = watchlist.any { movie -> movie.id == detail.id }
+            val accountStates = it[1] as AccountStates
+            val credit = it[2] as Credit
+            val recommendationList = it[3] as List<Movie>
+            val similarList = it[4] as List<Movie>
+            val reviewList = it[5] as List<Review>
 
             _uiState.value = DetailUiState.Success(
-                movie = detail.copy(isInWatchlist = isInWatchlist),
+                movie = detail.copy(isInWatchlist = accountStates.watchlist),
                 cast = credit.cast,
                 collectionMovieList = detail.collection?.partList ?: emptyList(),
                 movieRecommendationList = recommendationList,
@@ -96,9 +95,7 @@ class DetailViewModel @Inject constructor(
                 _uiState.value =
                     currentState.copy(movie = currentState.movie.copy(isInWatchlist = watchlist))
             }
-            .onStart {
-                //  no-op
-            }.catch {
+            .catch {
                 _events.emit(ShowMessage(it))
             }
             .launchIn(viewModelScope)
