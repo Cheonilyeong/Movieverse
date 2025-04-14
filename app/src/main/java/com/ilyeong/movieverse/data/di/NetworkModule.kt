@@ -139,7 +139,7 @@ object NetworkModule {
         @SessionOkHttpClient okHttpClient: OkHttpClient
     ): UserApiService =
         Retrofit.Builder()
-            .baseUrl("https://api.themoviedb.org/3/account/${BuildConfig.ACCOUNT_ID}/")
+            .baseUrl("https://api.themoviedb.org/3/")
             .addConverterFactory(
                 json.asConverterFactory("application/json".toMediaType())
             )
