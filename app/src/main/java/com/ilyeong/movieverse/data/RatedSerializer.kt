@@ -20,11 +20,7 @@ import kotlinx.serialization.json.jsonPrimitive
 object RatedSerializer : KSerializer<RatedResponse?> {
     override val descriptor: SerialDescriptor =
         buildClassSerialDescriptor("com.ilyeong.movieverse.data.model.RatedResponse") {
-            element(
-                "value",
-                PrimitiveSerialDescriptor("value", PrimitiveKind.INT),
-                isOptional = true
-            )
+            element("value", PrimitiveSerialDescriptor("value", PrimitiveKind.INT))
         }
 
     override fun serialize(encoder: Encoder, value: RatedResponse?) {
