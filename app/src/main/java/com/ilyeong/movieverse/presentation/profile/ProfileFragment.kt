@@ -5,8 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
-import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.viewModels
 import coil3.load
 import coil3.request.crossfade
@@ -44,30 +42,27 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
     }
 
     private fun setUnusedBtn() {
-        val dialog = MaterialAlertDialogBuilder(requireContext()).apply {
+        val builder = MaterialAlertDialogBuilder(
+            requireContext(),
+            R.style.Theme_Movieserse_AlertDialog
+        ).apply {
             setMessage(getString(R.string.feature_coming_soon))
             setPositiveButton(getString(R.string.dialog_yes)) { dialog, _ ->
                 dialog.dismiss()
             }
-        }.create()
+        }
 
-        binding.tvSetting.setOnClickListener {
-            dialog.show()
-            setDialogColor(dialog)
-        }
-        binding.tvHelpCenter.setOnClickListener {
-            dialog.show()
-            setDialogColor(dialog)
-        }
-        binding.tvAnnouncements.setOnClickListener {
-            dialog.show()
-            setDialogColor(dialog)
-        }
+        binding.tvSetting.setOnClickListener { builder.show() }
+        binding.tvHelpCenter.setOnClickListener { builder.show() }
+        binding.tvAnnouncements.setOnClickListener { builder.show() }
     }
 
     private fun setLogoutBtn() {
         binding.tvLogout.setOnClickListener {
-            val dialog = MaterialAlertDialogBuilder(requireContext()).apply {
+            MaterialAlertDialogBuilder(
+                requireContext(),
+                R.style.Theme_Movieserse_AlertDialog
+            ).apply {
                 setMessage(getString(R.string.logout_message))
                 setPositiveButton(getString(R.string.dialog_yes)) { _, _ ->
                     viewModel.logout()
@@ -75,10 +70,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
                 setNegativeButton(getString(R.string.dialog_no)) { dialog, _ ->
                     dialog.dismiss()
                 }
-            }.create()
-
-            dialog.show()
-            setDialogColor(dialog)
+            }.show()
         }
     }
 
@@ -128,16 +120,5 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
 
     private fun loadData() {
         viewModel.loadData()
-    }
-
-    private fun setDialogColor(dialog: AlertDialog) {
-        dialog.findViewById<TextView>(android.R.id.message)
-            ?.setTextColor(resources.getColor(R.color.white, requireContext().theme))
-        dialog.getButton(AlertDialog.BUTTON_POSITIVE)
-            ?.setTextColor(resources.getColor(R.color.white, requireContext().theme))
-        dialog.getButton(AlertDialog.BUTTON_NEGATIVE)
-            ?.setTextColor(resources.getColor(R.color.white, requireContext().theme))
-        dialog.findViewById<View>(android.R.id.content)
-            ?.setBackgroundColor(resources.getColor(R.color.dim_gray, requireContext().theme))
     }
 }
