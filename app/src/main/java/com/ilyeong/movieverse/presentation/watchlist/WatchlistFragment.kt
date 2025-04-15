@@ -7,15 +7,14 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.paging.LoadState
 import com.ilyeong.movieverse.databinding.FragmentWatchlistBinding
-import com.ilyeong.movieverse.presentation.common.adapter.PosterDescriptionAdapter
 import com.ilyeong.movieverse.presentation.common.fragment.BaseFragment
 import com.ilyeong.movieverse.presentation.util.PosterDescriptionItemDecoration
+import com.ilyeong.movieverse.presentation.watchlist.adapter.PosterDescriptionPagingAdapter
 import com.ilyeong.movieverse.presentation.watchlist.model.WatchlistEvent.ShowMessage
-import com.ilyeong.movieverse.presentation.watchlist.model.WatchlistUiState.Failure
-import com.ilyeong.movieverse.presentation.watchlist.model.WatchlistUiState.Loading
-import com.ilyeong.movieverse.presentation.watchlist.model.WatchlistUiState.Success
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
 
 @AndroidEntryPoint
 class WatchlistFragment : BaseFragment<FragmentWatchlistBinding>() {
@@ -25,7 +24,7 @@ class WatchlistFragment : BaseFragment<FragmentWatchlistBinding>() {
 
     private val viewModel: WatchlistViewModel by viewModels()
 
-    private val watchlistAdapter = PosterDescriptionAdapter { movieId ->
+    private val watchlistAdapter = PosterDescriptionPagingAdapter { movieId ->
         val action = WatchlistFragmentDirections.actionWatchlistFragmentToDetailFragment(movieId)
         findNavController().navigate(action)
     }
@@ -36,9 +35,10 @@ class WatchlistFragment : BaseFragment<FragmentWatchlistBinding>() {
         setWatchlist()
         setRetryBtn()
 
-        observeUiState()
+        observeWatchlist()
         observeEvents()
-        loadData()
+
+        refreshData()
     }
 
     private fun setWatchlist() {
@@ -48,32 +48,40 @@ class WatchlistFragment : BaseFragment<FragmentWatchlistBinding>() {
 
     private fun setRetryBtn() {
         binding.ldf.btnRetry.setOnClickListener {
-            loadData()
+            watchlistAdapter.retry()
         }
     }
 
-    private fun observeUiState() {
+    private fun observeWatchlist() {
         repeatOnViewStarted {
-            viewModel.uiState.collect {
-                when (it) {
-                    is Loading -> {
-                        binding.sfl.startShimmer()
-                        binding.sfl.isVisible = true
-                        binding.content.isVisible = false
-                        binding.ldf.root.isVisible = false
+            viewModel.watchlistPaging.collectLatest {
+                watchlistAdapter.submitData(it)
+            }
+        }
+
+        repeatOnViewStarted {
+            watchlistAdapter.loadStateFlow.collectLatest {
+                when (it.refresh) {
+                    is LoadState.Loading -> {
+                        // 최초 로딩일 때만 Shimmer
+                        if (watchlistAdapter.itemCount == 0) {
+                            binding.sfl.startShimmer()
+                            binding.sfl.isVisible = true
+                            binding.content.isVisible = false
+                            binding.ldf.root.isVisible = false
+                        }
                     }
 
-                    is Success -> {
+                    is LoadState.NotLoading -> {
                         binding.sfl.stopShimmer()
                         binding.sfl.isVisible = false
                         binding.content.isVisible = true
                         binding.ldf.root.isVisible = false
 
-                        watchlistAdapter.submitList(it.watchlist)
-                        binding.tvWatchlistEmpty.isVisible = it.watchlist.isEmpty()
+                        binding.tvWatchlistEmpty.isVisible = (watchlistAdapter.itemCount == 0)
                     }
 
-                    Failure -> {
+                    is LoadState.Error -> {
                         binding.sfl.stopShimmer()
                         binding.sfl.isVisible = false
                         binding.content.isVisible = false
@@ -82,6 +90,7 @@ class WatchlistFragment : BaseFragment<FragmentWatchlistBinding>() {
                 }
             }
         }
+
     }
 
     private fun observeEvents() {
@@ -94,7 +103,7 @@ class WatchlistFragment : BaseFragment<FragmentWatchlistBinding>() {
         }
     }
 
-    private fun loadData() {
-        viewModel.loadData()
+    private fun refreshData() {
+        watchlistAdapter.refresh()
     }
 }

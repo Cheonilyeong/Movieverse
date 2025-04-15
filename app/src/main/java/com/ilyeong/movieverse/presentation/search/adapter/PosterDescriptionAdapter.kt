@@ -1,4 +1,4 @@
-package com.ilyeong.movieverse.presentation.common.adapter
+package com.ilyeong.movieverse.presentation.search.adapter
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
@@ -21,5 +21,4 @@ class PosterDescriptionAdapter(
     ) {
         holder.bind(getItem(position), itemClickListener)
     }
-
 }

@@ -15,10 +15,10 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ItemDecoration
 import com.ilyeong.movieverse.R
 import com.ilyeong.movieverse.databinding.FragmentSearchBinding
-import com.ilyeong.movieverse.presentation.common.adapter.PosterDescriptionAdapter
 import com.ilyeong.movieverse.presentation.common.adapter.PosterRatioPagingAdapter
 import com.ilyeong.movieverse.presentation.common.fragment.BaseFragment
 import com.ilyeong.movieverse.presentation.search.adapter.HeaderAdapter
+import com.ilyeong.movieverse.presentation.search.adapter.PosterDescriptionAdapter
 import com.ilyeong.movieverse.presentation.search.model.SearchUiState.Failure
 import com.ilyeong.movieverse.presentation.search.model.SearchUiState.Loading
 import com.ilyeong.movieverse.presentation.search.model.SearchUiState.Success
