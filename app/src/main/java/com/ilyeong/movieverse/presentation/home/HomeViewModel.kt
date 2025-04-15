@@ -43,7 +43,7 @@ class HomeViewModel @Inject constructor(
         val popularFlow = movieRepository.getPopularMovieList()
         val nowPlayingFlow = movieRepository.getNowPlayingMovieList()
         val trendingWeekFlow = movieRepository.getTrendingMovieList(TimeWindow.WEEK)
-        val watchlistFlow = userRepository.getWatchlistMovieList()
+        val watchlistFlow = userRepository.getWatchlist(1)
 
         combine(
             trendingDayFlow,
