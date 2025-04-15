@@ -5,10 +5,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.viewModels
 import coil3.load
 import coil3.request.crossfade
 import coil3.request.error
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.ilyeong.movieverse.R
 import com.ilyeong.movieverse.databinding.FragmentProfileBinding
 import com.ilyeong.movieverse.presentation.common.fragment.BaseFragment
@@ -31,6 +34,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setUnusedBtn()
         setLogoutBtn()
 
         observeUiState()
@@ -39,9 +43,42 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
         loadData()
     }
 
+    private fun setUnusedBtn() {
+        val dialog = MaterialAlertDialogBuilder(requireContext()).apply {
+            setMessage(getString(R.string.feature_coming_soon))
+            setPositiveButton(getString(R.string.dialog_yes)) { dialog, _ ->
+                dialog.dismiss()
+            }
+        }.create()
+
+        binding.tvSetting.setOnClickListener {
+            dialog.show()
+            setDialogColor(dialog)
+        }
+        binding.tvHelpCenter.setOnClickListener {
+            dialog.show()
+            setDialogColor(dialog)
+        }
+        binding.tvAnnouncements.setOnClickListener {
+            dialog.show()
+            setDialogColor(dialog)
+        }
+    }
+
     private fun setLogoutBtn() {
         binding.tvLogout.setOnClickListener {
-            viewModel.logout()  // todo: 다이얼로그
+            val dialog = MaterialAlertDialogBuilder(requireContext()).apply {
+                setMessage(getString(R.string.logout_message))
+                setPositiveButton(getString(R.string.dialog_yes)) { _, _ ->
+                    viewModel.logout()
+                }
+                setNegativeButton(getString(R.string.dialog_no)) { dialog, _ ->
+                    dialog.dismiss()
+                }
+            }.create()
+
+            dialog.show()
+            setDialogColor(dialog)
         }
     }
 
@@ -91,5 +128,16 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>() {
 
     private fun loadData() {
         viewModel.loadData()
+    }
+
+    private fun setDialogColor(dialog: AlertDialog) {
+        dialog.findViewById<TextView>(android.R.id.message)
+            ?.setTextColor(resources.getColor(R.color.white, requireContext().theme))
+        dialog.getButton(AlertDialog.BUTTON_POSITIVE)
+            ?.setTextColor(resources.getColor(R.color.white, requireContext().theme))
+        dialog.getButton(AlertDialog.BUTTON_NEGATIVE)
+            ?.setTextColor(resources.getColor(R.color.white, requireContext().theme))
+        dialog.findViewById<View>(android.R.id.content)
+            ?.setBackgroundColor(resources.getColor(R.color.dim_gray, requireContext().theme))
     }
 }

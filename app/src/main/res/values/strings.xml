@@ -58,4 +58,9 @@
 
     <string name="fail_login_message">Failed to login.</string>
     <string name="unknown_user">Unknown User</string>
+
+    <string name="feature_coming_soon">This feature will be available soon.</string>
+    <string name="logout_message">Are you sure you want to logout?</string>
+    <string name="dialog_yes">Yes</string>
+    <string name="dialog_no">No</string>
 </resources>
