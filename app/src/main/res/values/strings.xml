@@ -22,6 +22,10 @@
     <string name="language">Audio &#160;&#160;&#160; %s</string>
     <string name="search_result">Search Results</string>
     <string name="search_content">Search content to watch.</string>
+    <string name="setting">Setting</string>
+    <string name="help_center">Help Center</string>
+    <string name="announcements">Announcements</string>
+    <string name="logout">Logout</string>
 
     <string name="load_error_message">Failed to load data.</string>
     <string name="retry">Retry</string>
@@ -51,4 +55,7 @@
     <string name="movie_section_similar">Similar</string>
 
     <string name="rating_count">(%1$d)</string>
+
+    <string name="fail_login_message">Failed to login.</string>
+    <string name="unknown_user">Unknown User</string>
 </resources>
