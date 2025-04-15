@@ -9,11 +9,12 @@ import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface UserApiService {
 
     @GET("account/${BuildConfig.ACCOUNT_ID}/watchlist/movies")
-    suspend fun getWatchlistMovieList(): WatchlistResponse
+    suspend fun getWatchlist(@Query("page") page: Int): WatchlistResponse
 
     @GET("movie/{movie_id}/account_states")
     suspend fun getMovieAccountStates(@Path("movie_id") movieId: Int): AccountStatesResponse
