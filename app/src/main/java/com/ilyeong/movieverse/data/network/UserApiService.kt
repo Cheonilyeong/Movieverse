@@ -1,6 +1,7 @@
 package com.ilyeong.movieverse.data.network
 
 import com.ilyeong.movieverse.BuildConfig
+import com.ilyeong.movieverse.data.model.AccountResponse
 import com.ilyeong.movieverse.data.model.AccountStatesResponse
 import com.ilyeong.movieverse.data.model.WatchlistPostRequest
 import com.ilyeong.movieverse.data.model.WatchlistPostResponse
@@ -12,6 +13,9 @@ import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface UserApiService {
+
+    @GET("account/${BuildConfig.ACCOUNT_ID}")
+    suspend fun getAccount(): AccountResponse
 
     @GET("account/${BuildConfig.ACCOUNT_ID}/watchlist/movies")
     suspend fun getWatchlist(@Query("page") page: Int): WatchlistResponse
