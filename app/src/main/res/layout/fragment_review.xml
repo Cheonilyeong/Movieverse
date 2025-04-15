@@ -18,9 +18,42 @@
         android:layout_height="wrap_content"
         android:textColor="@color/gray"
         android:text="@string/info_empty"
+        android:visibility="gone"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent" />
+
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:id="@+id/sfl"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <include layout="@layout/shimmer_item_movie_review" />
+
+            <include layout="@layout/shimmer_item_movie_review" />
+
+            <include layout="@layout/shimmer_item_movie_review" />
+
+            <include layout="@layout/shimmer_item_movie_review" />
+
+            <include layout="@layout/shimmer_item_movie_review" />
+
+            <include layout="@layout/shimmer_item_movie_review" />
+
+        </LinearLayout>
+
+    </com.facebook.shimmer.ShimmerFrameLayout>
+
+    <include
+        layout="@layout/view_load_data_fail"
+        android:id="@+id/ldf"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

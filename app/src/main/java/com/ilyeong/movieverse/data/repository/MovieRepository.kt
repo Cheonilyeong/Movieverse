@@ -14,7 +14,7 @@ interface MovieRepository {
     fun getMovieCredit(movieId: Int): Flow<Credit>
     fun getMovieRecommendationList(movieId: Int): Flow<List<Movie>>
     fun getMovieSimilarList(movieId: Int): Flow<List<Movie>>
-    fun getMovieReviewList(movieId: Int): Flow<List<Review>>
+    fun getMovieReviewPaging(movieId: Int): Flow<PagingData<Review>>
     fun getMovieListByGenrePaging(genreId: Int): Flow<PagingData<Movie>>
 
     fun searchMoviePaging(query: String): Flow<PagingData<Movie>>

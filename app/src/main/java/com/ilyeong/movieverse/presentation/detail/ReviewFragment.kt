@@ -6,10 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
+import androidx.paging.LoadState
 import com.ilyeong.movieverse.databinding.FragmentReviewBinding
 import com.ilyeong.movieverse.presentation.common.fragment.BaseFragment
 import com.ilyeong.movieverse.presentation.detail.adapter.ReviewAdapter
-import com.ilyeong.movieverse.presentation.detail.model.DetailUiState
+import kotlinx.coroutines.flow.collectLatest
 
 class ReviewFragment : BaseFragment<FragmentReviewBinding>() {
 
@@ -23,22 +24,50 @@ class ReviewFragment : BaseFragment<FragmentReviewBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setRetryBtn()
+        observePagingData()
+    }
+
+    private fun setRetryBtn() {
+        binding.ldf.btnRetry.setOnClickListener {
+            reviewAdapter.retry()
+        }
+    }
+
+    private fun observePagingData() {
         binding.rvReview.adapter = reviewAdapter
 
         repeatOnViewStarted {
-            viewModel.uiState.collect {
-                when (it) {
-                    is DetailUiState.Loading -> {
-                        /* no-op */
+            viewModel.reviewPaging.collectLatest {
+                reviewAdapter.submitData(it)
+            }
+        }
+
+        repeatOnViewStarted {
+            reviewAdapter.loadStateFlow.collectLatest {
+                when (it.refresh) {
+                    is LoadState.Loading -> {
+                        binding.sfl.startShimmer()
+                        binding.sfl.isVisible = true
+                        binding.rvReview.isVisible = false
+                        binding.tvReviewEmpty.isVisible = false
+                        binding.ldf.root.isVisible = false
                     }
 
-                    is DetailUiState.Success -> {
-                        reviewAdapter.submitList(it.movieReviewList)
-                        binding.tvReviewEmpty.isVisible = it.movieReviewList.isEmpty()
+                    is LoadState.NotLoading -> {
+                        binding.sfl.stopShimmer()
+                        binding.sfl.isVisible = false
+                        binding.rvReview.isVisible = true
+                        binding.tvReviewEmpty.isVisible = (reviewAdapter.itemCount == 0)
+                        binding.ldf.root.isVisible = false
                     }
 
-                    is DetailUiState.Failure -> {
-                        /* no-op */
+                    is LoadState.Error -> {
+                        binding.sfl.stopShimmer()
+                        binding.sfl.isVisible = false
+                        binding.rvReview.isVisible = false
+                        binding.tvReviewEmpty.isVisible = false
+                        binding.ldf.root.isVisible = true
                     }
                 }
             }

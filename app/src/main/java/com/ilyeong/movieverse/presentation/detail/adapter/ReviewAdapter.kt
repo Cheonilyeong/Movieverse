@@ -1,12 +1,12 @@
 package com.ilyeong.movieverse.presentation.detail.adapter
 
 import android.view.ViewGroup
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import com.ilyeong.movieverse.domain.model.Review
 import com.ilyeong.movieverse.presentation.detail.viewholder.ReviewViewHolder
 
-class ReviewAdapter : ListAdapter<Review, ReviewViewHolder>(reviewDiffUtil) {
+class ReviewAdapter : PagingDataAdapter<Review, ReviewViewHolder>(reviewDiffUtil) {
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
@@ -16,7 +16,8 @@ class ReviewAdapter : ListAdapter<Review, ReviewViewHolder>(reviewDiffUtil) {
         holder: ReviewViewHolder,
         position: Int
     ) {
-        holder.bind(getItem(position))
+        val item = getItem(position) ?: return
+        holder.bind(item)
     }
 }
 
