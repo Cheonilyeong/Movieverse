@@ -2,7 +2,6 @@ package com.ilyeong.movieverse.presentation.detail.model
 
 import com.ilyeong.movieverse.domain.model.Cast
 import com.ilyeong.movieverse.domain.model.Movie
-import com.ilyeong.movieverse.domain.model.Review
 
 sealed interface DetailUiState {
 
@@ -14,7 +13,6 @@ sealed interface DetailUiState {
         val collectionMovieList: List<Movie>,
         val movieRecommendationList: List<Movie>,
         val movieSimilarList: List<Movie>,
-        val movieReviewList: List<Review>
     ) : DetailUiState
 
     data object Failure : DetailUiState
