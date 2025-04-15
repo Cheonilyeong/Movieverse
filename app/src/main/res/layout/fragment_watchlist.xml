@@ -41,6 +41,7 @@
             android:layout_height="wrap_content"
             android:textColor="@color/gray"
             android:text="@string/watchlist_empty"
+            android:visibility="gone"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -52,7 +53,9 @@
         android:id="@+id/sfl"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="?attr/actionBarSize">
+        android:layout_marginTop="?attr/actionBarSize"
+        app:shimmer_auto_start="false"
+        android:visibility="gone">
 
         <include layout="@layout/shimmer_fragment_watchlist" />
 
