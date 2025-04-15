@@ -48,7 +48,10 @@ interface MovieApiService {
     ): SearchMovieListResponse
 
     @GET("movie/{movie_id}/reviews")
-    suspend fun getMovieReviewList(@Path("movie_id") movieId: Int): ReviewListResponse
+    suspend fun getMovieReviewList(
+        @Path("movie_id") movieId: Int,
+        @Query("page") page: Int
+    ): ReviewListResponse
 
     @GET("movie/top_rated")
     suspend fun getTopRatedMovieList(): TopRatedResponse
