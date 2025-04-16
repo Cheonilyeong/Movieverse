@@ -57,6 +57,7 @@
     <string name="rating_count">(%1$d)</string>
 
     <string name="fail_login_message">Failed to login.</string>
+    <string name="fail_refresh_message">Failed to fetch the latest data. Please try again later.</string>
     <string name="unknown_user">Unknown User</string>
 
     <string name="feature_coming_soon">This feature will be available soon.</string>

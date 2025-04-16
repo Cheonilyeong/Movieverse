@@ -186,7 +186,9 @@
         android:id="@+id/sfl"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fitsSystemWindows="true">
+        android:fitsSystemWindows="true"
+        app:shimmer_auto_start="false"
+        android:visibility="gone">
 
         <include layout="@layout/shimmer_fragment_home" />
 
@@ -194,7 +196,8 @@
 
     <include
         layout="@layout/view_load_data_fail"
-        android:id="@+id/ldf" />
+        android:id="@+id/ldf"
+        android:visibility="gone" />
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
