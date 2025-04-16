@@ -12,7 +12,6 @@ import com.ilyeong.movieverse.databinding.FragmentWatchlistBinding
 import com.ilyeong.movieverse.presentation.common.fragment.BaseFragment
 import com.ilyeong.movieverse.presentation.util.PosterDescriptionItemDecoration
 import com.ilyeong.movieverse.presentation.watchlist.adapter.PosterDescriptionPagingAdapter
-import com.ilyeong.movieverse.presentation.watchlist.model.WatchlistEvent.ShowMessage
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 
@@ -36,7 +35,6 @@ class WatchlistFragment : BaseFragment<FragmentWatchlistBinding>() {
         setRetryBtn()
 
         observeWatchlist()
-        observeEvents()
 
         refreshData()
     }
@@ -87,17 +85,6 @@ class WatchlistFragment : BaseFragment<FragmentWatchlistBinding>() {
                         binding.content.isVisible = false
                         binding.ldf.root.isVisible = true
                     }
-                }
-            }
-        }
-
-    }
-
-    private fun observeEvents() {
-        repeatOnViewStarted {
-            viewModel.events.collect {
-                when (it) {
-                    is ShowMessage -> showMessage(it.error.message.toString())
                 }
             }
         }
