@@ -62,7 +62,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
         observeUiState()
 
-        loadData()
+        loadAndRefreshData()
     }
 
     private fun setToolbarMenu() {
@@ -115,7 +115,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
     private fun setRetryBtn() {
         binding.ldf.btnRetry.setOnClickListener {
-            loadData()
+            viewModel.loadData()
             watchlistAdapter.retry()
             upcomingAdapter.retry()
             popularAdapter.retry()
@@ -251,12 +251,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         }
     }
 
-    private fun loadData() {
+    private fun loadAndRefreshData() {
         viewModel.loadData()
         watchlistAdapter.refresh()
-        upcomingAdapter.refresh()
-        popularAdapter.refresh()
-        nowPlayingAdapter.refresh()
-        trendingAdapter.refresh()
     }
 }
