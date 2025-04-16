@@ -50,23 +50,34 @@ interface MovieApiService {
     @GET("movie/{movie_id}/reviews")
     suspend fun getMovieReviewList(
         @Path("movie_id") movieId: Int,
-        @Query("page") page: Int
+        @Query("page") page: Int = 1
     ): ReviewListResponse
 
     @GET("movie/top_rated")
-    suspend fun getTopRatedMovieList(): TopRatedResponse
+    suspend fun getTopRatedMovieList(
+        @Query("page") page: Int = 1
+    ): TopRatedResponse
 
     @GET("movie/upcoming")
-    suspend fun getUpcomingMovieList(): UpComingResponse
+    suspend fun getUpcomingMovieList(
+        @Query("page") page: Int = 1
+    ): UpComingResponse
 
     @GET("movie/popular")
-    suspend fun getPopularMovieList(): PopularResponse
+    suspend fun getPopularMovieList(
+        @Query("page") page: Int = 1
+    ): PopularResponse
 
     @GET("movie/now_playing")
-    suspend fun getNowPlayingMovieList(): NowPlayingResponse
+    suspend fun getNowPlayingMovieList(
+        @Query("page") page: Int = 1
+    ): NowPlayingResponse
 
     @GET("trending/movie/{time_window}")
-    suspend fun getTrendingMovieList(@Path("time_window") timeWindow: String): TrendingResponse
+    suspend fun getTrendingMovieList(
+        @Path("time_window") timeWindow: String,
+        @Query("page") page: Int = 1
+    ): TrendingResponse
 
     @GET("genre/movie/list")
     suspend fun getMovieGenreList(): GenreListResponse

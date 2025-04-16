@@ -6,8 +6,13 @@ import androidx.paging.PagingData
 import com.ilyeong.movieverse.data.model.toDomain
 import com.ilyeong.movieverse.data.network.MovieApiService
 import com.ilyeong.movieverse.data.paging.GenreMoviePagingSource
+import com.ilyeong.movieverse.data.paging.NowPlayingPagingSource
+import com.ilyeong.movieverse.data.paging.PopularPagingSource
 import com.ilyeong.movieverse.data.paging.ReviewPagingSource
 import com.ilyeong.movieverse.data.paging.SearchPagingSource
+import com.ilyeong.movieverse.data.paging.TopRatedPagingSource
+import com.ilyeong.movieverse.data.paging.TrendingPagingSource
+import com.ilyeong.movieverse.data.paging.UpcomingPagingSource
 import com.ilyeong.movieverse.domain.model.Credit
 import com.ilyeong.movieverse.domain.model.Genre
 import com.ilyeong.movieverse.domain.model.Movie
@@ -79,31 +84,69 @@ class MovieRepositoryImpl @Inject constructor(
         ).flow
     }
 
-    override fun getTopRatedMovieList() = flow<List<Movie>> {
-        val topRatedMovieList = apiService.getTopRatedMovieList().resultList.map { it.toDomain() }
-        emit(topRatedMovieList)
+    override fun getTopRatedMoviePaging(maxPage: Int): Flow<PagingData<Movie>> {
+        return Pager(
+            config = PagingConfig(
+                pageSize = 20,
+                enablePlaceholders = false
+            ),
+            pagingSourceFactory = { TopRatedPagingSource(apiService, maxPage) }
+        ).flow
     }
 
-    override fun getUpcomingMovieList() = flow<List<Movie>> {
-        val upComingMovieList = apiService.getUpcomingMovieList().resultList.map { it.toDomain() }
-        emit(upComingMovieList)
+    override fun getUpcomingMoviePaging(maxPage: Int): Flow<PagingData<Movie>> {
+        return Pager(
+            config = PagingConfig(
+                pageSize = 20,
+                enablePlaceholders = false
+            ),
+            pagingSourceFactory = { UpcomingPagingSource(apiService, maxPage) }
+        ).flow
     }
 
-    override fun getPopularMovieList() = flow<List<Movie>> {
-        val popularMovieList = apiService.getPopularMovieList().resultList.map { it.toDomain() }
-        emit(popularMovieList)
+    override fun getPopularMoviePaging(maxPage: Int): Flow<PagingData<Movie>> {
+        return Pager(
+            config = PagingConfig(
+                pageSize = 20,
+                enablePlaceholders = false
+            ),
+            pagingSourceFactory = { PopularPagingSource(apiService, maxPage) }
+        ).flow
     }
 
-    override fun getNowPlayingMovieList() = flow<List<Movie>> {
-        val nowPlayingMovieList =
-            apiService.getNowPlayingMovieList().resultList.map { it.toDomain() }
-        emit(nowPlayingMovieList)
+    override fun getNowPlayingMoviePaging(maxPage: Int): Flow<PagingData<Movie>> {
+        return Pager(
+            config = PagingConfig(
+                pageSize = 20,
+                enablePlaceholders = false
+            ),
+            pagingSourceFactory = { NowPlayingPagingSource(apiService, maxPage) }
+        ).flow
     }
 
     override fun getTrendingMovieList(timeWindow: TimeWindow) = flow<List<Movie>> {
         val trendingMovieList =
-            apiService.getTrendingMovieList(timeWindow = timeWindow.name.lowercase()).resultList.map { it.toDomain() }
+            apiService.getTrendingMovieList(timeWindow.name.lowercase()).resultList.map { it.toDomain() }
         emit(trendingMovieList)
+    }
+
+    override fun getTrendingMoviePaging(
+        timeWindow: TimeWindow,
+        maxPage: Int
+    ): Flow<PagingData<Movie>> {
+        return Pager(
+            config = PagingConfig(
+                pageSize = 20,
+                enablePlaceholders = false
+            ),
+            pagingSourceFactory = {
+                TrendingPagingSource(
+                    apiService = apiService,
+                    timeWindow = timeWindow.name.lowercase(),
+                    maxPage = maxPage
+                )
+            }
+        ).flow
     }
 
     override fun getMovieGenreList() = flow<List<Genre>> {

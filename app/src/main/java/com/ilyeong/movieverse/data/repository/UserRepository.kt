@@ -9,8 +9,8 @@ import kotlinx.coroutines.flow.Flow
 interface UserRepository {
 
     fun getAccount(): Flow<Account>
-    fun getWatchlist(page: Int): Flow<List<Movie>>
-    fun getWatchlistPaging(): Flow<PagingData<Movie>>
+    fun getWatchlistMovieList(page: Int): Flow<List<Movie>>
+    fun getWatchlistMoviePaging(): Flow<PagingData<Movie>>
     fun getMovieAccountStates(movieId: Int): Flow<AccountStates>
     fun addMovieToWatchlist(movieId: Int, watchlist: Boolean): Flow<Unit>
 }
