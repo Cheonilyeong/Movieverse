@@ -22,11 +22,6 @@ class UserRepositoryImpl @Inject constructor(
         emit(account)
     }
 
-    override fun getWatchlistMovieList(page: Int) = flow<List<Movie>> {
-        val watchlist = apiService.getWatchlist(page).resultList.map { it.toDomain() }
-        emit(watchlist)
-    }
-
     override fun getWatchlistMoviePaging(): Flow<PagingData<Movie>> {
         return Pager(
             config = PagingConfig(
