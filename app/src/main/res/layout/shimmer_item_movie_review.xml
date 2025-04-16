@@ -7,17 +7,16 @@
     android:layout_margin="@dimen/movieverse_padding_large"
     android:background="@color/black">
 
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/cv_avatar"
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/iv_avatar"
         android:layout_width="48dp"
         android:layout_height="48dp"
-        app:cardCornerRadius="24dp"
-        app:strokeColor="@color/transparent"
-        app:cardBackgroundColor="@color/gray"
+        android:background="@color/gray"
+        app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Full"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
-    </com.google.android.material.card.MaterialCardView>
+    </com.google.android.material.imageview.ShapeableImageView>
 
     <TextView
         android:id="@+id/tv_user_name"
@@ -29,7 +28,7 @@
         android:maxLines="1"
         android:background="@color/gray"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toEndOf="@id/cv_avatar"
+        app:layout_constraintStart_toEndOf="@id/iv_avatar"
         tools:text="웜뱃" />
 
     <TextView

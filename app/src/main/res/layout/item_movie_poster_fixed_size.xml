@@ -21,8 +21,6 @@
         android:layout_height="match_parent"
         android:gravity="center"
         android:textColor="@color/white"
-        android:maxLines="1"
-        android:ellipsize="end"
         style="@style/TextAppearance.Material3.BodyMedium"
         tools:text="영화 제목" />
 

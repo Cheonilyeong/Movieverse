@@ -26,4 +26,9 @@ class AuthRepositoryImpl @Inject constructor(
         emit(Unit)
         Log.d("createSessionId", "createSessionId: $sessionIdResponse")
     }
+
+    override fun logout() = flow<Unit> {
+        sessionIdLocalDataSource.saveSessionId("")
+        emit(Unit)
+    }
 }

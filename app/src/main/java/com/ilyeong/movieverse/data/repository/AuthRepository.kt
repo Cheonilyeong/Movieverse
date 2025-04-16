@@ -7,4 +7,5 @@ interface AuthRepository {
 
     fun createRequestToken(): Flow<RequestToken>
     fun createSessionId(requestToken: String): Flow<Unit>
+    fun logout(): Flow<Unit>
 }

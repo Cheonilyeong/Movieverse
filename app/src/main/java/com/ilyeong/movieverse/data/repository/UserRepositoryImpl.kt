@@ -7,6 +7,7 @@ import com.ilyeong.movieverse.data.model.WatchlistPostRequest
 import com.ilyeong.movieverse.data.model.toDomain
 import com.ilyeong.movieverse.data.network.UserApiService
 import com.ilyeong.movieverse.data.paging.WatchlistPagingSource
+import com.ilyeong.movieverse.domain.model.Account
 import com.ilyeong.movieverse.domain.model.AccountStates
 import com.ilyeong.movieverse.domain.model.Movie
 import kotlinx.coroutines.flow.Flow
@@ -16,6 +17,11 @@ import javax.inject.Inject
 class UserRepositoryImpl @Inject constructor(
     private val apiService: UserApiService
 ) : UserRepository {
+    override fun getAccount() = flow<Account> {
+        val account = apiService.getAccount().toDomain()
+        emit(account)
+    }
+
     override fun getWatchlist(page: Int) = flow<List<Movie>> {
         val watchlist = apiService.getWatchlist(page).resultList.map { it.toDomain() }
         emit(watchlist)

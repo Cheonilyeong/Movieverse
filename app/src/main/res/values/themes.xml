@@ -13,4 +13,29 @@
         <item name="android:textColorHint">@color/light_gray
         </item> <!-- For EditText Hint Text Color -->
     </style>
+
+    <style name="Theme.Movieserse.AlertDialog" parent="ThemeOverlay.Material3.MaterialAlertDialog">
+        <item name="alertDialogStyle">@style/Theme.Movieserse.AlertDialog.Style
+        </item> <!-- For AlertDialog Background Color -->
+        <item name="materialAlertDialogBodyTextStyle">@style/Theme.Movieserse.AlertDialog.Text
+        </item> <!-- For AlertDialog Text Color -->
+        <item name="buttonBarPositiveButtonStyle">@style/Theme.Movieserse.AlertDialog.Button
+        </item> <!-- For AlertDialog Button Text Color -->
+        <item name="buttonBarNegativeButtonStyle">@style/Theme.Movieserse.AlertDialog.Button
+        </item> <!-- For AlertDialog Button Text Color -->
+    </style>
+
+    <style name="Theme.Movieserse.AlertDialog.Text" parent="@style/MaterialAlertDialog.Material3.Body.Text">
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="Theme.Movieserse.AlertDialog.Style" parent="@style/MaterialAlertDialog.Material3">
+        <item name="backgroundTint">@color/dim_gray</item>
+    </style>
+
+    <style name="Theme.Movieserse.AlertDialog.Button" parent="Widget.Material3.Button.TextButton.Dialog">
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+
 </resources>

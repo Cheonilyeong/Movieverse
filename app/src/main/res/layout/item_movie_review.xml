@@ -7,25 +7,16 @@
     android:layout_margin="@dimen/movieverse_padding_large"
     android:background="@color/black">
 
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/cv_avatar"
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/iv_avatar"
         android:layout_width="48dp"
         android:layout_height="48dp"
-        app:cardCornerRadius="24dp"
-        app:strokeColor="@color/transparent"
-        app:cardBackgroundColor="@color/dark_gray"
+        android:contentDescription="@string/des_user_avatar"
+        android:scaleType="centerCrop"
+        android:background="@color/dark_gray"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
-
-        <ImageView
-            android:id="@+id/iv_avatar"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:contentDescription="@string/des_user_avatar"
-            android:scaleType="centerCrop"
-            tools:src="@drawable/test_avatar" />
-
-    </com.google.android.material.card.MaterialCardView>
+        app:layout_constraintStart_toStartOf="parent"
+        tools:src="@drawable/test_avatar" />
 
     <TextView
         android:id="@+id/tv_user_name"
@@ -37,7 +28,7 @@
         android:maxLines="1"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toStartOf="@id/rrv"
-        app:layout_constraintStart_toEndOf="@id/cv_avatar"
+        app:layout_constraintStart_toEndOf="@id/iv_avatar"
         tools:text="웜뱃" />
 
     <com.ilyeong.movieverse.presentation.common.view.ReviewRatingView
