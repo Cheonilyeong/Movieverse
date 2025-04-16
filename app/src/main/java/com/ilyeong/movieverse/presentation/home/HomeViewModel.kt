@@ -44,6 +44,10 @@ class HomeViewModel @Inject constructor(
     val topRatedMoviePaging =
         movieRepository.getTopRatedMoviePaging(maxPage = 3).cachedIn(viewModelScope)
 
+    init {
+        loadData()
+    }
+
     fun loadData() {
         if (_uiState.value is Success) return
 

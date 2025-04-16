@@ -62,7 +62,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
         observeUiState()
 
-        loadAndRefreshData()
+        refreshData()
     }
 
     private fun setToolbarMenu() {
@@ -251,8 +251,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         }
     }
 
-    private fun loadAndRefreshData() {
-        viewModel.loadData()
+    private fun refreshData() {
         watchlistAdapter.refresh()
     }
 }
