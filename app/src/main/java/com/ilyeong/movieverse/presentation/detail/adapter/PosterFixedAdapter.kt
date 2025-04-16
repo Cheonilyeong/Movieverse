@@ -1,4 +1,4 @@
-package com.ilyeong.movieverse.presentation.common.adapter
+package com.ilyeong.movieverse.presentation.detail.adapter
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter

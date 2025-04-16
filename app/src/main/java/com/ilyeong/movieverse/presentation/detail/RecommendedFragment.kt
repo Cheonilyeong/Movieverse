@@ -9,8 +9,8 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.ilyeong.movieverse.R
 import com.ilyeong.movieverse.databinding.FragmentRecommendedBinding
-import com.ilyeong.movieverse.presentation.common.adapter.PosterFixedAdapter
 import com.ilyeong.movieverse.presentation.common.fragment.BaseFragment
+import com.ilyeong.movieverse.presentation.detail.adapter.PosterFixedAdapter
 import com.ilyeong.movieverse.presentation.detail.model.DetailUiState
 import com.ilyeong.movieverse.presentation.util.ItemClickListener
 import com.ilyeong.movieverse.presentation.util.PosterFixedItemDecoration
