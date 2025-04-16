@@ -7,18 +7,22 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.paging.CombinedLoadStates
+import androidx.paging.LoadState
 import androidx.viewpager2.widget.MarginPageTransformer
 import com.ilyeong.movieverse.R
 import com.ilyeong.movieverse.databinding.FragmentHomeBinding
 import com.ilyeong.movieverse.presentation.common.adapter.GenreAdapter
-import com.ilyeong.movieverse.presentation.common.adapter.PosterFixedAdapter
 import com.ilyeong.movieverse.presentation.common.fragment.BaseFragment
-import com.ilyeong.movieverse.presentation.home.adapter.PosterFullViewHolder
-import com.ilyeong.movieverse.presentation.home.model.HomeEvent
+import com.ilyeong.movieverse.presentation.home.adapter.PosterFixedPagingAdapter
+import com.ilyeong.movieverse.presentation.home.adapter.PosterFullAdapter
 import com.ilyeong.movieverse.presentation.home.model.HomeUiState
 import com.ilyeong.movieverse.presentation.util.ItemClickListener
 import com.ilyeong.movieverse.presentation.util.PosterFixedItemDecoration
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.combine
 
 @AndroidEntryPoint
 class HomeFragment : BaseFragment<FragmentHomeBinding>() {
@@ -38,14 +42,14 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         findNavController().navigate(action)
     }
 
-    private val posterFullViewHolder = PosterFullViewHolder(movieClickListener)
+    private val posterFullAdapter = PosterFullAdapter(movieClickListener)
     private val genreAdapter = GenreAdapter(genreClickListener)
-    private val watchlistAdapter = PosterFixedAdapter(movieClickListener)
-    private val topRatedAdapter = PosterFixedAdapter(movieClickListener)
-    private val upcomingAdapter = PosterFixedAdapter(movieClickListener)
-    private val popularAdapter = PosterFixedAdapter(movieClickListener)
-    private val nowPlayingAdapter = PosterFixedAdapter(movieClickListener)
-    private val trendingAdapter = PosterFixedAdapter(movieClickListener)
+    private val watchlistAdapter = PosterFixedPagingAdapter(movieClickListener)
+    private val topRatedAdapter = PosterFixedPagingAdapter(movieClickListener)
+    private val upcomingAdapter = PosterFixedPagingAdapter(movieClickListener)
+    private val popularAdapter = PosterFixedPagingAdapter(movieClickListener)
+    private val nowPlayingAdapter = PosterFixedPagingAdapter(movieClickListener)
+    private val trendingAdapter = PosterFixedPagingAdapter(movieClickListener)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -57,8 +61,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         setRetryBtn()
 
         observeUiState()
-        observeEvents()
-        loadData()
+
+        refreshData()
     }
 
     private fun setToolbarMenu() {
@@ -70,7 +74,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     }
 
     private fun setMovieBanner() {
-        binding.vpBanner.adapter = posterFullViewHolder
+        binding.vpBanner.adapter = posterFullAdapter
         binding.vpBanner.offscreenPageLimit = 1
         binding.vpBanner.setPageTransformer(
             MarginPageTransformer(
@@ -111,62 +115,143 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
     private fun setRetryBtn() {
         binding.ldf.btnRetry.setOnClickListener {
-            loadData()
+            viewModel.loadData()
+            watchlistAdapter.retry()
+            upcomingAdapter.retry()
+            popularAdapter.retry()
+            nowPlayingAdapter.retry()
+            trendingAdapter.retry()
+            topRatedAdapter.retry()
         }
     }
 
     private fun observeUiState() {
         repeatOnViewStarted {
-            viewModel.uiState.collect {
-                when (it) {
-                    HomeUiState.Loading -> {
+            viewModel.watchlistPaging.collectLatest {
+                watchlistAdapter.submitData(it)
+            }
+        }
+
+        repeatOnViewStarted {
+            viewModel.upcomingMoviePaging.collectLatest {
+                upcomingAdapter.submitData(it)
+            }
+        }
+
+        repeatOnViewStarted {
+            viewModel.popularMoviePaging.collectLatest {
+                popularAdapter.submitData(it)
+            }
+        }
+
+        repeatOnViewStarted {
+            viewModel.nowPlayingMoviePaging.collectLatest {
+                nowPlayingAdapter.submitData(it)
+            }
+        }
+
+        repeatOnViewStarted {
+            viewModel.trendingWeekMoviePaging.collectLatest {
+                trendingAdapter.submitData(it)
+            }
+        }
+
+        repeatOnViewStarted {
+            viewModel.topRatedMoviePaging.collectLatest {
+                topRatedAdapter.submitData(it)
+            }
+        }
+
+        repeatOnViewStarted {
+            combine(
+                viewModel.uiState,
+                watchlistAdapter.loadStateFlow,
+                upcomingAdapter.loadStateFlow,
+                popularAdapter.loadStateFlow,
+                nowPlayingAdapter.loadStateFlow,
+                trendingAdapter.loadStateFlow,
+                topRatedAdapter.loadStateFlow
+            ) {
+                val uiState = it[0] as HomeUiState
+                val watchlistState = it[1] as CombinedLoadStates
+                val upcomingState = it[2] as CombinedLoadStates
+                val popularState = it[3] as CombinedLoadStates
+                val nowPlayingState = it[4] as CombinedLoadStates
+                val trendingState = it[5] as CombinedLoadStates
+                val topRatedState = it[6] as CombinedLoadStates
+
+                val isFirstLoading =
+                    uiState is HomeUiState.Loading
+                            || (watchlistState.refresh is LoadState.Loading && watchlistAdapter.itemCount == 0 && binding.rvMovieSection1.isVisible == false)
+                            || (upcomingState.refresh is LoadState.Loading && upcomingAdapter.itemCount == 0)
+                            || (popularState.refresh is LoadState.Loading && popularAdapter.itemCount == 0)
+                            || (nowPlayingState.refresh is LoadState.Loading && nowPlayingAdapter.itemCount == 0)
+                            || (trendingState.refresh is LoadState.Loading && trendingAdapter.itemCount == 0)
+                            || (topRatedState.refresh is LoadState.Loading && topRatedAdapter.itemCount == 0)
+
+                val isFirstLoadingSuccess =
+                    uiState is HomeUiState.Success
+                            && watchlistState.refresh is LoadState.NotLoading
+                            && upcomingState.refresh is LoadState.NotLoading
+                            && popularState.refresh is LoadState.NotLoading
+                            && nowPlayingState.refresh is LoadState.NotLoading
+                            && trendingState.refresh is LoadState.NotLoading
+                            && topRatedState.refresh is LoadState.NotLoading
+
+                val isFirstLoadingFailure =
+                    uiState is HomeUiState.Failure
+                            || (watchlistState.refresh is LoadState.Error && watchlistAdapter.itemCount == 0 && binding.rvMovieSection1.isVisible == true)
+                            || (upcomingState.refresh is LoadState.Error && upcomingAdapter.itemCount == 0)
+                            || (popularState.refresh is LoadState.Error && popularAdapter.itemCount == 0)
+                            || (nowPlayingState.refresh is LoadState.Error && nowPlayingAdapter.itemCount == 0)
+                            || (trendingState.refresh is LoadState.Error && trendingAdapter.itemCount == 0)
+                            || (topRatedState.refresh is LoadState.Error && topRatedAdapter.itemCount == 0)
+
+                when {
+                    isFirstLoading -> {
                         binding.sfl.startShimmer()
                         binding.sfl.isVisible = true
                         binding.content.isVisible = false
                         binding.ldf.root.isVisible = false
                     }
 
-                    is HomeUiState.Success -> {
+                    isFirstLoadingSuccess -> {
                         binding.sfl.stopShimmer()
                         binding.sfl.isVisible = false
                         binding.content.isVisible = true
                         binding.ldf.root.isVisible = false
 
-                        posterFullViewHolder.submitList(it.bannerMovieList)
-                        genreAdapter.submitList(it.genreList)
-                        watchlistAdapter.submitList(it.watchlistMovieList)
-                        topRatedAdapter.submitList(it.topRatedMovieList)
-                        upcomingAdapter.submitList(it.upcomingMovieList)
-                        popularAdapter.submitList(it.popularMovieList)
-                        nowPlayingAdapter.submitList(it.nowPlayingMovieList)
-                        trendingAdapter.submitList(it.trendingWeekMovieList)
+                        posterFullAdapter.submitList(uiState.bannerMovieList)
+                        genreAdapter.submitList(uiState.genreList)
 
-                        binding.tvMovieSection1.isVisible = it.watchlistMovieList.isNotEmpty()
-                        binding.rvMovieSection1.isVisible = it.watchlistMovieList.isNotEmpty()
+                        binding.tvMovieSection1.isVisible = (watchlistAdapter.itemCount > 0)
+                        binding.rvMovieSection1.isVisible = (watchlistAdapter.itemCount > 0)
                     }
 
-                    HomeUiState.Failure -> {
+                    isFirstLoadingFailure -> {
                         binding.sfl.stopShimmer()
                         binding.sfl.isVisible = false
                         binding.content.isVisible = false
                         binding.ldf.root.isVisible = true
                     }
+
+                    else -> {   // refresh
+                        if (watchlistState.refresh is LoadState.Error
+                            || upcomingState.refresh is LoadState.Error
+                            || popularState.refresh is LoadState.Error
+                            || nowPlayingState.refresh is LoadState.Error
+                            || trendingState.refresh is LoadState.Error
+                            || topRatedState.refresh is LoadState.Error
+                        ) {
+                            showMessage(getString(R.string.fail_refresh_message))
+                        }
+                    }
                 }
-            }
+            }.collect()
         }
     }
 
-    private fun observeEvents() {
-        repeatOnViewStarted {
-            viewModel.events.collect {
-                when (it) {
-                    is HomeEvent.ShowMessage -> showMessage(it.error.message.toString())
-                }
-            }
-        }
-    }
-
-    private fun loadData() {
-        viewModel.loadData()
+    private fun refreshData() {
+        watchlistAdapter.refresh()
     }
 }

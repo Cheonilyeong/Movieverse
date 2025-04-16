@@ -30,6 +30,7 @@
             android:layout_height="0dp"
             android:paddingHorizontal="@dimen/movieverse_padding_large"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -63,6 +64,7 @@
 
     <include
         layout="@layout/view_load_data_fail"
-        android:id="@+id/ldf" />
+        android:id="@+id/ldf"
+        android:visibility="gone" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

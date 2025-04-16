@@ -7,7 +7,7 @@ import com.ilyeong.movieverse.presentation.home.viewholder.PosterFullViewHolder
 import com.ilyeong.movieverse.presentation.util.ItemClickListener
 import com.ilyeong.movieverse.presentation.util.MovieDiffUtil
 
-class PosterFullViewHolder(private val itemClickListener: ItemClickListener) :
+class PosterFullAdapter(private val itemClickListener: ItemClickListener) :
     ListAdapter<Movie, PosterFullViewHolder>(MovieDiffUtil) {
     override fun onCreateViewHolder(
         parent: ViewGroup,

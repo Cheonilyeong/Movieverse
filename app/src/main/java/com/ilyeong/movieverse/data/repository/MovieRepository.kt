@@ -19,10 +19,15 @@ interface MovieRepository {
 
     fun searchMoviePaging(query: String): Flow<PagingData<Movie>>
 
-    fun getTopRatedMovieList(): Flow<List<Movie>>
-    fun getUpcomingMovieList(): Flow<List<Movie>>
-    fun getPopularMovieList(): Flow<List<Movie>>
-    fun getNowPlayingMovieList(): Flow<List<Movie>>
+    fun getTopRatedMoviePaging(maxPage: Int = Int.MAX_VALUE): Flow<PagingData<Movie>>
+    fun getUpcomingMoviePaging(maxPage: Int = Int.MAX_VALUE): Flow<PagingData<Movie>>
+    fun getPopularMoviePaging(maxPage: Int = Int.MAX_VALUE): Flow<PagingData<Movie>>
+    fun getNowPlayingMoviePaging(maxPage: Int = Int.MAX_VALUE): Flow<PagingData<Movie>>
     fun getTrendingMovieList(timeWindow: TimeWindow): Flow<List<Movie>>
+    fun getTrendingMoviePaging(
+        timeWindow: TimeWindow,
+        maxPage: Int = Int.MAX_VALUE
+    ): Flow<PagingData<Movie>>
+
     fun getMovieGenreList(): Flow<List<Genre>>
 }

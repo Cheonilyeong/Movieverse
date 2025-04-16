@@ -1,14 +1,15 @@
-package com.ilyeong.movieverse.presentation.common.adapter
+package com.ilyeong.movieverse.presentation.home.adapter
 
 import android.view.ViewGroup
-import androidx.recyclerview.widget.ListAdapter
+import androidx.paging.PagingDataAdapter
 import com.ilyeong.movieverse.domain.model.Movie
 import com.ilyeong.movieverse.presentation.common.viewholder.PosterFixedViewHolder
 import com.ilyeong.movieverse.presentation.util.ItemClickListener
 import com.ilyeong.movieverse.presentation.util.MovieDiffUtil
 
-class PosterFixedAdapter(private val itemClickListener: ItemClickListener) :
-    ListAdapter<Movie, PosterFixedViewHolder>(MovieDiffUtil) {
+class PosterFixedPagingAdapter(
+    private val itemClickListener: ItemClickListener
+) : PagingDataAdapter<Movie, PosterFixedViewHolder>(MovieDiffUtil) {
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
@@ -18,6 +19,7 @@ class PosterFixedAdapter(private val itemClickListener: ItemClickListener) :
         holder: PosterFixedViewHolder,
         position: Int
     ) {
-        holder.bind(getItem(position), itemClickListener)
+        val item = getItem(position) ?: return
+        holder.bind(item, itemClickListener)
     }
 }
