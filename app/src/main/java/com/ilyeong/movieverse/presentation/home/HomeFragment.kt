@@ -162,6 +162,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
             }
         }
 
+        binding.tvMovieSection1.isVisible = (watchlistAdapter.itemCount > 0)
+        binding.rvMovieSection1.isVisible = (watchlistAdapter.itemCount > 0)
+
         repeatOnViewStarted {
             combine(
                 viewModel.uiState,
@@ -182,7 +185,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
                 val isFirstLoading =
                     uiState is HomeUiState.Loading
-                            || (watchlistState.refresh is LoadState.Loading && watchlistAdapter.itemCount == 0 && binding.rvMovieSection1.isVisible == false)
+                            || (watchlistState.refresh is LoadState.Loading && watchlistAdapter.itemCount == 0 && binding.rvMovieSection1.isVisible == true)
                             || (upcomingState.refresh is LoadState.Loading && upcomingAdapter.itemCount == 0)
                             || (popularState.refresh is LoadState.Loading && popularAdapter.itemCount == 0)
                             || (nowPlayingState.refresh is LoadState.Loading && nowPlayingAdapter.itemCount == 0)
@@ -200,7 +203,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
                 val isFirstLoadingFailure =
                     uiState is HomeUiState.Failure
-                            || (watchlistState.refresh is LoadState.Error && watchlistAdapter.itemCount == 0 && binding.rvMovieSection1.isVisible == true)
+                            || (watchlistState.refresh is LoadState.Error && watchlistAdapter.itemCount == 0 && binding.rvMovieSection1.isVisible == false)
                             || (upcomingState.refresh is LoadState.Error && upcomingAdapter.itemCount == 0)
                             || (popularState.refresh is LoadState.Error && popularAdapter.itemCount == 0)
                             || (nowPlayingState.refresh is LoadState.Error && nowPlayingAdapter.itemCount == 0)
