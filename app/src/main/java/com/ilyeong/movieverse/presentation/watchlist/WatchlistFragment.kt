@@ -28,6 +28,8 @@ class WatchlistFragment : BaseFragment<FragmentWatchlistBinding>() {
         findNavController().navigate(action)
     }
 
+    private var shouldRefresh = true
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -59,6 +61,12 @@ class WatchlistFragment : BaseFragment<FragmentWatchlistBinding>() {
 
         repeatOnViewStarted {
             watchlistAdapter.loadStateFlow.collectLatest {
+                // 최초 생성 시 한 번만 refresh 호출
+                if (shouldRefresh) {
+                    refreshData()
+                    shouldRefresh = false
+                }
+
                 when (it.refresh) {
                     is LoadState.Loading -> {
                         // 최초 로딩일 때만 Shimmer
