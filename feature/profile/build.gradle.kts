@@ -7,7 +7,7 @@ plugins {
 
 android {
     namespace = "com.ilyeong.flickora.feature.profile"
-    compileSdk = 35
+    compileSdk = 36
 
     defaultConfig {
         minSdk = 24
@@ -54,6 +54,10 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+
+    // navigation
+    implementation(libs.androidx.navigation.fragment)
+    implementation(libs.androidx.navigation.ui)
 
     // hilt
     implementation(libs.dagger.hilt.android)

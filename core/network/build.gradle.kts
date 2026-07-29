@@ -13,7 +13,7 @@ properties.load(FileInputStream("local.properties"))
 
 android {
     namespace = "com.ilyeong.flickora.core.network"
-    compileSdk = 35
+    compileSdk = 36
 
     defaultConfig {
         minSdk = 24
@@ -50,6 +50,8 @@ android {
 }
 
 dependencies {
+    implementation(project(":core:model"))
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)

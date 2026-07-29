@@ -14,7 +14,7 @@ properties.load(FileInputStream("local.properties"))
 
 android {
     namespace = "com.ilyeong.flickora.feature.login"
-    compileSdk = 35
+    compileSdk = 36
 
     defaultConfig {
         minSdk = 24
@@ -65,6 +65,10 @@ dependencies {
     testImplementation(libs.kotlinx.coroutines.test)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+
+    // navigation
+    implementation(libs.androidx.navigation.fragment)
+    implementation(libs.androidx.navigation.ui)
 
     // serialization
     implementation(libs.kotlinx.serialization)

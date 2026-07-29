@@ -5,13 +5,13 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.ilyeong.flickora.core.model.Genre
 import com.ilyeong.flickora.core.ui.common.listener.ItemClickListener
-import com.ilyeong.flickora.core.ui.databinding.ItemMovieGenreChipBinding
+import com.ilyeong.flickora.core.ui.databinding.ItemMediaGenreChipBinding
 
 class GenreViewHolder private constructor(
-    private val binding: ItemMovieGenreChipBinding
+    private val binding: ItemMediaGenreChipBinding
 ) : RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(genre: Genre, itemClickListener: ItemClickListener?) {
+    fun bind(genre: Genre, itemClickListener: ItemClickListener<Int>?) {
         binding.chipGenre.text = genre.name
 
         binding.root.setOnClickListener {
@@ -21,7 +21,7 @@ class GenreViewHolder private constructor(
 
     companion object {
         fun create(parent: ViewGroup): GenreViewHolder {
-            val binding = ItemMovieGenreChipBinding.inflate(
+            val binding = ItemMediaGenreChipBinding.inflate(
                 LayoutInflater.from(parent.context),
                 parent,
                 false

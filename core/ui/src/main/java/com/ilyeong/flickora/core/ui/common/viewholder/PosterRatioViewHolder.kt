@@ -6,13 +6,14 @@ import androidx.recyclerview.widget.RecyclerView
 import coil3.load
 import coil3.request.crossfade
 import com.ilyeong.flickora.core.model.Media
-import com.ilyeong.flickora.core.ui.databinding.ItemMoviePosterRatioSizeBinding
+import com.ilyeong.flickora.core.ui.common.listener.ItemClickListener
+import com.ilyeong.flickora.core.ui.databinding.ItemMediaPosterRatioSizeBinding
 
 class PosterRatioViewHolder private constructor(
-    private val binding: ItemMoviePosterRatioSizeBinding
+    private val binding: ItemMediaPosterRatioSizeBinding
 ) : RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(media: Media, onMediaClick: (Media) -> Unit) {
+    fun bind(media: Media, itemClickListener: ItemClickListener<Media>) {
         binding.ivPoster.load(media.posterPath) {
             crossfade(true)
             listener(
@@ -21,14 +22,14 @@ class PosterRatioViewHolder private constructor(
             )
         }
         binding.root.setOnClickListener {
-            onMediaClick(media)
+            itemClickListener.onItemClick(media)
         }
     }
 
     companion object {
         fun create(parent: ViewGroup): PosterRatioViewHolder {
             val binding =
-                ItemMoviePosterRatioSizeBinding.inflate(
+                ItemMediaPosterRatioSizeBinding.inflate(
                     LayoutInflater.from(parent.context),
                     parent,
                     false

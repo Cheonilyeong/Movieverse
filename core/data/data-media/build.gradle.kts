@@ -7,7 +7,7 @@ plugins {
 
 android {
     namespace = "com.ilyeong.flickora.core.data.media"
-    compileSdk = 35
+    compileSdk = 36
 
     defaultConfig {
         minSdk = 24

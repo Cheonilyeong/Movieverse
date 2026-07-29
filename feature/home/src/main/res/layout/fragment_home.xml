@@ -24,8 +24,7 @@
                 android:paddingTop="?attr/actionBarSize"
                 android:clipChildren="false"
                 android:clipToPadding="false"
-                app:layout_constraintWidth_percent="0.725"
-                app:layout_constraintDimensionRatio="1:1.7"
+                app:layout_constraintDimensionRatio="400:493"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
@@ -34,13 +33,15 @@
                 android:id="@+id/rv_genre"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:clipToPadding="false"
                 android:orientation="horizontal"
                 android:layout_marginTop="@dimen/flickora_padding_large"
+                android:paddingHorizontal="@dimen/flickora_padding_medium"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintTop_toBottomOf="@id/vp_banner"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                tools:listitem="@layout/item_movie_genre_chip" />
+                tools:listitem="@layout/item_media_genre_chip" />
 
             <TextView
                 android:id="@+id/tv_section1"
@@ -58,12 +59,14 @@
                 android:id="@+id/rv_section1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:clipToPadding="false"
                 android:orientation="horizontal"
+                android:paddingHorizontal="@dimen/flickora_padding_medium"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintTop_toBottomOf="@id/tv_section1"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                tools:listitem="@layout/item_movie_poster_fixed_size" />
+                tools:listitem="@layout/item_media_poster_fixed_size" />
 
             <TextView
                 android:id="@+id/tv_section2"
@@ -81,12 +84,14 @@
                 android:id="@+id/rv_section2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:clipToPadding="false"
                 android:orientation="horizontal"
+                android:paddingHorizontal="@dimen/flickora_padding_medium"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintTop_toBottomOf="@id/tv_section2"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                tools:listitem="@layout/item_movie_ranking_poster" />
+                tools:listitem="@layout/item_media_ranking_poster" />
 
             <TextView
                 android:id="@+id/tv_section3"
@@ -104,12 +109,14 @@
                 android:id="@+id/rv_section3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:clipToPadding="false"
                 android:orientation="horizontal"
+                android:paddingHorizontal="@dimen/flickora_padding_medium"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintTop_toBottomOf="@id/tv_section3"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                tools:listitem="@layout/item_movie_poster_fixed_size" />
+                tools:listitem="@layout/item_media_poster_fixed_size" />
 
             <TextView
                 android:id="@+id/tv_section4"
@@ -127,12 +134,14 @@
                 android:id="@+id/rv_section4"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:clipToPadding="false"
                 android:orientation="horizontal"
+                android:paddingHorizontal="@dimen/flickora_padding_medium"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintTop_toBottomOf="@id/tv_section4"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                tools:listitem="@layout/item_movie_poster_fixed_size" />
+                tools:listitem="@layout/item_media_poster_fixed_size" />
 
             <TextView
                 android:id="@+id/tv_section5"
@@ -150,12 +159,14 @@
                 android:id="@+id/rv_section5"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:clipToPadding="false"
                 android:orientation="horizontal"
+                android:paddingHorizontal="@dimen/flickora_padding_medium"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintTop_toBottomOf="@id/tv_section5"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                tools:listitem="@layout/item_movie_ranking_poster" />
+                tools:listitem="@layout/item_media_ranking_poster" />
 
             <TextView
                 android:id="@+id/tv_section6"
@@ -173,12 +184,14 @@
                 android:id="@+id/rv_section6"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:clipToPadding="false"
                 android:orientation="horizontal"
+                android:paddingHorizontal="@dimen/flickora_padding_medium"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintTop_toBottomOf="@id/tv_section6"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                tools:listitem="@layout/item_movie_poster_fixed_size" />
+                tools:listitem="@layout/item_media_poster_fixed_size" />
 
             <TextView
                 android:id="@+id/tv_section7"
@@ -196,12 +209,14 @@
                 android:id="@+id/rv_section7"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:clipToPadding="false"
                 android:orientation="horizontal"
+                android:paddingHorizontal="@dimen/flickora_padding_medium"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintTop_toBottomOf="@id/tv_section7"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                tools:listitem="@layout/item_movie_poster_fixed_size" />
+                tools:listitem="@layout/item_media_poster_fixed_size" />
 
             <TextView
                 android:id="@+id/tv_section8"
@@ -219,12 +234,14 @@
                 android:id="@+id/rv_section8"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:clipToPadding="false"
                 android:orientation="horizontal"
+                android:paddingHorizontal="@dimen/flickora_padding_medium"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintTop_toBottomOf="@id/tv_section8"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                tools:listitem="@layout/item_movie_poster_fixed_size" />
+                tools:listitem="@layout/item_media_poster_fixed_size" />
 
             <TextView
                 android:id="@+id/tv_section9"
@@ -242,12 +259,14 @@
                 android:id="@+id/rv_section9"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:clipToPadding="false"
                 android:orientation="horizontal"
+                android:paddingHorizontal="@dimen/flickora_padding_medium"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintTop_toBottomOf="@id/tv_section9"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                tools:listitem="@layout/item_movie_poster_fixed_size" />
+                tools:listitem="@layout/item_media_poster_fixed_size" />
 
             <TextView
                 android:id="@+id/tv_section10"
@@ -265,6 +284,8 @@
                 android:id="@+id/poster_trailer_strip"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:clipToPadding="false"
+                android:paddingHorizontal="@dimen/flickora_padding_medium"
                 app:layout_constraintTop_toBottomOf="@id/tv_section10"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
@@ -285,12 +306,14 @@
                 android:id="@+id/rv_section11"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:clipToPadding="false"
                 android:orientation="horizontal"
+                android:paddingHorizontal="@dimen/flickora_padding_medium"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintTop_toBottomOf="@id/tv_section11"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                tools:listitem="@layout/item_movie_poster_fixed_size" />
+                tools:listitem="@layout/item_media_poster_fixed_size" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

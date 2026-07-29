@@ -1,4 +1,4 @@
-package com.ilyeong.flickora.feature.detail
+package com.ilyeong.flickora.feature.detail.movie
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,11 +11,10 @@ import com.ilyeong.flickora.core.model.Media
 import com.ilyeong.flickora.core.ui.R
 import com.ilyeong.flickora.core.ui.common.decoration.PosterFixedItemDecoration
 import com.ilyeong.flickora.core.ui.common.fragment.BaseFragment
+import com.ilyeong.flickora.core.ui.common.listener.ItemClickListener
 import com.ilyeong.flickora.feature.detail.adapter.PosterFixedAdapter
 import com.ilyeong.flickora.feature.detail.databinding.FragmentRecommendedBinding
 import com.ilyeong.flickora.feature.detail.model.MovieDetailUiState
-import com.ilyeong.flickora.feature.detail.movie.MovieDetailFragmentDirections
-import com.ilyeong.flickora.feature.detail.movie.MovieDetailViewModel
 
 internal class MovieRecommendedFragment : BaseFragment<FragmentRecommendedBinding>() {
 
@@ -24,7 +23,7 @@ internal class MovieRecommendedFragment : BaseFragment<FragmentRecommendedBindin
 
     private val viewModel: MovieDetailViewModel by viewModels({ requireParentFragment() })
 
-    private val itemClickListener: (Media) -> Unit = { media ->
+    private val itemClickListener = ItemClickListener<Media> { media ->
         val movieId = media.id
         val action = MovieDetailFragmentDirections.actionDetailFragmentToDetailFragment(movieId)
         findNavController().navigate(action)
@@ -45,19 +44,19 @@ internal class MovieRecommendedFragment : BaseFragment<FragmentRecommendedBindin
     }
 
     private fun setCollection() {
-        binding.tvMovieSection1.text = getString(R.string.movie_section_collection)
+        binding.tvMovieSection1.text = getString(R.string.media_section_collection)
         binding.rvMovieSection1.adapter = collectionAdapter
         binding.rvMovieSection1.addItemDecoration(PosterFixedItemDecoration)
     }
 
     private fun setRecommendation() {
-        binding.tvMovieSection2.text = getString(R.string.movie_section_recommendation)
+        binding.tvMovieSection2.text = getString(R.string.media_section_recommendation)
         binding.rvMovieSection2.adapter = recommendationAdapter
         binding.rvMovieSection2.addItemDecoration(PosterFixedItemDecoration)
     }
 
     private fun setSimilar() {
-        binding.tvMovieSection3.text = getString(R.string.movie_section_similar)
+        binding.tvMovieSection3.text = getString(R.string.media_section_similar)
         binding.rvMovieSection3.adapter = similarAdapter
         binding.rvMovieSection3.addItemDecoration(PosterFixedItemDecoration)
     }
