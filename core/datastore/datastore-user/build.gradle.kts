@@ -7,7 +7,7 @@ plugins {
 
 android {
     namespace = "com.ilyeong.flickora.core.datastore.user"
-    compileSdk = 35
+    compileSdk = 36
 
     defaultConfig {
         minSdk = 24
