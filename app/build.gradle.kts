@@ -15,14 +15,14 @@ properties.load(FileInputStream("local.properties"))
 
 android {
     namespace = "com.ilyeong.flickora"
-    compileSdk = 35
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "com.ilyeong.flickora"
         minSdk = 24
-        targetSdk = 35
-        versionCode = 2
-        versionName = "1.0"
+        targetSdk = 36
+        versionCode = 4
+        versionName = "1.0.2"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 

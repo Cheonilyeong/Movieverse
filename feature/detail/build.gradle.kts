@@ -8,7 +8,7 @@ plugins {
 
 android {
     namespace = "com.ilyeong.flickora.feature.detail"
-    compileSdk = 35
+    compileSdk = 36
 
     defaultConfig {
         minSdk = 24

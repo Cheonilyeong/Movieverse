@@ -12,7 +12,7 @@ properties.load(FileInputStream("local.properties"))
 
 android {
     namespace = "com.ilyeong.flickora.core.data.movie"
-    compileSdk = 35
+    compileSdk = 36
 
     defaultConfig {
         minSdk = 24
